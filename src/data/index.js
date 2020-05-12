@@ -2,6 +2,7 @@ import data from "./excel.json";
 import dataWorker from "./dataWorker.js";
 import rowHasError from "./auxFunctions/rowHasError";
 import moment from "moment";
+import * as d3 from "d3";
 
 // Обозначение столбов с данными
 const nameCell = "A";
@@ -81,12 +82,12 @@ const IDAddedToObj = () => {
   return result;
 };
 
-const arr = [];
-for (let key in IDAddedToObj()) {
-  arr.push(IDAddedToObj()[key]);
-}
+const resultData = IDAddedToObj();
 
-// удалить в продуктовой ревизии приложения, указано для отладки data
-console.log("data: ", IDAddedToObj());
+const arrayOfIds = d3.keys(resultData);
+const resultArray = arrayOfIds.map((el) => {
+  const value = resultData[el];
+  return { id: el, data: value };
+});
 
-export default IDAddedToObj();
+export default resultArray;
