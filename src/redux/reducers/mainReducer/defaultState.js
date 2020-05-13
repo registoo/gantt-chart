@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import moment from "moment";
-import rowHasError from "../../../data/auxFunctions/rowHasError";
+import rowHasError from "../../../auxFunctions/rowHasError";
 
 const width = 550,
   height = 550,
