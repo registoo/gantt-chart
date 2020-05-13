@@ -1,6 +1,6 @@
 import data from "./excel.json";
 import dataWorker from "./dataWorker.js";
-import rowHasError from "./auxFunctions/rowHasError";
+import rowHasError from "../auxFunctions/rowHasError";
 import moment from "moment";
 import * as d3 from "d3";
 
