@@ -8,10 +8,9 @@ export default function (state) {
   const { yScale, yAxis } = y(state);
 
   function drawScales(svg) {
-    let resultSVG = svg;
-    resultSVG = drawAxisX(state, resultSVG, xAxis);
-    resultSVG = drawAxisY(state, resultSVG, yAxis);
-    return resultSVG;
+    drawAxisX(state, svg, xAxis);
+    drawAxisY(state, svg, yAxis);
+    return svg;
   }
   return { xScale, xAxis, yScale, yAxis, drawScales };
 }

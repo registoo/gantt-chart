@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import moment from "moment";
 import rowHasError from "../../auxFunctions/rowHasError";
+import scales from "./scales";
 
 const width = 550,
   height = 550,
@@ -40,11 +41,29 @@ export default (data) => {
   const pixelsInOneDay =
     width / moment.duration(moment.utc(domainXFinishMS).diff(moment.utc(domainXStartMS))).as("d");
 
+  const scalesSVG = scales({
+    aux: {
+      pixelsInOneDay,
+      domainXStartMS,
+      domainXFinishMS,
+      xScaleMaxCoordinate,
+      xScaleMinCoordinate,
+    },
+    listID,
+    sizesSVG,
+  });
+
   return {
     data,
     sizesSVG,
     listID,
-    scales: { domainXStartMS, domainXFinishMS, xScaleMaxCoordinate, xScaleMinCoordinate },
-    aux: { pixelsInOneDay },
+    scales: scalesSVG,
+    aux: {
+      pixelsInOneDay,
+      domainXStartMS,
+      domainXFinishMS,
+      xScaleMaxCoordinate,
+      xScaleMinCoordinate,
+    },
   };
 };
