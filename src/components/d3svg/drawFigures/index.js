@@ -13,7 +13,11 @@ export default function (state) {
     .attr("transform", `translate(${state.sizesSVG.margin.left},${state.sizesSVG.margin.top})`);
 
   // обёртка для всех brush
-  const gForBrushing = d3.select(svg).append("g").attr("id", "gForBrushing");
+  const gForBrushing = d3
+    .select(svg)
+    .append("g")
+    .attr("id", "gForBrushing")
+    .attr("transform", `translate(${state.sizesSVG.margin.left},${state.sizesSVG.margin.top})`);
 
   drawRect(gForRects, state);
   drawBrush(gForBrushing, state);

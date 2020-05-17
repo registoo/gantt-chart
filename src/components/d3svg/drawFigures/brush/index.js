@@ -15,9 +15,9 @@ export default function (g, state) {
     .each(function (d) {
       if (rowHasError(d.data)) return;
 
-      const x0 = margin.left;
-      const y0 = scales.yScale(d.id) + margin.top;
-      const x1 = width - margin.right;
+      const x0 = 0;
+      const y0 = scales.yScale(d.id);
+      const x1 = width;
       const y1 = y0 + scales.yScale.bandwidth();
       const brushCoordinate = [
         [x0, y0],
