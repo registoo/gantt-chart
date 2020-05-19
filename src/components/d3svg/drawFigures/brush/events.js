@@ -1,23 +1,23 @@
 import * as d3 from "d3";
-import moment from "moment";
 
-export const brushStart = (scales, brush, that) => {
+export const brushStart = (scales, that) => {
   console.log(d3.event.sourceEvent.type);
 };
 
-export function brushed(scales, brush, that) {
-  if (!d3.event.sourceEvent || !d3.event.selection) return;
-  const arr = [...d3.event.selection]
-    .map((d) => {
-      return +moment.utc(scales.xScale.invert(d)).format("x");
-    })
-    .sort((a, b) => a - b);
-  const d0 = moment.utc(arr[0]).startOf("day");
-  const d1 = moment.utc(arr[1]).endOf("day").subtract(1, "ms");
-  const result = [scales.xScale(+d0.format("x")), scales.xScale(+d1.format("x"))];
-  if (d3.brushSelection(that)[1] === result[1] && d3.brushSelection(that)[0] === result[0]) return;
-  d3.select(that).call(brush.move, result);
+export function brushed(scales, that) {
+  if (d3.event.sourceEvent.type === "brush") return;
+
+  const d0 = d3.event.selection.map(scales.xScale.invert),
+    d1 = d0.map(d3.utcDay.round);
+
+  // If empty when rounded, use floor instead.
+  if (d1[0] >= d1[1]) {
+    d1[0] = d3.utcDay.floor(d0[0]);
+    d1[1] = d3.utcDay.offset(d1[0]);
+  }
+
+  d3.select(that).call(d3.event.target.move, d1.map(scales.xScale));
 }
-export const brushEnd = (scales, brush, that) => {
+export const brushEnd = (scales, that) => {
   console.log(d3.event.sourceEvent.type);
 };

@@ -29,7 +29,7 @@ export default function (g, state) {
         .brushX()
         .extent(brushCoordinate)
         .on("brush", function () {
-          brushed(state.scales, brush, this);
+          brushed(state.scales, this);
         });
 
       d3.select(this).call(brush);
