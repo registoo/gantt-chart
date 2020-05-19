@@ -1,5 +1,6 @@
 import rowHasError from "../../../../auxFunctions/rowHasError";
 import * as d3 from "d3";
+import { brushed } from "./events.js";
 
 export default function (g, state) {
   const { margin, width } = state.sizesSVG;
@@ -23,6 +24,14 @@ export default function (g, state) {
         [x0, y0],
         [x1, y1],
       ];
-      d3.select(this).call(d3.brushX().extent(brushCoordinate));
+
+      const brush = d3
+        .brushX()
+        .extent(brushCoordinate)
+        .on("brush", function () {
+          brushed(state.scales, brush, this);
+        });
+
+      d3.select(this).call(brush);
     });
 }

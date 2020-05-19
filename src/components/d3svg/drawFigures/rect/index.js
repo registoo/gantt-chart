@@ -22,7 +22,6 @@ export default function (g, state) {
     })
     .style("fill", "steelblue")
     .style("opacity", 0.5)
-    .attr("id", (d) => (!rowHasError(d.data) ? d.data.jobName.formattedText : null))
     .attr("id", (d) => {
       return rowHasError(d.data) ? null : `Rabota ${d.id} rect`;
     });
