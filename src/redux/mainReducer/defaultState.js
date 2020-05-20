@@ -3,7 +3,7 @@ import moment from "moment";
 import rowHasError from "../../auxFunctions/rowHasError";
 import scales from "./scales";
 
-const width = 550,
+const width = 250,
   height = 550,
   margin = {
     top: 16,

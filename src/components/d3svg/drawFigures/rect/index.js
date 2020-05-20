@@ -1,28 +1,29 @@
-import rowHasError from "../../../../auxFunctions/rowHasError";
+import { keyGenerator, rowHasError } from "../../../../auxFunctions/index.js";
+import React, { Fragment } from "react";
 
-export default function (g, state) {
-  g.selectAll()
-    .data(state.data)
-    .enter()
-    .append("rect")
-    .attr("x", (d) => {
-      return !rowHasError(d.data) ? state.scales.xScale(d.data.start.dateInMillisecons) : null;
-    })
-    .attr("y", (d) => {
-      return rowHasError(d.data)
-        ? state.scales.yScale(d.data.isError.formattedText)
-        : state.scales.yScale(d.data.jobName.formattedText);
-    })
-    .attr("height", state.scales.yScale.bandwidth())
-    .attr("width", (d) => {
-      return !rowHasError(d.data)
-        ? state.scales.xScale(d.data.start.dateInMillisecons + (d.data.duration * 86400000 - 1)) -
-            state.scales.xScale(d.data.start.dateInMillisecons)
-        : null;
-    })
-    .style("fill", "steelblue")
-    .style("opacity", 0.5)
-    .attr("id", (d) => {
-      return rowHasError(d.data) ? null : `Rabota ${d.id} rect`;
-    });
+export default function (props) {
+  const x = (d) => props.xScale(d.start.dateInMillisecons);
+  const y = (d) =>
+    rowHasError(d) ? props.yScale(d.isError.formattedText) : props.yScale(d.jobName.formattedText);
+  const height = (d) => props.yScale.bandwidth();
+  const width = (d) =>
+    props.xScale(d.start.dateInMillisecons + (d.duration * 86400000 - 1)) -
+    props.xScale(d.start.dateInMillisecons);
+  const id = (d) => `Rabota ${d.id} rect`;
+
+  const arr = [...props.data].map((d) => {
+    if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
+    return (
+      <rect
+        key={keyGenerator(d.id)}
+        x={x(d.data)}
+        y={y(d.data)}
+        height={height(d.data)}
+        width={width(d.data)}
+        id={id(d.data)}
+      ></rect>
+    );
+  });
+
+  return <Fragment>{arr}</Fragment>;
 }
