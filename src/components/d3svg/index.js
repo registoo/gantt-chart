@@ -26,12 +26,7 @@ function Gantt(props) {
       id="chart"
       ref={measuredRef}
     >
-      <DrawScales
-        scales={props.scales}
-        sizesSVG={props.sizesSVG}
-        aux={props.aux}
-        listID={props.listID}
-      />
+      <DrawScales scales={props.scales} sizesSVG={props.sizesSVG} listID={props.listID} />
       <DrawFigures
         data={props.data}
         xScale={props.scales.xScale}
