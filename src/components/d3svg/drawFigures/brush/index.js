@@ -20,14 +20,16 @@ export default function (props) {
 
     const addBrush = useCallback(
       (node) => {
-        const brush = d3
-          .brushX()
-          .extent(brushCoordinate)
-          .on("brush", function () {
-            brushed(node, props.xScale);
-          });
+        if (node !== null) {
+          const brush = d3
+            .brushX()
+            .extent(brushCoordinate)
+            .on("brush", function () {
+              brushed(node, props.xScale);
+            });
 
-        d3.select(node).call(brush);
+          d3.select(node).call(brush);
+        }
       },
       [brushCoordinate]
     );

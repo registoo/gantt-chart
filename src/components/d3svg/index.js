@@ -27,8 +27,7 @@ function Gantt(props) {
       ref={measuredRef}
     >
       <DrawScales
-        xAxis={props.scales.xAxis}
-        yAxis={props.scales.yAxis}
+        scales={props.scales}
         sizesSVG={props.sizesSVG}
         aux={props.aux}
         listID={props.listID}

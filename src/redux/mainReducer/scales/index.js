@@ -2,8 +2,8 @@ import x from "./x.js";
 import y from "./y.js";
 
 export default function (state) {
-  const { xScale, xAxis } = x(state);
-  const { yScale, yAxis } = y(state);
+  const xScale = x(state);
+  const yScale = y(state);
 
-  return { xScale, xAxis, yScale, yAxis };
+  return { ...xScale, ...yScale };
 }
