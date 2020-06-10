@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import DrawAxisX from "./drawAxisX";
 import DrawAxisY from "./drawAxisY";
 

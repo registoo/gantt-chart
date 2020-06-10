@@ -3,6 +3,9 @@ import { rowHasError } from "../../../auxFunctions";
 import moment from "moment";
 
 export default function (state) {
+  const getPixelsInOneDay = (start, finish) =>
+    state.sizesSVG.width / moment.duration(moment.utc(finish).diff(moment.utc(start))).as("d");
+
   const xScaleMaxCoordinate =
     state.sizesSVG.width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
   const xScaleMinCoordinate = 0;
@@ -22,6 +25,9 @@ export default function (state) {
     })
     .valueOf();
 
+  const projectStartMS = domainXStartMS;
+  const projectFinishMS = domainXFinishMS;
+
   const xScale = d3
     .scaleTime()
     .domain([domainXStartMS, domainXFinishMS])
@@ -29,7 +35,7 @@ export default function (state) {
 
   const xAxis = d3.axisBottom().scale(xScale);
 
-  const setHorizontalScale = (width, state) => {
+  const setWidthOfHorizontalScale = (width, state) => {
     const xScaleMaxCoordinate = width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
     const xScale = d3
       .scaleTime()
@@ -39,6 +45,18 @@ export default function (state) {
     return { xScaleMaxCoordinate, xScale, xAxis };
   };
 
+  const setXRange = (startMS, finishMS, state) => {
+    const domainXStartMS = startMS;
+    const domainXFinishMS = finishMS;
+    const xScale = d3
+      .scaleTime()
+      .domain([domainXStartMS, domainXFinishMS])
+      .range([state.scales.xScaleMinCoordinate, state.scales.xScaleMaxCoordinate]);
+    const xAxis = d3.axisBottom().scale(xScale);
+
+    return { xScale, xAxis, domainXStartMS, domainXFinishMS };
+  };
+
   return {
     xScale,
     xAxis,
@@ -46,6 +64,8 @@ export default function (state) {
     domainXStartMS,
     xScaleMaxCoordinate,
     xScaleMinCoordinate,
-    aux: { setHorizontalScale },
+    projectStartMS,
+    projectFinishMS,
+    aux: { setWidthOfHorizontalScale, setXRange, getPixelsInOneDay },
   };
 }

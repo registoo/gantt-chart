@@ -88,6 +88,12 @@ export default (currentKey, acc, data, el, rowNumber) => {
     case "isError":
       cellError("isError");
       break;
+    case "nameRus":
+      setCorrectAttr(currentKey);
+      break;
+    case "nameEng":
+      setCorrectAttr(currentKey);
+      break;
     default:
       break;
   }

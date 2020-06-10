@@ -9,6 +9,8 @@ const nameCell = "A";
 const startCell = "B";
 const finishCell = "C";
 const predecessorCell = "D";
+const nameRus = "E";
+const nameEng = "F";
 
 // headRow - количество строк сверху таблицы Excel с общими данными,
 // которые не надо учитывать в результирующей data
@@ -18,7 +20,7 @@ const keys = Object.keys(data);
 
 const obj = keys.reduce(function (acc, el) {
   // разбивка номера ячейки на буквенную и числовую части
-  const rowNumberReg = /\d/.exec(el);
+  const rowNumberReg = /\d+/.exec(el);
   const colLiterReg = /\D/.exec(el);
 
   // пропускаем первую строчку
@@ -43,6 +45,12 @@ const obj = keys.reduce(function (acc, el) {
           break;
         case predecessorCell:
           dataWorker("predecessor", acc, data, el, rowNumber);
+          break;
+        case nameRus:
+          dataWorker("nameRus", acc, data, el, rowNumber);
+          break;
+        case nameEng:
+          dataWorker("nameEng", acc, data, el, rowNumber);
           break;
         default:
           dataWorker("isError", acc, data, el, rowNumber);
