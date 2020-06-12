@@ -10,3 +10,10 @@ export const setWidth = (width) => {
     width,
   };
 };
+export const changeXRange = (selection) => {
+  return {
+    type: "CHANGE_RANGE",
+    start: selection[0],
+    finish: selection[1],
+  };
+};

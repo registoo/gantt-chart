@@ -4,13 +4,18 @@ import defaultState from "./defaultState.js";
 export default function testReducer(state = defaultState(data), action) {
   switch (action.type) {
     case "SET_WIDTH":
-      const setXScale = state.scales.aux.setHorizontalScale(action.width, state);
-      const res = {
+      const setXScaleWidth = state.scales.aux.setWidthOfHorizontalScale(action.width, state);
+      return {
         ...state,
         sizesSVG: { ...state.sizesSVG, width: action.width },
-        scales: { ...state.scales, ...setXScale },
+        scales: { ...state.scales, ...setXScaleWidth },
       };
-      return res;
+    case "CHANGE_RANGE":
+      const setXScaleRange = state.scales.aux.setXRange(action.start, action.finish, state);
+      return {
+        ...state,
+        scales: { ...state.scales, ...setXScaleRange },
+      };
     default:
       return state;
   }

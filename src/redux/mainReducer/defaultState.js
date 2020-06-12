@@ -1,10 +1,10 @@
 import rowHasError from "../../auxFunctions/rowHasError";
 import scales from "./scales";
 
-const width = 250,
-  height = 550,
+const width = 450,
+  height = 9000,
   margin = {
-    top: 16,
+    top: 0,
     right: 10,
     bottom: 16,
     left: 10,
