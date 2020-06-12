@@ -5,9 +5,9 @@ const width = 450,
   height = 9000,
   margin = {
     top: 0,
-    right: 10,
-    bottom: 16,
-    left: 10,
+    right: 0,
+    bottom: 0,
+    left: 0,
   };
 
 export default (data) => {

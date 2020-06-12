@@ -1,6 +1,5 @@
 import * as d3 from "d3";
 import React, { useCallback } from "react";
-import moment from "moment";
 
 export default function (props) {
   const addSomething = useCallback((node) => {

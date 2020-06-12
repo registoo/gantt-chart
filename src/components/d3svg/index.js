@@ -22,13 +22,7 @@ function Gantt(props) {
   return (
     <Fragment>
       <Slider {...props}></Slider>
-      <svg
-        width={props.sizesSVG.width}
-        height={props.sizesSVG.height}
-        viewBox={[0, 0, props.sizesSVG.width, props.sizesSVG.height]}
-        id="chart"
-        ref={measuredRef}
-      >
+      <svg width={props.sizesSVG.width} height={props.sizesSVG.height} id="chart" ref={measuredRef}>
         <DrawScales scales={props.scales} sizesSVG={props.sizesSVG} listID={props.listID} />
         <DrawFigures
           data={props.data}

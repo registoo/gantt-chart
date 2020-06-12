@@ -69,8 +69,10 @@ const f = (props) => {
       <div
         style={{
           paddingTop: props.scales.yScale.paddingOuter() * props.scales.yScale.step(),
-          marginTop: props.sizesSVG.margin.top,
           marginBottom: props.sizesSVG.margin.bottom,
+          background: "green",
+          marginTop: "50px",
+          overflow: "hidden",
         }}
       >
         {dataRange}
