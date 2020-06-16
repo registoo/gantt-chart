@@ -5,8 +5,8 @@ import DrawAxisY from "./drawAxisY";
 export default function (props) {
   return (
     <g id="gForScales">
-      <DrawAxisX {...props}></DrawAxisX>
-      <DrawAxisY {...props}></DrawAxisY>
+      <DrawAxisX />
+      <DrawAxisY />
     </g>
   );
 }

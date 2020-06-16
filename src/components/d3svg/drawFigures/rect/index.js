@@ -1,7 +1,8 @@
 import { keyGenerator, rowHasError } from "../../../../auxFunctions/index.js";
-import React, { Fragment } from "react";
+import React from "react";
+import { connect } from "react-redux";
 
-export default function (props) {
+const DrawRect = (props) => {
   const x = (d) => props.xScale(d.start.dateInMillisecons);
   const y = (d) =>
     rowHasError(d) ? props.yScale(d.isError.formattedText) : props.yScale(d.jobName.formattedText);
@@ -25,5 +26,20 @@ export default function (props) {
     );
   });
 
-  return <Fragment>{arr}</Fragment>;
-}
+  return (
+    <g id="gForRects" transform={`translate(${props.margin.left},${props.margin.top})`}>
+      {arr}
+    </g>
+  );
+};
+
+const getState = (state) => {
+  return {
+    xScale: state.mainReducer.scales.xScale,
+    yScale: state.mainReducer.scales.yScale,
+    data: state.mainReducer.data,
+    margin: state.mainReducer.sizesSVG.margin,
+  };
+};
+
+export default connect(getState)(DrawRect);

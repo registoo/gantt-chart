@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { keyGenerator, rowHasError } from "../../auxFunctions";
 import { Paper, Grid, Typography } from "@material-ui/core/";
-import * as d3 from "d3";
+import { motion } from "framer-motion";
 
 const Ff = (props) => {
   useEffect(() => {
@@ -23,15 +23,15 @@ const Ff = (props) => {
   );
 };
 
-const f = (props) => {
+const WorksList = (props) => {
   const dataRange = props.data.map((d) => {
     const RootDIV = () => (
       <Paper
         style={{
           border: "1px solid black",
           backgroundColor: "red",
-          height: props.scales.yScale.bandwidth() + "px",
-          marginBottom: props.scales.yScale.padding() * props.scales.yScale.step(),
+          height: props.yScale.bandwidth() + "px",
+          marginBottom: props.yScale.padding() * props.yScale.step(),
         }}
       >
         <Grid container spacing={0}>
@@ -64,25 +64,30 @@ const f = (props) => {
     return <RootDIV key={keyGenerator(d.id)}></RootDIV>;
   });
   return (
-    <Fragment>
+    <motion.div style={{ width: props.sizesWL.width }}>
       {/* <div style={{ height: "20px" }}>SHAPKA</div> */}
       <div
         style={{
-          paddingTop: props.scales.yScale.paddingOuter() * props.scales.yScale.step(),
+          paddingTop: props.yScale.paddingOuter() * props.yScale.step(),
           marginBottom: props.sizesSVG.margin.bottom,
           background: "green",
-          marginTop: "50px",
           overflow: "hidden",
+          width: "100%",
         }}
       >
         {dataRange}
       </div>
-    </Fragment>
+    </motion.div>
   );
 };
 
 const getState = (state) => {
-  return state.mainReducer;
+  return {
+    data: state.mainReducer.data,
+    yScale: state.mainReducer.scales.yScale,
+    sizesWL: state.mainReducer.sizesWL,
+    sizesSVG: state.mainReducer.sizesSVG,
+  };
 };
 
-export default connect(getState)(f);
+export default connect(getState)(WorksList);

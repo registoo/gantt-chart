@@ -1,9 +1,10 @@
 import * as d3 from "d3";
 import { brushed } from "./events.js";
-import React, { Fragment, useCallback } from "react";
+import React, { useCallback } from "react";
 import { keyGenerator, rowHasError } from "../../../../auxFunctions/index.js";
+import { connect } from "react-redux";
 
-export default function (props) {
+const DrawBrush = (props) => {
   const id = (d) => `Rabota ${d.id} brush`;
   const x0 = 0;
   const x1 = props.sizesSVG.width - props.sizesSVG.margin.right - props.sizesSVG.margin.left;
@@ -17,9 +18,8 @@ export default function (props) {
       [x0, y0],
       [x1, y1],
     ];
-
-    const addBrush = useCallback(
-      (node) => {
+    const G = () => {
+      const addBrush = useCallback((node) => {
         if (node !== null) {
           const brush = d3
             .brushX()
@@ -30,12 +30,30 @@ export default function (props) {
 
           d3.select(node).call(brush);
         }
-      },
-      [brushCoordinate]
-    );
+      }, []);
+      return <g id={id(d)} ref={addBrush}></g>;
+    };
 
-    return <g id={id(d)} ref={addBrush} key={keyGenerator(d.id)}></g>;
+    return <G key={keyGenerator(d.id)}></G>;
   });
 
-  return <Fragment>{arr}</Fragment>;
-}
+  return (
+    <g
+      id="gForBrushing"
+      transform={`translate(${props.sizesSVG.margin.left},${props.sizesSVG.margin.top})`}
+    >
+      {arr}
+    </g>
+  );
+};
+
+const getState = (state) => {
+  return {
+    sizesSVG: state.mainReducer.sizesSVG,
+    data: state.mainReducer.data,
+    yScale: state.mainReducer.scales.yScale,
+    xScale: state.mainReducer.scales.xScale,
+  };
+};
+
+export default connect(getState)(DrawBrush);

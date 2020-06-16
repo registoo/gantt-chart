@@ -1,13 +1,8 @@
-export const count = (data) => {
-  return {
-    type: "TEST",
-    data,
-  };
-};
 export const setWidth = (width) => {
   return {
-    type: "SET_WIDTH",
-    width,
+    type: "SET_SVG_&_WL_WIDTH",
+    svg: width.svg,
+    wl: width.wl,
   };
 };
 export const changeXRange = (selection) => {

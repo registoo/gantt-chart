@@ -1,5 +1,5 @@
-.body {
-  flex-grow: 3;
+.resizerBody {
   display: flex;
   flex-flow: row nowrap;
+  overflow: hidden;
 }

@@ -1,41 +1,27 @@
 import { connect } from "react-redux";
-import { useEffect, Fragment } from "react";
 import DrawFigures from "./drawFigures";
-import React, { useCallback } from "react";
+import React from "react";
 import DrawScales from "./scales";
 import Slider from "./slider";
+import { motion } from "framer-motion";
 
 function Gantt(props) {
-  const measuredRef = useCallback(
-    (node) => {
-      if (node !== null) {
-        console.log("width:", node.getBoundingClientRect().width);
-      }
-    },
-    [props.sizesSVG.width]
-  );
-
-  useEffect(() => {
-    console.log("d3 PROPS: ", props);
-  });
-
   return (
-    <Fragment>
-      <Slider {...props}></Slider>
-      <svg width={props.sizesSVG.width} height={props.sizesSVG.height} id="chart" ref={measuredRef}>
-        <DrawScales scales={props.scales} sizesSVG={props.sizesSVG} listID={props.listID} />
-        <DrawFigures
-          data={props.data}
-          xScale={props.scales.xScale}
-          yScale={props.scales.yScale}
-          sizesSVG={props.sizesSVG}
-        />
-      </svg>
-    </Fragment>
+    <motion.div style={{ width: props.sizesSVG.width }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Slider />
+        <svg width="100%" height={props.sizesSVG.height} id="chart">
+          <DrawScales />
+          <DrawFigures />
+        </svg>
+      </div>
+    </motion.div>
   );
 }
 const getState = (state) => {
-  return state.mainReducer;
+  return {
+    sizesSVG: state.mainReducer.sizesSVG,
+  };
 };
 
 export default connect(getState)(Gantt);
