@@ -22,7 +22,7 @@ const DrawAxisY = (props) => {
   return (
     <g
       ref={addSomething}
-      transform={`translate(${props.sizesSVG.margin.left},${props.sizesSVG.margin.top})`}
+      transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}
     ></g>
   );
 };
@@ -30,7 +30,7 @@ const DrawAxisY = (props) => {
 const getState = (state) => {
   return {
     yAxis: state.mainReducer.scales.yAxis,
-    sizesSVG: state.mainReducer.sizesSVG,
+    marginSVG: state.mainReducer.sizesSVG.margin,
     listID: state.mainReducer.listID,
   };
 };

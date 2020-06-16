@@ -4,7 +4,7 @@ import getScales from "./drawScales.js";
 
 export default function (props) {
   const drawScales = getScales(props);
-  let selectedDates = props.scales.xScale.domain().map((e) => drawScales.xScale(e));
+  let selectedDates = props.xScale.domain().map((e) => drawScales.xScale(e));
 
   const g = d3.select("#gForSlider");
   const brushed = () => {

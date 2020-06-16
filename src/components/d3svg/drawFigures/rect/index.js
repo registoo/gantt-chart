@@ -27,7 +27,7 @@ const DrawRect = (props) => {
   });
 
   return (
-    <g id="gForRects" transform={`translate(${props.margin.left},${props.margin.top})`}>
+    <g id="gForRects" transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}>
       {arr}
     </g>
   );
@@ -38,7 +38,7 @@ const getState = (state) => {
     xScale: state.mainReducer.scales.xScale,
     yScale: state.mainReducer.scales.yScale,
     data: state.mainReducer.data,
-    margin: state.mainReducer.sizesSVG.margin,
+    marginSVG: state.mainReducer.sizesSVG.margin,
   };
 };
 

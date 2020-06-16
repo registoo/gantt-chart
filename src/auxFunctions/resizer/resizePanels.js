@@ -13,7 +13,7 @@ function ResizePanel(props) {
       <DraggableCore
         onDrag={function (e, ui) {
           const parentWidth = props.parentDiv.current.offsetWidth;
-          const resizableElemWidth = props.sizesWL.width + ui.deltaX;
+          const resizableElemWidth = props.widthWL + ui.deltaX;
           const minSize = 400;
           if (parentWidth <= minSize * 2 + separatorWidth) {
             props.setWidth({ svg: (parentWidth - 5) / 2, wl: (parentWidth - 5) / 2 });
@@ -42,7 +42,7 @@ function ResizePanel(props) {
 }
 
 const getState = (state) => {
-  return { sizesWL: state.mainReducer.sizesWL };
+  return { widthWL: state.mainReducer.sizesWL.width };
 };
 
 export default connect(getState, { setWidth })(ResizePanel);

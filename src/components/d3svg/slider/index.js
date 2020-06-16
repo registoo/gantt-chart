@@ -5,14 +5,14 @@ import { changeXRange } from "../../../redux/mainReducer/action";
 
 const Slider = (props) => {
   useEffect(() => {
-    setBrush({ changeXRange: props.changeXRange, scales: props.scales, sizesSVG: props.sizesSVG });
+    setBrush(props);
   });
   return (
     <svg
       id="slider"
       width="100%"
       height="50px"
-      transform={`translate(${props.sizesSVG.margin.left},${props.sizesSVG.margin.top})`}
+      transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}
     >
       <g id={"gForSlider"}></g>
     </svg>
@@ -20,7 +20,14 @@ const Slider = (props) => {
 };
 
 const getState = (state) => {
-  return { sizesSVG: state.mainReducer.sizesSVG, scales: state.mainReducer.scales };
+  return {
+    marginSVG: state.mainReducer.sizesSVG.margin,
+    widthSVG: state.mainReducer.sizesSVG.width,
+    xScale: state.mainReducer.scales.xScale,
+    projectStartMS: state.mainReducer.scales.projectStartMS,
+    projectFinishMS: state.mainReducer.scales.projectFinishMS,
+    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
+  };
 };
 
 export default connect(getState, { changeXRange })(Slider);

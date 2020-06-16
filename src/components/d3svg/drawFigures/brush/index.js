@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 const DrawBrush = (props) => {
   const id = (d) => `Rabota ${d.id} brush`;
   const x0 = 0;
-  const x1 = props.sizesSVG.width - props.sizesSVG.margin.right - props.sizesSVG.margin.left;
+  const x1 = props.widthSVG - props.marginSVG.right - props.marginSVG.left;
 
   const arr = [...props.data].map((d) => {
     if (rowHasError(d.data)) return <g key={keyGenerator(d.id)}></g>;
@@ -38,10 +38,7 @@ const DrawBrush = (props) => {
   });
 
   return (
-    <g
-      id="gForBrushing"
-      transform={`translate(${props.sizesSVG.margin.left},${props.sizesSVG.margin.top})`}
-    >
+    <g id="gForBrushing" transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}>
       {arr}
     </g>
   );
@@ -49,7 +46,8 @@ const DrawBrush = (props) => {
 
 const getState = (state) => {
   return {
-    sizesSVG: state.mainReducer.sizesSVG,
+    widthSVG: state.mainReducer.sizesSVG.width,
+    marginSVG: state.mainReducer.sizesSVG.margin,
     data: state.mainReducer.data,
     yScale: state.mainReducer.scales.yScale,
     xScale: state.mainReducer.scales.xScale,

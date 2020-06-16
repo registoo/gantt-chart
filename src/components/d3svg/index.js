@@ -7,10 +7,10 @@ import { motion } from "framer-motion";
 
 function Gantt(props) {
   return (
-    <motion.div style={{ width: props.sizesSVG.width }}>
+    <motion.div style={{ width: props.widthSVG }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <Slider />
-        <svg width="100%" height={props.sizesSVG.height} id="chart">
+        <svg width="100%" height={props.heightSVG} id="chart">
           <DrawScales />
           <DrawFigures />
         </svg>
@@ -20,7 +20,8 @@ function Gantt(props) {
 }
 const getState = (state) => {
   return {
-    sizesSVG: state.mainReducer.sizesSVG,
+    heightSVG: state.mainReducer.sizesSVG.height,
+    widthSVG: state.mainReducer.sizesSVG.width,
   };
 };
 

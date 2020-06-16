@@ -5,21 +5,16 @@ import { connect } from "react-redux";
 const DrawAxisX = (props) => {
   const addSomething = useCallback(
     (node) => {
-      const pixelsInOneDay = props.scales.aux.getPixelsInOneDay(
-        props.scales.domainXStartMS,
-        props.scales.domainXFinishMS
-      );
+      const pixelsInOneDay = props.getPixelsInOneDay(props.domainXStartMS, props.domainXFinishMS);
 
       if (node !== null) {
         const currentNode = d3.select(node);
         currentNode
           .call(
-            props.scales.xAxis
+            props.xAxis
               .ticks(d3.utcDay)
               .tickFormat((d) => d3.timeFormat("%d/%m")(d))
-              .tickSize(
-                -props.sizesSVG.height + props.sizesSVG.margin.top + props.sizesSVG.margin.bottom
-              )
+              .tickSize(-props.heightSVG + props.marginSVG.top + props.marginSVG.bottom)
           )
           .call((g) => {
             g.selectAll(".tick text")
@@ -45,19 +40,22 @@ const DrawAxisX = (props) => {
 
   return (
     <g
-      width={props.sizesSVG.width}
+      width={props.widthSVG}
       ref={addSomething}
-      transform={`translate(${props.sizesSVG.margin.left},${
-        props.sizesSVG.height - props.sizesSVG.margin.bottom
-      })`}
+      transform={`translate(${props.marginSVG.left},${props.heightSVG - props.marginSVG.bottom})`}
     ></g>
   );
 };
 
 const getState = (state) => {
   return {
-    scales: state.mainReducer.scales,
-    sizesSVG: state.mainReducer.sizesSVG,
+    xAxis: state.mainReducer.scales.xAxis,
+    widthSVG: state.mainReducer.sizesSVG.width,
+    heightSVG: state.mainReducer.sizesSVG.height,
+    marginSVG: state.mainReducer.sizesSVG.margin,
+    domainXStartMS: state.mainReducer.scales.domainXStartMS,
+    domainXStartMS: state.mainReducer.scales.domainXFinishMS,
+    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
   };
 };
 

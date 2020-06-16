@@ -17,7 +17,7 @@ export default (data) => {
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
   );
 
-  return {
+  const result = {
     data,
     sizesSVG,
     sizesWL,
@@ -28,4 +28,7 @@ export default (data) => {
       data,
     }),
   };
+  console.log(result);
+
+  return result;
 };
