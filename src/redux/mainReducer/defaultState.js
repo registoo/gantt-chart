@@ -2,7 +2,7 @@ import rowHasError from "../../auxFunctions/rowHasError";
 import scales from "./scales";
 
 export default (data) => {
-  const stringHeight = 70;
+  const stringHeight = 40;
   const heightSVG = data.length * (stringHeight * 1.25);
   const marginSVG = {
     top: 0,

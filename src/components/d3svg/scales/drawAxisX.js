@@ -54,7 +54,7 @@ const getState = (state) => {
     heightSVG: state.mainReducer.sizesSVG.height,
     marginSVG: state.mainReducer.sizesSVG.margin,
     domainXStartMS: state.mainReducer.scales.domainXStartMS,
-    domainXStartMS: state.mainReducer.scales.domainXFinishMS,
+    domainXFinishMS: state.mainReducer.scales.domainXFinishMS,
     getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
   };
 };

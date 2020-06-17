@@ -1,27 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { keyGenerator, rowHasError } from "../../auxFunctions";
-import { Paper, Grid, Typography } from "@material-ui/core/";
+import { keyGenerator } from "../../auxFunctions";
+import { Paper, Grid } from "@material-ui/core/";
 import { motion } from "framer-motion";
-
-const Ff = (props) => {
-  useEffect(() => {
-    // console.log("Slider", d3.select("#slider").node());
-  });
-
-  if (rowHasError(props.d.data)) {
-    return (
-      <Grid item xs={12}>
-        <Typography>{props.d.data.isError.formattedText}</Typography>
-      </Grid>
-    );
-  }
-  return (
-    <Grid item xs={6}>
-      <Typography>{props.d.id}</Typography>
-    </Grid>
-  );
-};
+import { ColTypography } from "./components/columnElement";
 
 const WorksList = (props) => {
   const dataRange = props.data.map((d) => {
@@ -35,36 +17,47 @@ const WorksList = (props) => {
         }}
       >
         <Grid container spacing={0}>
-          <Ff d={d}></Ff>
+          <ColTypography
+            grid={{ xs: 2 }}
+            typography={{ variant: "body2", wrap: "noWrap" }}
+            element="id"
+            data={d}
+          ></ColTypography>
 
-          <Grid item xs={3}>
-            {rowHasError(d.data) ? null : <Typography>{d.data.start.formattedText}</Typography>}
-          </Grid>
+          <ColTypography
+            grid={{ xs: 1 }}
+            typography={{ variant: "body2", wrap: "noWrap" }}
+            element="start"
+            data={d}
+          ></ColTypography>
 
-          <Grid item xs={3}>
-            {rowHasError(d.data) ? null : <Typography>{d.data.finish.formattedText}</Typography>}
-          </Grid>
-          <Grid item xs={12}>
-            {rowHasError(d.data) ? null : (
-              <Typography noWrap variant="body2">
-                {d.data.nameRus.formattedText}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            {rowHasError(d.data) ? null : (
-              <Typography noWrap variant="body2">
-                {d.data.nameEng.formattedText}
-              </Typography>
-            )}
-          </Grid>
+          <ColTypography
+            grid={{ xs: 1 }}
+            typography={{ variant: "body2", wrap: "noWrap" }}
+            element="finish"
+            data={d}
+          ></ColTypography>
+
+          <ColTypography
+            grid={{ xs: 4 }}
+            typography={{ variant: "caption", wrap: "wrap" }}
+            element="nameRus"
+            data={d}
+          ></ColTypography>
+
+          <ColTypography
+            grid={{ xs: 4 }}
+            typography={{ variant: "caption", wrap: "wrap" }}
+            element="nameEng"
+            data={d}
+          ></ColTypography>
         </Grid>
       </Paper>
     );
     return <RootDIV key={keyGenerator(d.id)}></RootDIV>;
   });
   return (
-    <motion.div style={{ width: props.sizesWL.width }}>
+    <motion.div style={{ width: props.sizesWL.width, marginTop: 50 }}>
       {/* <div style={{ height: "20px" }}>SHAPKA</div> */}
       <div
         style={{

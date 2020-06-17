@@ -22,7 +22,7 @@ function CustomComponent(props) {
   useEffect(() => {
     if (!props.width) return;
     const currentWidth = (+props.width - 2) / 2;
-    props.setWidth({ svg: currentWidth, wl: currentWidth });
+    props.setWidth({ svg: currentWidth - 6, wl: currentWidth });
   }, [props]);
 
   return (

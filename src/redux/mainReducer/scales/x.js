@@ -35,12 +35,18 @@ export default function (state) {
 
   const xAxis = d3.axisBottom().scale(xScale);
 
-  const setWidthOfHorizontalScale = (width, state) => {
-    const xScaleMaxCoordinate = width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
+  const setWidthOfHorizontalScale = ({
+    widthSVG,
+    marginSVG,
+    domainXStartMS,
+    domainXFinishMS,
+    xScaleMinCoordinate,
+  }) => {
+    const xScaleMaxCoordinate = widthSVG - marginSVG.left - marginSVG.right;
     const xScale = d3
       .scaleTime()
-      .domain([state.scales.domainXStartMS, state.scales.domainXFinishMS])
-      .range([state.scales.xScaleMinCoordinate, xScaleMaxCoordinate]);
+      .domain([domainXStartMS, domainXFinishMS])
+      .range([xScaleMinCoordinate, xScaleMaxCoordinate]);
     const xAxis = d3.axisBottom().scale(xScale);
     return { xScaleMaxCoordinate, xScale, xAxis };
   };
