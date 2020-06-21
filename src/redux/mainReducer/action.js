@@ -7,8 +7,14 @@ export const setWidth = (width) => {
 };
 export const changeXRange = (selection) => {
   return {
-    type: "CHANGE_RANGE",
+    type: "CHANGE_SVG_RANGE",
     start: selection[0],
     finish: selection[1],
+  };
+};
+export const setSelectedData = (range) => {
+  return {
+    type: "CHANGE_DATA_RANGE",
+    range: { start: +range.start, finish: +range.finish },
   };
 };

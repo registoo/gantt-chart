@@ -11,7 +11,7 @@ export default function (state) {
   const xScaleMinCoordinate = 0;
 
   const domainXFinishMS = d3
-    .max(state.data, (d) => {
+    .max(state.dataDisplayed, (d) => {
       if (rowHasError(d.data)) return null;
       return moment.utc(d.data.finish.dateInMillisecons);
     })
@@ -19,7 +19,7 @@ export default function (state) {
     .valueOf();
 
   const domainXStartMS = d3
-    .min(state.data, (d) => {
+    .min(state.dataDisplayed, (d) => {
       if (rowHasError(d.data)) return null;
       return moment.utc(d.data.start.dateInMillisecons);
     })

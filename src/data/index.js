@@ -3,6 +3,7 @@ import dataWorker from "./dataWorker.js";
 import rowHasError from "../auxFunctions/rowHasError";
 import moment from "moment";
 import * as d3 from "d3";
+import columns from "./columns.js";
 
 // Обозначение столбов с данными
 const nameCell = "A";
@@ -35,25 +36,25 @@ const obj = keys.reduce(function (acc, el) {
       // смотрим что за столбик и добавляем данные в результирующий объект
       switch (colLiter) {
         case nameCell:
-          dataWorker("jobName", acc, data, el, rowNumber);
+          dataWorker(columns.colJobName, acc, data, el, rowNumber);
           break;
         case startCell:
-          dataWorker("start", acc, data, el, rowNumber);
+          dataWorker(columns.colStart, acc, data, el, rowNumber);
           break;
         case finishCell:
-          dataWorker("finish", acc, data, el, rowNumber);
+          dataWorker(columns.colFinish, acc, data, el, rowNumber);
           break;
         case predecessorCell:
-          dataWorker("predecessor", acc, data, el, rowNumber);
+          dataWorker(columns.colPredecessor, acc, data, el, rowNumber);
           break;
         case nameRus:
-          dataWorker("nameRus", acc, data, el, rowNumber);
+          dataWorker(columns.colNameRus, acc, data, el, rowNumber);
           break;
         case nameEng:
-          dataWorker("nameEng", acc, data, el, rowNumber);
+          dataWorker(columns.colNameEng, acc, data, el, rowNumber);
           break;
         default:
-          dataWorker("isError", acc, data, el, rowNumber);
+          dataWorker(columns.colIsError, acc, data, el, rowNumber);
           break;
       }
     }

@@ -37,7 +37,7 @@ const getState = (state) => {
   return {
     xScale: state.mainReducer.scales.xScale,
     yScale: state.mainReducer.scales.yScale,
-    data: state.mainReducer.data,
+    data: state.mainReducer.dataDisplayed,
     marginSVG: state.mainReducer.sizesSVG.margin,
   };
 };

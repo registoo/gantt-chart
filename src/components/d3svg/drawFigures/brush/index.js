@@ -48,7 +48,7 @@ const getState = (state) => {
   return {
     widthSVG: state.mainReducer.sizesSVG.width,
     marginSVG: state.mainReducer.sizesSVG.margin,
-    data: state.mainReducer.data,
+    data: state.mainReducer.dataDisplayed,
     yScale: state.mainReducer.scales.yScale,
     xScale: state.mainReducer.scales.xScale,
   };

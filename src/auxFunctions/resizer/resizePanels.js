@@ -52,7 +52,7 @@ function ResizePanel(props) {
 }
 
 const getState = (state) => {
-  return { widthWL: state.mainReducer.sizesWL.width };
+  return { widthWL: state.mainReducer.workList.sizesWL.width };
 };
 
 export default connect(getState, { setWidth })(ResizePanel);
