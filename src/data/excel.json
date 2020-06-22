@@ -41,7 +41,13 @@
     "h": "That builder not, us not: itself any master — no explain, dislikes. Account obtain must obtain some system with desires builder actual who chooses there in. From man will itself all, procure again undertakes annoying circumstances him find to a you take. Is it explain in any, in, obtain procure or pursue some this encounter the again, that, extremely and dislikes some idea except.",
     "w": "That builder not, us not: itself any master — no explain, dislikes. Account obtain must obtain some system with desires builder actual who chooses there in. From man will itself all, procure again undertakes annoying circumstances him find to a you take. Is it explain in any, in, obtain procure or pursue some this encounter the again, that, extremely and dislikes some idea except."
   },
-  "A3": { "t": "s", "v": "вторая", "r": "<t>вторая</t>", "h": "вторая", "w": "вторая" },
+  "A3": {
+    "t": "s",
+    "v": "втораявтораявтораявтораявтораявторая",
+    "r": "<t>вторая</t>",
+    "h": "втораявтораявтораявтораявтораявторая",
+    "w": "втораявтораявтораявтораявтораявторая"
+  },
   "B3": { "t": "d", "v": "2020-06-06T20:59:43.000Z", "f": "C2+6", "w": "6/7/20" },
   "C3": { "t": "d", "v": "2020-06-08T20:59:43.000Z", "f": "B3+2", "w": "6/9/20" },
   "D3": { "t": "s", "v": "первая", "f": "A2", "h": "первая", "w": "первая" },

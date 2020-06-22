@@ -1,27 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
-import DataList from "./dataList.js";
+import Table from "./table";
+import Polzynok from "./polzynok.js";
 
 const WorksList = (props) => {
   return (
     <div
       style={{
-        paddingTop: props.yScale.paddingOuter() * props.yScale.step(),
         marginBottom: props.sizesSVG.margin.bottom,
-        overflow: "hidden",
-        width: "100%",
+        overflowX: "scroll",
+        width: props.sizesWL.width,
+        display: "flex",
+        flexDirection: "row",
       }}
     >
-      <DataList />
+      <Polzynok />
+      <Table />
     </div>
   );
 };
 
 const getState = (state) => {
   return {
-    yScale: state.mainReducer.scales.yScale,
-    sizesWL: state.mainReducer.workList.sizesWL,
     sizesSVG: state.mainReducer.sizesSVG,
+    sizesWL: state.mainReducer.workList.sizesWL,
   };
 };
 
