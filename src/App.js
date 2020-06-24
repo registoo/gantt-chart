@@ -8,8 +8,8 @@ function App(props) {
   return (
     <Container maxWidth="xl">
       <ResizeDetector>
-        <WorksList resize="true" />
-        <D3svg />
+        <WorksList />
+        <D3svg resize="true" />
       </ResizeDetector>
     </Container>
   );

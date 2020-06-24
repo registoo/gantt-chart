@@ -10,7 +10,6 @@ function ResizePanel(props) {
   const brushHandle = 6;
   return (
     <div style={{ display: "flex", direction: "row" }}>
-      {props.children}
       <DraggableCore
         onDrag={function (e, ui) {
           const parentWidth = props.parentDiv.current.offsetWidth;
@@ -47,6 +46,7 @@ function ResizePanel(props) {
         {/* движитель */}
         <div style={{ minWidth: separatorWidth, cursor: "col-resize" }}></div>
       </DraggableCore>
+      {props.children}
     </div>
   );
 }

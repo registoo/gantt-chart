@@ -27,8 +27,8 @@ function CustomComponent(props) {
 
   return (
     <div className="resizerBody" ref={parentDiv}>
-      <Resize parentDiv={parentDiv}>{resizeElem}</Resize>
       {otherELems}
+      <Resize parentDiv={parentDiv}>{resizeElem}</Resize>
     </div>
   );
 }

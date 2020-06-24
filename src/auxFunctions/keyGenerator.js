@@ -1,5 +1,5 @@
-import sha1 from "js-sha1";
+import crypto from "crypto-random-string";
 
 export default (d) => {
-  return sha1(d).slice(-8);
+  return crypto({ length: 15, type: "url-safe" });
 };

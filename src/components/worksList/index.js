@@ -9,9 +9,9 @@ const WorksList = (props) => {
       style={{
         marginBottom: props.sizesSVG.margin.bottom,
         overflowX: "scroll",
-        width: props.sizesWL.width,
         display: "flex",
         flexDirection: "row",
+        flexGrow: 1,
       }}
     >
       <Polzynok />
@@ -23,7 +23,6 @@ const WorksList = (props) => {
 const getState = (state) => {
   return {
     sizesSVG: state.mainReducer.sizesSVG,
-    sizesWL: state.mainReducer.workList.sizesWL,
   };
 };
 
