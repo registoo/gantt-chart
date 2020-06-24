@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./css/index.css";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from "./auxFunctions/serviceWorker";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
