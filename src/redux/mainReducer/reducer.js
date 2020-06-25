@@ -1,6 +1,5 @@
 import data from "../../data";
 import defaultState from "./defaultState.js";
-import { rowHasError } from "../../auxFunctions";
 
 export default function testReducer(state = defaultState(data), action) {
   switch (action.type) {
@@ -25,23 +24,21 @@ export default function testReducer(state = defaultState(data), action) {
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
-    case "CHANGE_DATA_RANGE_WHEEL":
-      const dataDisplayed1 = state.data.slice(action.range.start, action.range.finish);
-      const listIdDisplayed1 = dataDisplayed1.map((d) =>
-        rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
-      );
-      const newScales1 = state.changeScales({
-        listIdDisplayed: listIdDisplayed1,
+    case "SELECT_DISPLAYED_DATA":
+      const newScales = state.changeScales({
+        listIdDisplayed: action.listIdDisplayed,
         sizesSVG: state.sizesSVG,
-        dataDisplayed: dataDisplayed1,
+        dataDisplayed: action.dataDisplayed,
       });
-      return {
+      const result = {
         ...state,
-        dataSpec: { ...state.dataSpec, dataRange: action.range },
-        dataDisplayed: dataDisplayed1,
-        ids: { ...state.ids, listIdDisplayed: listIdDisplayed1 },
-        scales: newScales1,
+        dataDisplayed: action.dataDisplayed,
+        ids: { ...state.ids, listIdDisplayed: action.listIdDisplayed },
+        scales: newScales,
+        dataSpec: { ...state.dataSpec, dataRange: action.dataRange },
       };
+      console.log(result);
+      return result;
     case "SELECT_KKS":
       //   // if (!action.works) {
       //   //   return defaultState(data);

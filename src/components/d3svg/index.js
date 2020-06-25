@@ -1,41 +1,61 @@
 import { connect } from "react-redux";
 import DrawFigures from "./drawFigures";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import DrawScales from "./scales";
 import Slider from "./slider";
 import { motion } from "framer-motion";
-import { setWheeledData } from "../../redux/mainReducer/action";
+import { setDisplayedData } from "../../redux/mainReducer/action";
+import { rowHasError } from "../../auxFunctions";
 
 function Gantt(props) {
+  const ref1 = useRef(null);
   // добавление прокрутки колёсиком
-  const stateStart = props.dataSpec.dataRange.start;
-  const stateFinish = props.dataSpec.dataRange.finish;
-  function ee(e) {
+  const [state, setState] = useState({ start: 0, finish: props.dataSpec.elementsOnPage });
+  function onWheel(e) {
     const wDelta = e.wheelDelta < 0 ? "down" : "up";
     switch (wDelta) {
       case "down": {
-        const finish = stateFinish + 1 >= props.ids.length ? props.ids.length : stateFinish + 1;
+        const finish = state.finish + 1 >= props.ids.length ? props.ids.length : state.finish + 1;
         const start = finish - props.dataSpec.elementsOnPage;
-        props.setWheeledData({ start: start, finish: finish });
+        const dataDisplayed1 = props.data.slice(start, finish);
+        const listIdDisplayed1 = dataDisplayed1.map((d) =>
+          rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+        );
+        setState({ start, finish });
+        props.setDisplayedData({
+          listIdDisplayed: listIdDisplayed1,
+          dataDisplayed: dataDisplayed1,
+          dataRange: { start, finish },
+        });
         break;
       }
       case "up": {
-        const start = stateStart - 1 <= 0 ? 0 : stateStart - 1;
+        const start = state.start - 1 <= 0 ? 0 : state.start - 1;
         const finish = start + props.dataSpec.elementsOnPage;
-        props.setWheeledData({ start: start, finish: finish });
+        const dataDisplayed2 = props.data.slice(start, finish);
+        const listIdDisplayed2 = dataDisplayed2.map((d) =>
+          rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+        );
+        setState({ start, finish });
+        props.setDisplayedData({
+          listIdDisplayed: listIdDisplayed2,
+          dataDisplayed: dataDisplayed2,
+          dataRange: { start, finish },
+        });
         break;
       }
       default:
         break;
     }
   }
-  const ref1 = useRef(null);
   useEffect(() => {
-    const ref = ref1;
-    ref.current.addEventListener("wheel", ee);
-    return () => {
-      ref.current.removeEventListener("wheel", ee);
-    };
+    if (props.dataSpec.wheeled) {
+      const ref = ref1;
+      ref.current.addEventListener("wheel", onWheel);
+      return () => {
+        ref.current.removeEventListener("wheel", onWheel);
+      };
+    }
   });
   // окончание прокрутки колёсиким
 
@@ -57,7 +77,8 @@ const getState = (state) => {
     widthSVG: state.mainReducer.sizesSVG.width,
     dataSpec: state.mainReducer.dataSpec,
     ids: state.mainReducer.ids.totalListOfID,
+    data: state.mainReducer.data,
   };
 };
 
-export default connect(getState, { setWheeledData })(Gantt);
+export default connect(getState, { setDisplayedData })(Gantt);

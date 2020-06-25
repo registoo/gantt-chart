@@ -9,6 +9,7 @@ export default (data) => {
   const dataSpec = {
     dataRange: { start: startData, finish: startData + elementsOnPage },
     elementsOnPage,
+    wheeled: true,
   };
 
   const dataDisplayed = data.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
@@ -57,7 +58,6 @@ export default (data) => {
     }),
     changeScales: scales,
   };
-  console.log(result);
 
   return result;
 };

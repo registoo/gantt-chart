@@ -12,15 +12,11 @@ export const changeXRange = (selection) => {
     finish: selection[1],
   };
 };
-export const setWheeledData = (range) => {
+export const setDisplayedData = (data) => {
   return {
-    type: "CHANGE_DATA_RANGE_WHEEL",
-    range: { start: +range.start, finish: +range.finish },
-  };
-};
-export const setOneKKS = (works) => {
-  return {
-    type: "SELECT_KKS",
-    works: works,
+    type: "SELECT_DISPLAYED_DATA",
+    listIdDisplayed: data.listIdDisplayed,
+    dataDisplayed: data.dataDisplayed,
+    dataRange: { ...data.dataRange },
   };
 };

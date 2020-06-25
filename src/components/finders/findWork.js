@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { VariableSizeList } from "react-window";
 import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import { setOneKKS } from "../../redux/mainReducer/action";
+import { setDisplayedData } from "../../redux/mainReducer/action";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -105,7 +105,7 @@ function Virtualize(props) {
       )}
       renderOption={(option) => <Typography noWrap>{option}</Typography>}
       onChange={(e, v) => {
-        props.setOneKKS(v);
+        // props.setOneKKS(v);
       }}
       renderOption={(option, { selected }) => (
         <React.Fragment>
@@ -126,4 +126,4 @@ const getState = (state) => {
     ids: state.mainReducer.ids.totalListOfID,
   };
 };
-export default connect(getState, { setOneKKS })(Virtualize);
+export default connect(getState, { setDisplayedData })(Virtualize);
