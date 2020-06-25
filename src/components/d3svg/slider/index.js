@@ -11,7 +11,7 @@ const Slider = (props) => {
     <svg
       id="slider"
       width="100%"
-      height="50px"
+      height={`${props.height}px`}
       transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}
     >
       <g id={"gForSlider"}></g>
@@ -27,6 +27,7 @@ const getState = (state) => {
     projectStartMS: state.mainReducer.scales.projectStartMS,
     projectFinishMS: state.mainReducer.scales.projectFinishMS,
     getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
+    height: state.mainReducer.sizesSVG.slider.height,
   };
 };
 

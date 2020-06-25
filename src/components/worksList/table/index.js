@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import keyGenerator from "../../../auxFunctions/keyGenerator.js";
 import dataTemplate from "./dataTemplate.js";
-import { setSelectedData } from "../../../redux/mainReducer/action";
 
 function App(props) {
   const data = props.data
@@ -48,7 +47,9 @@ function App(props) {
         style={{
           display: "grid",
           gridTemplateColumns: `20px 150px 100px 100px repeat(2, minmax(200px, 400px))`,
-          gridTemplateRows: `50px repeat(${props.elementsOnPage}, ${props.yScale.bandwidth()}px)`,
+          gridTemplateRows: `${props.headerHeight}px repeat(${
+            props.elementsOnPage
+          }, ${props.yScale.bandwidth()}px)`,
           rowGap: `${props.yScale.padding() * props.yScale.step()}px `,
           columnGap: "9px",
         }}
@@ -76,7 +77,8 @@ const getState = (state) => {
     elementsOnPage: state.mainReducer.dataSpec.elementsOnPage,
     data: state.mainReducer.dataDisplayed,
     ids: state.mainReducer.ids.totalListOfID,
+    headerHeight: state.mainReducer.sizesSVG.slider.height,
   };
 };
 
-export default connect(getState, { setSelectedData })(App);
+export default connect(getState)(App);

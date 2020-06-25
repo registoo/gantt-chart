@@ -12,9 +12,15 @@ export const changeXRange = (selection) => {
     finish: selection[1],
   };
 };
-export const setSelectedData = (range) => {
+export const setWheeledData = (range) => {
   return {
-    type: "CHANGE_DATA_RANGE",
+    type: "CHANGE_DATA_RANGE_WHEEL",
     range: { start: +range.start, finish: +range.finish },
+  };
+};
+export const setOneKKS = (works) => {
+  return {
+    type: "SELECT_KKS",
+    works: works,
   };
 };

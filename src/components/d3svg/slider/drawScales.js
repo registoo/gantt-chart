@@ -16,7 +16,7 @@ export default (props) => {
   const y0 = 0;
   const x1 = props.widthSVG - props.marginSVG.right - props.marginSVG.left;
 
-  const y1 = y0 + 50;
+  const y1 = y0 + props.height;
   const brushCoordinate = [
     [x0, y0],
     [x1, y1],

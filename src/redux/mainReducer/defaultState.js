@@ -20,8 +20,14 @@ export default (data) => {
     bottom: 0,
     left: 0,
   };
-  const sizesSVG = { width: 0, height: heightSVG, margin: marginSVG, stringHeight };
-  const sizesWL = { width: 0, height: heightSVG, margin: { ...marginSVG, top: 50 } };
+  const sizesSVG = {
+    width: 0,
+    height: heightSVG,
+    margin: marginSVG,
+    stringHeight,
+    slider: { height: 20 },
+  };
+  const sizesWL = { width: 0, height: heightSVG };
 
   const listIdDisplayed = dataDisplayed.map((d) =>
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText

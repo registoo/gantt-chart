@@ -25,23 +25,59 @@ export default function testReducer(state = defaultState(data), action) {
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
-    case "CHANGE_DATA_RANGE":
-      const dataDisplayed = state.data.slice(action.range.start, action.range.finish);
-      const listIdDisplayed = dataDisplayed.map((d) =>
+    case "CHANGE_DATA_RANGE_WHEEL":
+      const dataDisplayed1 = state.data.slice(action.range.start, action.range.finish);
+      const listIdDisplayed1 = dataDisplayed1.map((d) =>
         rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
       );
-      const newScales = state.changeScales({
-        listIdDisplayed,
+      const newScales1 = state.changeScales({
+        listIdDisplayed: listIdDisplayed1,
         sizesSVG: state.sizesSVG,
-        dataDisplayed,
+        dataDisplayed: dataDisplayed1,
       });
       return {
         ...state,
         dataSpec: { ...state.dataSpec, dataRange: action.range },
-        dataDisplayed: dataDisplayed,
-        ids: { ...state.ids, listIdDisplayed },
-        scales: newScales,
+        dataDisplayed: dataDisplayed1,
+        ids: { ...state.ids, listIdDisplayed: listIdDisplayed1 },
+        scales: newScales1,
       };
+    case "SELECT_KKS":
+      //   // if (!action.works) {
+      //   //   return defaultState(data);
+      //   // }
+      //   const listIdDisplayed2 = [];
+      //   const dataDisplayed2 = [
+      //     action.works.reduce((acc, el) => {
+      //       state.data.find((e, n) => {
+      //         if (e.id === el) {
+      //           listIdDisplayed2.push(e.data.jobName.formattedText);
+      //           return true;
+      //         } else if (rowHasError(e.data)) {
+      //           listIdDisplayed2 = [e.data.isError.formattedText];
+      //           return true;
+      //         } else {
+      //           return false;
+      //         }
+      //       });
+      //     }, []),
+      //   ];
+
+      //   const newScales2 = rowHasError(dataDisplayed2[0].data)
+      //     ? undefined
+      //     : state.changeScales({
+      //         listIdDisplayed: listIdDisplayed2,
+      //         sizesSVG: state.sizesSVG,
+      //         dataDisplayed: dataDisplayed2,
+      //       });
+      //   return {
+      //     ...state,
+      //     dataSpec: { elementsOnPage: 1, dataRange: { start: i, finish: i } },
+      //     dataDisplayed: dataDisplayed2,
+      //     ids: { ...state.ids, listIdDisplayed: listIdDisplayed2 },
+      //     scales: newScales2 ? newScales2 : { ...state.scales },
+      //   };
+      return state;
     default:
       return state;
   }

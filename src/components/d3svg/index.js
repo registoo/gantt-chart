@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from "react";
 import DrawScales from "./scales";
 import Slider from "./slider";
 import { motion } from "framer-motion";
-import { setSelectedData } from "../../redux/mainReducer/action";
+import { setWheeledData } from "../../redux/mainReducer/action";
 
 function Gantt(props) {
   // добавление прокрутки колёсиком
@@ -16,13 +16,13 @@ function Gantt(props) {
       case "down": {
         const finish = stateFinish + 1 >= props.ids.length ? props.ids.length : stateFinish + 1;
         const start = finish - props.dataSpec.elementsOnPage;
-        props.setSelectedData({ start: start, finish: finish });
+        props.setWheeledData({ start: start, finish: finish });
         break;
       }
       case "up": {
         const start = stateStart - 1 <= 0 ? 0 : stateStart - 1;
         const finish = start + props.dataSpec.elementsOnPage;
-        props.setSelectedData({ start: start, finish: finish });
+        props.setWheeledData({ start: start, finish: finish });
         break;
       }
       default:
@@ -60,4 +60,4 @@ const getState = (state) => {
   };
 };
 
-export default connect(getState, { setSelectedData })(Gantt);
+export default connect(getState, { setWheeledData })(Gantt);
