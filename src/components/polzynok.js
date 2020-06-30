@@ -14,7 +14,7 @@ const Polzynok = (props) => {
       <div
         style={{
           backgroundColor: "green",
-          height: `${(props.start / (props.dataLength - props.elementsOnPage)) * 100}%`,
+          height: `${(props.start / (props.dataLength - props.currentElementsOnPage)) * 100}%`,
         }}
       ></div>
     </div>
@@ -23,9 +23,9 @@ const Polzynok = (props) => {
 
 const getState = (state) => {
   return {
-    dataLength: state.mainReducer.ids.totalListOfID.length,
+    dataLength: state.mainReducer.ids.selectedIds.length,
     start: state.mainReducer.dataSpec.dataRange.start,
-    elementsOnPage: state.mainReducer.dataSpec.elementsOnPage,
+    currentElementsOnPage: state.mainReducer.dataSpec.currentElementsOnPage,
   };
 };
 

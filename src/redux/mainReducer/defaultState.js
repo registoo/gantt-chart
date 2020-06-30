@@ -1,19 +1,21 @@
 import rowHasError from "../../auxFunctions/rowHasError";
 import scales from "./scales";
 import columns from "../../data/columns.js";
+import { defaultResizer } from "../../auxFunctions/resizedTypes";
 
-export default (data) => {
+export default (fullData) => {
   // количетсво строк данных
-  const elementsOnPage = 12;
+  const maxElementsOnPage = 12;
   const startData = 0;
   const dataSpec = {
-    dataRange: { start: startData, finish: startData + elementsOnPage },
-    elementsOnPage,
+    dataRange: { start: startData, finish: startData + maxElementsOnPage },
+    currentElementsOnPage: maxElementsOnPage,
+    maxElementsOnPage,
     wheeled: true,
   };
 
-  const dataDisplayed = data.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
-  const stringHeight = 40;
+  const dataDisplayed = fullData.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
+  const stringHeight = 35;
   const heightSVG = dataDisplayed.length * (stringHeight * 1.25);
   const marginSVG = {
     top: 0,
@@ -22,21 +24,27 @@ export default (data) => {
     left: 0,
   };
   const sizesSVG = {
+    separatorWidth: 6,
+    minWidth: 400,
     width: 0,
     height: heightSVG,
     margin: marginSVG,
     stringHeight,
     slider: { height: 20 },
+    resizedType: defaultResizer,
   };
   const sizesWL = { width: 0, height: heightSVG };
 
-  const listIdDisplayed = dataDisplayed.map((d) =>
+  const displayedIds = dataDisplayed.map((d) =>
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
   );
 
-  const totalListOfID = data.map((d) =>
+  const totalIds = fullData.map((d) =>
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
   );
+
+  const selectedData = fullData;
+  const selectedIds = totalIds;
   // колоки данных workList
   const columnsName = () => {
     const col = { ...columns };
@@ -45,14 +53,14 @@ export default (data) => {
   };
 
   const result = {
-    data,
+    fullData,
+    slicedData: { dataDisplayed, selectedData },
     sizesSVG,
     workList: { sizesWL, columnsName: { ...columnsName() } },
-    ids: { totalListOfID, listIdDisplayed },
+    ids: { totalIds, displayedIds, selectedIds },
     dataSpec,
-    dataDisplayed,
     scales: scales({
-      listIdDisplayed,
+      displayedIds,
       sizesSVG,
       dataDisplayed,
     }),

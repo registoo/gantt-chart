@@ -4,7 +4,7 @@ import keyGenerator from "../../../auxFunctions/keyGenerator.js";
 import dataTemplate from "./dataTemplate.js";
 
 function App(props) {
-  const data = props.data
+  const data = props.dataDisplayed
     .map((el) => dataTemplate(el.data))
     .map((el, i) => {
       return (
@@ -48,7 +48,7 @@ function App(props) {
           display: "grid",
           gridTemplateColumns: `20px 150px 100px 100px repeat(2, minmax(200px, 400px))`,
           gridTemplateRows: `${props.headerHeight}px repeat(${
-            props.elementsOnPage
+            props.currentElementsOnPage
           }, ${props.yScale.bandwidth()}px)`,
           rowGap: `${props.yScale.padding() * props.yScale.step()}px `,
           columnGap: "9px",
@@ -74,9 +74,9 @@ function App(props) {
 const getState = (state) => {
   return {
     yScale: state.mainReducer.scales.yScale,
-    elementsOnPage: state.mainReducer.dataSpec.elementsOnPage,
-    data: state.mainReducer.dataDisplayed,
-    ids: state.mainReducer.ids.totalListOfID,
+    currentElementsOnPage: state.mainReducer.dataSpec.currentElementsOnPage,
+    dataDisplayed: state.mainReducer.slicedData.dataDisplayed,
+    ids: state.mainReducer.ids.totalIds,
     headerHeight: state.mainReducer.sizesSVG.slider.height,
   };
 };

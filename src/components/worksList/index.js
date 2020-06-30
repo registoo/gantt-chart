@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import Table from "./table";
-import Polzynok from "./polzynok.js";
 
 const WorksList = (props) => {
   return (
@@ -14,7 +13,6 @@ const WorksList = (props) => {
         flexGrow: 1,
       }}
     >
-      <Polzynok />
       <Table />
     </div>
   );

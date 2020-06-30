@@ -3,7 +3,6 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import { VariableSizeList } from "react-window";
-import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { setDisplayedData } from "../../redux/mainReducer/action";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
@@ -91,9 +90,24 @@ const useStyles = makeStyles({
 function Virtualize(props) {
   const classes = useStyles();
 
+  function onChangeFunction(event, arr, d0, d) {
+    if (arr.length) {
+      const selectedData = arr.map((el) =>
+        props.fullData.find((e, i) => {
+          if (el === e.id) return true;
+          return false;
+        })
+      );
+      props.setDisplayedData({ selectedData, selectedIds: arr });
+      return;
+    }
+    props.setDisplayedData({ selectedIds: arr });
+  }
+
   return (
     <Autocomplete
       multiple
+      limitTags={2}
       id="virtualize-demo"
       disableListWrap
       disableCloseOnSelect
@@ -103,10 +117,7 @@ function Virtualize(props) {
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label="KKS" placeholder="Favorites" />
       )}
-      renderOption={(option) => <Typography noWrap>{option}</Typography>}
-      onChange={(e, v) => {
-        // props.setOneKKS(v);
-      }}
+      onChange={onChangeFunction}
       renderOption={(option, { selected }) => (
         <React.Fragment>
           <Checkbox
@@ -123,7 +134,8 @@ function Virtualize(props) {
 }
 const getState = (state) => {
   return {
-    ids: state.mainReducer.ids.totalListOfID,
+    ids: state.mainReducer.ids.totalIds,
+    fullData: state.mainReducer.fullData,
   };
 };
 export default connect(getState, { setDisplayedData })(Virtualize);

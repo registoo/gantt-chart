@@ -31,7 +31,7 @@ const getState = (state) => {
   return {
     yAxis: state.mainReducer.scales.yAxis,
     marginSVG: state.mainReducer.sizesSVG.margin,
-    listID: state.mainReducer.ids.listIdDisplayed,
+    listID: state.mainReducer.ids.displayedIds,
   };
 };
 

@@ -2,43 +2,44 @@ import React from "react";
 import { DraggableCore } from "react-draggable";
 import { connect } from "react-redux";
 import { setWidth } from "../../redux/mainReducer/action";
+import { handJob } from "../resizedTypes";
 
 // добавляется div для изменения размеров элементов
 function ResizePanel(props) {
   // ширина разделитея в пикселях
-  const separatorWidth = 6;
-  const brushHandle = 6;
+  const separatorWidth = props.separatorWidth;
   return (
     <div style={{ display: "flex", direction: "row" }}>
       <DraggableCore
         onDrag={function (e, ui) {
+          if (!props.widthSVG) return;
           const parentWidth = props.parentDiv.current.offsetWidth;
-          const resizableElemWidth = props.widthWL + ui.deltaX;
-          const minSize = 400;
-          if (parentWidth <= minSize * 2 + separatorWidth) {
+          const resizableElemWidth = props.widthSVG - ui.deltaX;
+          const minSize = props.minWidth;
+          if (parentWidth <= minSize * 2 + props.separatorWidth) {
             props.setWidth({
-              svg: (parentWidth - separatorWidth) / 2 - brushHandle,
-              wl: (parentWidth - separatorWidth) / 2,
+              svgWidth: (parentWidth - props.separatorWidth) / 2,
+              resizedType: handJob,
             });
             return;
           }
           if (resizableElemWidth <= minSize) {
             props.setWidth({
-              svg: parentWidth - minSize - separatorWidth - brushHandle,
-              wl: minSize,
+              svgWidth: minSize,
+              resizedType: handJob,
             });
             return;
           }
-          if (resizableElemWidth + separatorWidth >= parentWidth - minSize) {
+          if (resizableElemWidth + separatorWidth >= parentWidth) {
             props.setWidth({
-              svg: minSize - brushHandle,
-              wl: parentWidth - minSize - separatorWidth,
+              svgWidth: parentWidth,
+              resizedType: handJob,
             });
             return;
           }
           props.setWidth({
-            svg: parentWidth - resizableElemWidth - separatorWidth - brushHandle,
-            wl: resizableElemWidth,
+            svgWidth: resizableElemWidth,
+            resizedType: handJob,
           });
           return;
         }}
@@ -52,7 +53,11 @@ function ResizePanel(props) {
 }
 
 const getState = (state) => {
-  return { widthWL: state.mainReducer.workList.sizesWL.width };
+  return {
+    widthSVG: state.mainReducer.sizesSVG.width,
+    minWidth: state.mainReducer.sizesSVG.minWidth,
+    separatorWidth: state.mainReducer.sizesSVG.separatorWidth,
+  };
 };
 
 export default connect(getState, { setWidth })(ResizePanel);

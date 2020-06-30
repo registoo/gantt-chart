@@ -1,8 +1,8 @@
-export const setWidth = (width) => {
+export const setWidth = (data) => {
   return {
-    type: "SET_SVG_&_WL_WIDTH",
-    svg: width.svg,
-    wl: width.wl,
+    type: "SET_SVG_WIDTH",
+    svgWidth: data.svgWidth,
+    resizedType: data.resizedType,
   };
 };
 export const changeXRange = (selection) => {
@@ -15,8 +15,15 @@ export const changeXRange = (selection) => {
 export const setDisplayedData = (data) => {
   return {
     type: "SELECT_DISPLAYED_DATA",
-    listIdDisplayed: data.listIdDisplayed,
+    selectedIds: data.selectedIds,
+    selectedData: data.selectedData,
+  };
+};
+export const setWheeledData = (data) => {
+  return {
+    type: "WHEEL_DATA",
+    displayedIds: data.displayedIds,
     dataDisplayed: data.dataDisplayed,
-    dataRange: { ...data.dataRange },
+    dataRange: data.dataRange,
   };
 };
