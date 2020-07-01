@@ -116,7 +116,7 @@ function Virtualize(props) {
       ListboxComponent={ListboxComponent}
       options={props.fullIds}
       clearOnEscape
-      value={props.filtered ? props.displayedIds : []}
+      value={props.filtered ? props.selectedIds : []}
       noOptionsText="ничего не найдено"
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label="Works" placeholder="Чего ищем?" />
@@ -140,7 +140,6 @@ const getState = (state) => {
   return {
     fullIds: state.mainReducer.ids.fullIds,
     fullData: state.mainReducer.fullData,
-    displayedIds: state.mainReducer.ids.displayedIds,
     selectedIds: state.mainReducer.ids.selectedIds,
     filtered: state.mainReducer.dataSpec.filtered,
   };
