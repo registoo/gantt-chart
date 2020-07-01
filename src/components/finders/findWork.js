@@ -114,7 +114,7 @@ function Virtualize(props) {
       disableCloseOnSelect
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={props.totalIds}
+      options={props.fullIds}
       clearOnEscape
       value={props.filtered ? props.displayedIds : []}
       noOptionsText="ничего не найдено"
@@ -138,7 +138,7 @@ function Virtualize(props) {
 }
 const getState = (state) => {
   return {
-    totalIds: state.mainReducer.ids.totalIds,
+    fullIds: state.mainReducer.ids.fullIds,
     fullData: state.mainReducer.fullData,
     displayedIds: state.mainReducer.ids.displayedIds,
     selectedIds: state.mainReducer.ids.selectedIds,

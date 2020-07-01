@@ -76,7 +76,7 @@ const getState = (state) => {
     yScale: state.mainReducer.scales.yScale,
     currentElementsOnPage: state.mainReducer.dataSpec.currentElementsOnPage,
     dataDisplayed: state.mainReducer.slicedData.dataDisplayed,
-    ids: state.mainReducer.ids.totalIds,
+    ids: state.mainReducer.ids.fullIds,
     headerHeight: state.mainReducer.sizesSVG.slider.height,
   };
 };

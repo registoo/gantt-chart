@@ -40,12 +40,12 @@ export default (fullData) => {
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
   );
 
-  const totalIds = fullData.map((d) =>
+  const fullIds = fullData.map((d) =>
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
   );
 
   const selectedData = fullData;
-  const selectedIds = totalIds;
+  const selectedIds = fullIds;
   // колоки данных workList
   const columnsName = () => {
     const col = { ...columns };
@@ -58,7 +58,7 @@ export default (fullData) => {
     slicedData: { dataDisplayed, selectedData },
     sizesSVG,
     workList: { sizesWL, columnsName: { ...columnsName() } },
-    ids: { totalIds, displayedIds, selectedIds },
+    ids: { fullIds, displayedIds, selectedIds },
     dataSpec,
     scales: scales({
       displayedIds,
