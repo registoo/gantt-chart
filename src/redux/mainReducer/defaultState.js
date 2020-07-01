@@ -1,5 +1,6 @@
 import rowHasError from "../../auxFunctions/rowHasError";
-import scales from "./scales";
+import changeScaleX from "./scales/x.js";
+import changeScaleY from "./scales/y.js";
 import columns from "../../data/columns.js";
 import { defaultResizer } from "../../auxFunctions/resizedTypes";
 
@@ -60,12 +61,18 @@ export default (fullData) => {
     workList: { sizesWL, columnsName: { ...columnsName() } },
     ids: { fullIds, displayedIds, selectedIds },
     dataSpec,
-    scales: scales({
-      displayedIds,
-      sizesSVG,
-      dataDisplayed,
-    }),
-    changeScales: scales,
+    scales: {
+      ...changeScaleY({
+        displayedIds,
+        sizesSVG,
+      }),
+      ...changeScaleX({
+        sizesSVG,
+        fullData,
+        dataDisplayed,
+      }),
+      changeScales: { changeScaleX, changeScaleY },
+    },
   };
 
   return result;

@@ -42,14 +42,20 @@ export default function testReducer(state = defaultState(fullData), action) {
     }
 
     case "WHEEL_DATA": {
-      const newScales = state.changeScales({
-        displayedIds: action.displayedIds,
-        dataDisplayed: action.dataDisplayed,
-        sizesSVG: state.sizesSVG,
-      });
+      const newScales = {
+        ...state.scales.changeScales.changeScaleY({
+          displayedIds: action.displayedIds,
+          sizesSVG: state.sizesSVG,
+        }),
+        ...state.scales.changeScales.changeScaleX({
+          dataDisplayed: action.dataDisplayed,
+          sizesSVG: state.sizesSVG,
+          fullData: state.fullData,
+        }),
+      };
       result = {
         ...state,
-        scales: newScales,
+        scales: { ...state.scales, ...newScales },
         slicedData: {
           ...state.slicedData,
           dataDisplayed: action.dataDisplayed,
@@ -66,20 +72,26 @@ export default function testReducer(state = defaultState(fullData), action) {
 
     case "SELECT_DISPLAYED_DATA": {
       if (action.selectedIds.length === 0) {
-        const defState = defaultState(fullData);
+        const defState = defaultState(state.fullData);
         const sizesSVG = {
           ...defState.sizesSVG,
           width: state.sizesSVG.width,
           resizedType: handJob,
         };
-        const newScales = state.changeScales({
-          displayedIds: defState.ids.displayedIds,
-          dataDisplayed: defState.slicedData.dataDisplayed,
-          sizesSVG,
-        });
+        const newScales = {
+          ...state.scales.changeScales.changeScaleY({
+            displayedIds: defState.ids.displayedIds,
+            sizesSVG,
+          }),
+          ...state.scales.changeScales.changeScaleX({
+            dataDisplayed: defState.slicedData.dataDisplayed,
+            sizesSVG,
+            fullData: defState.fullData,
+          }),
+        };
         result = {
           ...defState,
-          scales: newScales,
+          scales: { ...defState.scales, ...newScales },
           sizesSVG,
         };
         console.log(result);
@@ -102,13 +114,17 @@ export default function testReducer(state = defaultState(fullData), action) {
           : currentElementsOnPage * (state.sizesSVG.stringHeight * 1.25);
 
       const sizesSVG = { ...state.sizesSVG, height: heightSVG, resizedType: handJob };
-
-      const newScales = state.changeScales({
-        displayedIds,
-        dataDisplayed,
-        sizesSVG,
-      });
-
+      const newScales = {
+        ...state.scales.changeScales.changeScaleY({
+          displayedIds,
+          sizesSVG,
+        }),
+        ...state.scales.changeScales.changeScaleX({
+          dataDisplayed,
+          sizesSVG,
+          fullData: state.fullData,
+        }),
+      };
       result = {
         ...state,
         sizesSVG,
@@ -118,7 +134,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           selectedData: action.selectedData,
         },
         ids: { ...state.ids, displayedIds, selectedIds: action.selectedIds },
-        scales: newScales,
+        scales: { ...state.scales, ...newScales },
         dataSpec: {
           ...state.dataSpec,
           dataRange,

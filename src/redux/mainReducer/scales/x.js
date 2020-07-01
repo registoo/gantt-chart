@@ -25,8 +25,20 @@ export default function (state) {
     })
     .valueOf();
 
-  const projectStartMS = domainXStartMS;
-  const projectFinishMS = domainXFinishMS;
+  const projectStartMS = d3
+    .min(state.fullData, (d) => {
+      if (rowHasError(d.data)) return null;
+      return moment.utc(d.data.start.dateInMillisecons);
+    })
+    .valueOf();
+
+  const projectFinishMS = d3
+    .max(state.fullData, (d) => {
+      if (rowHasError(d.data)) return null;
+      return moment.utc(d.data.finish.dateInMillisecons);
+    })
+    .add(1, "ms")
+    .valueOf();
 
   const xScale = d3
     .scaleTime()

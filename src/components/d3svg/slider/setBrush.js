@@ -32,8 +32,6 @@ export default function (props) {
       return;
     }
     if (d3.event.sourceEvent) {
-      console.log(selectedDates.map((el) => +moment.utc(drawScales.xScale.invert(el)).format("x")));
-
       selectedDates = d3.event.selection;
       props.changeXRange(
         selectedDates.map((el) => +moment.utc(drawScales.xScale.invert(el)).format("x"))
