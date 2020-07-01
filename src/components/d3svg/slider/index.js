@@ -23,11 +23,12 @@ const getState = (state) => {
   return {
     marginSVG: state.mainReducer.sizesSVG.margin,
     widthSVG: state.mainReducer.sizesSVG.width,
-    xScale: state.mainReducer.scales.xScale,
-    projectStartMS: state.mainReducer.scales.projectStartMS,
-    projectFinishMS: state.mainReducer.scales.projectFinishMS,
-    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
     height: state.mainReducer.sizesSVG.slider.height,
+    xScale: state.mainReducer.scales.xScale,
+    selectedStartMS: state.mainReducer.scales.selectedStartMS,
+    selectedFinishMS: state.mainReducer.scales.selectedFinishMS,
+    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
+    selectedIds: state.mainReducer.ids.selectedIds,
   };
 };
 

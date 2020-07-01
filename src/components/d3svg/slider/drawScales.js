@@ -1,10 +1,10 @@
 import * as d3 from "d3";
 
 export default (props) => {
-  const pixelsInOneDay = props.getPixelsInOneDay(props.projectStartMS, props.projectFinishMS);
+  const pixelsInOneDay = props.getPixelsInOneDay(props.selectedStartMS, props.selectedFinishMS);
   const xScale = d3
     .scaleTime()
-    .domain([props.projectStartMS, props.projectFinishMS])
+    .domain([props.selectedStartMS, props.selectedFinishMS])
     .range([0, props.widthSVG - props.marginSVG.left - props.marginSVG.right]);
   const xAxis = d3
     .axisBottom()

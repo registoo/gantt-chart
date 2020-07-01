@@ -9,7 +9,7 @@ const DrawBrush = (props) => {
   const x0 = 0;
   const x1 = props.widthSVG - props.marginSVG.right - props.marginSVG.left;
 
-  const arr = [...props.dataDisplayed].map((d) => {
+  const arr = [...props.displayedData].map((d) => {
     if (rowHasError(d.data)) return <g key={keyGenerator(d.id)}></g>;
 
     const y0 = props.yScale(d.id);
@@ -48,7 +48,7 @@ const getState = (state) => {
   return {
     widthSVG: state.mainReducer.sizesSVG.width,
     marginSVG: state.mainReducer.sizesSVG.margin,
-    dataDisplayed: state.mainReducer.slicedData.dataDisplayed,
+    displayedData: state.mainReducer.slicedData.displayedData,
     yScale: state.mainReducer.scales.yScale,
     xScale: state.mainReducer.scales.xScale,
   };

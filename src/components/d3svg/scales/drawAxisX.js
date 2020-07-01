@@ -5,7 +5,10 @@ import { connect } from "react-redux";
 const DrawAxisX = (props) => {
   const addSomething = useCallback(
     (node) => {
-      const pixelsInOneDay = props.getPixelsInOneDay(props.domainXStartMS, props.domainXFinishMS);
+      const pixelsInOneDay = props.getPixelsInOneDay(
+        props.displayedStartMS,
+        props.displayedFinishMS
+      );
 
       if (node !== null) {
         const currentNode = d3.select(node);
@@ -53,8 +56,8 @@ const getState = (state) => {
     widthSVG: state.mainReducer.sizesSVG.width,
     heightSVG: state.mainReducer.sizesSVG.height,
     marginSVG: state.mainReducer.sizesSVG.margin,
-    domainXStartMS: state.mainReducer.scales.domainXStartMS,
-    domainXFinishMS: state.mainReducer.scales.domainXFinishMS,
+    displayedStartMS: state.mainReducer.scales.displayedStartMS,
+    displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
     getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
   };
 };

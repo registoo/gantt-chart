@@ -12,7 +12,7 @@ const DrawRect = (props) => {
     props.xScale(d.start.dateInMillisecons);
   const id = (d) => `Rabota ${d.id} rect`;
 
-  const arr = [...props.dataDisplayed].map((d) => {
+  const arr = [...props.displayedData].map((d) => {
     if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
     return (
       <rect
@@ -37,7 +37,7 @@ const getState = (state) => {
   return {
     xScale: state.mainReducer.scales.xScale,
     yScale: state.mainReducer.scales.yScale,
-    dataDisplayed: state.mainReducer.slicedData.dataDisplayed,
+    displayedData: state.mainReducer.slicedData.displayedData,
     marginSVG: state.mainReducer.sizesSVG.margin,
   };
 };

@@ -16,9 +16,9 @@ export default (fullData) => {
     filtered: false,
   };
 
-  const dataDisplayed = fullData.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
+  const displayedData = fullData.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
   const stringHeight = 35;
-  const heightSVG = dataDisplayed.length * (stringHeight * 1.25);
+  const heightSVG = displayedData.length * (stringHeight * 1.25);
   const marginSVG = {
     top: 0,
     right: 0,
@@ -37,7 +37,7 @@ export default (fullData) => {
   };
   const sizesWL = { width: 0, height: heightSVG };
 
-  const displayedIds = dataDisplayed.map((d) =>
+  const displayedIds = displayedData.map((d) =>
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
   );
 
@@ -56,7 +56,7 @@ export default (fullData) => {
 
   const result = {
     fullData,
-    slicedData: { dataDisplayed, selectedData },
+    slicedData: { displayedData, selectedData },
     sizesSVG,
     workList: { sizesWL, columnsName: { ...columnsName() } },
     ids: { fullIds, displayedIds, selectedIds },
@@ -69,7 +69,8 @@ export default (fullData) => {
       ...changeScaleX({
         sizesSVG,
         fullData,
-        dataDisplayed,
+        displayedData,
+        selectedData,
       }),
       changeScales: { changeScaleX, changeScaleY },
     },

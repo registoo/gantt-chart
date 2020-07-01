@@ -4,7 +4,7 @@ import keyGenerator from "../../../auxFunctions/keyGenerator.js";
 import dataTemplate from "./dataTemplate.js";
 
 function App(props) {
-  const data = props.dataDisplayed
+  const data = props.displayedData
     .map((el) => dataTemplate(el.data))
     .map((el, i) => {
       return (
@@ -75,7 +75,7 @@ const getState = (state) => {
   return {
     yScale: state.mainReducer.scales.yScale,
     currentElementsOnPage: state.mainReducer.dataSpec.currentElementsOnPage,
-    dataDisplayed: state.mainReducer.slicedData.dataDisplayed,
+    displayedData: state.mainReducer.slicedData.displayedData,
     ids: state.mainReducer.ids.fullIds,
     headerHeight: state.mainReducer.sizesSVG.slider.height,
   };

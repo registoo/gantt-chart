@@ -9,8 +9,8 @@ export default function testReducer(state = defaultState(fullData), action) {
       const setXScaleWidth = state.scales.aux.setWidthOfHorizontalScale({
         widthSVG: action.svgWidth,
         marginSVG: state.sizesSVG.margin,
-        domainXStartMS: state.scales.domainXStartMS,
-        domainXFinishMS: state.scales.domainXFinishMS,
+        displayedStartMS: state.scales.displayedStartMS,
+        displayedFinishMS: state.scales.displayedFinishMS,
         xScaleMinCoordinate: state.scales.xScaleMinCoordinate,
       });
       result = {
@@ -47,18 +47,13 @@ export default function testReducer(state = defaultState(fullData), action) {
           displayedIds: action.displayedIds,
           sizesSVG: state.sizesSVG,
         }),
-        ...state.scales.changeScales.changeScaleX({
-          dataDisplayed: action.dataDisplayed,
-          sizesSVG: state.sizesSVG,
-          fullData: state.fullData,
-        }),
       };
       result = {
         ...state,
         scales: { ...state.scales, ...newScales },
         slicedData: {
           ...state.slicedData,
-          dataDisplayed: action.dataDisplayed,
+          displayedData: action.displayedData,
         },
         ids: { ...state.ids, displayedIds: action.displayedIds },
         dataSpec: {
@@ -84,8 +79,9 @@ export default function testReducer(state = defaultState(fullData), action) {
             sizesSVG,
           }),
           ...state.scales.changeScales.changeScaleX({
-            dataDisplayed: defState.slicedData.dataDisplayed,
             sizesSVG,
+            displayedData: defState.slicedData.displayedData,
+            selectedData: defState.slicedData.selectedData,
             fullData: defState.fullData,
           }),
         };
@@ -106,7 +102,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           ? { start: 0, finish: 12 }
           : { start: 0, finish: 0 };
       const displayedIds = action.selectedIds.slice(0, currentElementsOnPage);
-      const dataDisplayed = action.selectedData.slice(0, currentElementsOnPage);
+      const displayedData = action.selectedData.slice(0, currentElementsOnPage);
       const wheeled = !(action.selectedIds.length <= state.dataSpec.maxElementsOnPage);
       const heightSVG =
         currentElementsOnPage >= state.dataSpec.maxElementsOnPage
@@ -120,17 +116,19 @@ export default function testReducer(state = defaultState(fullData), action) {
           sizesSVG,
         }),
         ...state.scales.changeScales.changeScaleX({
-          dataDisplayed,
           sizesSVG,
+          selectedData: action.selectedData,
           fullData: state.fullData,
+          displayedData,
         }),
       };
+
       result = {
         ...state,
         sizesSVG,
         slicedData: {
           ...state.slicedData,
-          dataDisplayed: dataDisplayed,
+          displayedData: displayedData,
           selectedData: action.selectedData,
         },
         ids: { ...state.ids, displayedIds, selectedIds: action.selectedIds },

@@ -24,7 +24,7 @@ export const setWheeledData = (data) => {
   return {
     type: "WHEEL_DATA",
     displayedIds: data.displayedIds,
-    dataDisplayed: data.dataDisplayed,
+    displayedData: data.displayedData,
     dataRange: data.dataRange,
   };
 };

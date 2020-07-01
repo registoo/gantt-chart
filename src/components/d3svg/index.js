@@ -19,14 +19,14 @@ function Gantt(props) {
         }
         const finish = state.finish + 1;
         const start = finish - props.dataSpec.currentElementsOnPage;
-        const dataDisplayed = props.selectedData.slice(start, finish);
-        const displayedIds = dataDisplayed.map((d) =>
+        const displayedData = props.selectedData.slice(start, finish);
+        const displayedIds = displayedData.map((d) =>
           rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
           displayedIds: displayedIds,
-          dataDisplayed: dataDisplayed,
+          displayedData: displayedData,
           dataRange: { start: start, finish: finish },
         });
         break;
@@ -37,14 +37,14 @@ function Gantt(props) {
         }
         const start = state.start - 1;
         const finish = start + props.dataSpec.currentElementsOnPage;
-        const dataDisplayed = props.selectedData.slice(start, finish);
-        const displayedIds = dataDisplayed.map((d) =>
+        const displayedData = props.selectedData.slice(start, finish);
+        const displayedIds = displayedData.map((d) =>
           rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
           displayedIds: displayedIds,
-          dataDisplayed: dataDisplayed,
+          displayedData: displayedData,
           dataRange: { start: start, finish: finish },
         });
         break;

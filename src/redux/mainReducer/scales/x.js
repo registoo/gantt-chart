@@ -10,16 +10,16 @@ export default function (state) {
     state.sizesSVG.width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
   const xScaleMinCoordinate = 0;
 
-  const domainXFinishMS = d3
-    .max(state.dataDisplayed, (d) => {
+  const displayedFinishMS = d3
+    .max(state.displayedData, (d) => {
       if (rowHasError(d.data)) return null;
       return moment.utc(d.data.finish.dateInMillisecons);
     })
     .add(1, "ms")
     .valueOf();
 
-  const domainXStartMS = d3
-    .min(state.dataDisplayed, (d) => {
+  const displayedStartMS = d3
+    .min(state.displayedData, (d) => {
       if (rowHasError(d.data)) return null;
       return moment.utc(d.data.start.dateInMillisecons);
     })
@@ -40,9 +40,24 @@ export default function (state) {
     .add(1, "ms")
     .valueOf();
 
+  const selectedFinishMS = d3
+    .max(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
+      if (rowHasError(d.data)) return null;
+      return moment.utc(d.data.finish.dateInMillisecons);
+    })
+    .add(1, "ms")
+    .valueOf();
+
+  const selectedStartMS = d3
+    .min(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
+      if (rowHasError(d.data)) return null;
+      return moment.utc(d.data.start.dateInMillisecons);
+    })
+    .valueOf();
+
   const xScale = d3
     .scaleTime()
-    .domain([domainXStartMS, domainXFinishMS])
+    .domain([displayedStartMS, displayedFinishMS])
     .range([xScaleMinCoordinate, xScaleMaxCoordinate]);
 
   const xAxis = d3.axisBottom().scale(xScale);
@@ -50,40 +65,42 @@ export default function (state) {
   const setWidthOfHorizontalScale = ({
     widthSVG,
     marginSVG,
-    domainXStartMS,
-    domainXFinishMS,
+    displayedStartMS,
+    displayedFinishMS,
     xScaleMinCoordinate,
   }) => {
     const xScaleMaxCoordinate = widthSVG - marginSVG.left - marginSVG.right;
     const xScale = d3
       .scaleTime()
-      .domain([domainXStartMS, domainXFinishMS])
+      .domain([displayedStartMS, displayedFinishMS])
       .range([xScaleMinCoordinate, xScaleMaxCoordinate]);
     const xAxis = d3.axisBottom().scale(xScale);
     return { xScaleMaxCoordinate, xScale, xAxis };
   };
 
   const setXRange = (startMS, finishMS, state) => {
-    const domainXStartMS = startMS;
-    const domainXFinishMS = finishMS;
+    const displayedStartMS = startMS;
+    const displayedFinishMS = finishMS;
     const xScale = d3
       .scaleTime()
-      .domain([domainXStartMS, domainXFinishMS])
+      .domain([displayedStartMS, displayedFinishMS])
       .range([state.scales.xScaleMinCoordinate, state.scales.xScaleMaxCoordinate]);
     const xAxis = d3.axisBottom().scale(xScale);
 
-    return { xScale, xAxis, domainXStartMS, domainXFinishMS };
+    return { xScale, xAxis, displayedStartMS, displayedFinishMS };
   };
 
   return {
     xScale,
     xAxis,
-    domainXFinishMS,
-    domainXStartMS,
+    displayedFinishMS,
+    displayedStartMS,
     xScaleMaxCoordinate,
     xScaleMinCoordinate,
     projectStartMS,
     projectFinishMS,
+    selectedStartMS,
+    selectedFinishMS,
     aux: { setWidthOfHorizontalScale, setXRange, getPixelsInOneDay },
   };
 }
