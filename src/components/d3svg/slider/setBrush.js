@@ -32,13 +32,12 @@ export default function (props) {
       return;
     }
     if (d3.event.sourceEvent) {
-      const s = Date.now();
+      console.log(selectedDates.map((el) => +moment.utc(drawScales.xScale.invert(el)).format("x")));
 
       selectedDates = d3.event.selection;
       props.changeXRange(
         selectedDates.map((el) => +moment.utc(drawScales.xScale.invert(el)).format("x"))
       );
-      console.log("timer:", Date.now() - s);
     }
   };
 

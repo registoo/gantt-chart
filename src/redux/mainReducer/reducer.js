@@ -3,6 +3,7 @@ import defaultState from "./defaultState.js";
 import { handJob } from "../../auxFunctions/resizedTypes";
 
 export default function testReducer(state = defaultState(fullData), action) {
+  let result;
   switch (action.type) {
     case "SET_SVG_WIDTH": {
       const setXScaleWidth = state.scales.aux.setWidthOfHorizontalScale({
@@ -12,7 +13,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         domainXFinishMS: state.scales.domainXFinishMS,
         xScaleMinCoordinate: state.scales.xScaleMinCoordinate,
       });
-      const result = {
+      result = {
         ...state,
         sizesSVG: {
           ...state.sizesSVG,
@@ -21,6 +22,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         },
         scales: { ...state.scales, ...setXScaleWidth },
       };
+      console.log(result);
       return result;
     }
     case "SET_RESIZER_TYPE": {
@@ -31,10 +33,12 @@ export default function testReducer(state = defaultState(fullData), action) {
     }
     case "CHANGE_SVG_RANGE": {
       const setXScaleRange = state.scales.aux.setXRange(action.start, action.finish, state);
-      return {
+      result = {
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
+      console.log(result);
+      return result;
     }
 
     case "WHEEL_DATA": {
@@ -43,7 +47,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         dataDisplayed: action.dataDisplayed,
         sizesSVG: state.sizesSVG,
       });
-      return {
+      result = {
         ...state,
         scales: newScales,
         slicedData: {
@@ -56,6 +60,8 @@ export default function testReducer(state = defaultState(fullData), action) {
           dataRange: action.dataRange,
         },
       };
+      console.log(result);
+      return result;
     }
 
     case "SELECT_DISPLAYED_DATA": {
@@ -71,11 +77,13 @@ export default function testReducer(state = defaultState(fullData), action) {
           dataDisplayed: defState.slicedData.dataDisplayed,
           sizesSVG,
         });
-        return {
+        result = {
           ...defState,
           scales: newScales,
           sizesSVG,
         };
+        console.log(result);
+        return result;
       }
       const currentElementsOnPage =
         action.selectedIds.length >= state.dataSpec.maxElementsOnPage
@@ -101,7 +109,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         sizesSVG,
       });
 
-      const result = {
+      result = {
         ...state,
         sizesSVG,
         slicedData: {
@@ -119,7 +127,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           filtered: action.filtered,
         },
       };
-
+      console.log(result);
       return result;
     }
     default:
