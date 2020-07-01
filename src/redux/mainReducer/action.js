@@ -17,6 +17,7 @@ export const setDisplayedData = (data) => {
     type: "SELECT_DISPLAYED_DATA",
     selectedIds: data.selectedIds,
     selectedData: data.selectedData,
+    filtered: data.filtered,
   };
 };
 export const setWheeledData = (data) => {

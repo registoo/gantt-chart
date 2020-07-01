@@ -12,6 +12,7 @@ export default (fullData) => {
     currentElementsOnPage: maxElementsOnPage,
     maxElementsOnPage,
     wheeled: true,
+    filtered: false,
   };
 
   const dataDisplayed = fullData.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);

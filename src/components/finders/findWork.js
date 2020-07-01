@@ -98,10 +98,11 @@ function Virtualize(props) {
           return false;
         })
       );
-      props.setDisplayedData({ selectedData, selectedIds: arr });
+      props.setDisplayedData({ selectedData, selectedIds: arr, filtered: true });
       return;
     }
-    props.setDisplayedData({ selectedIds: arr });
+    // посылает пустой массив для сброса фильтра
+    props.setDisplayedData({ selectedIds: arr, filtered: false });
   }
 
   return (
@@ -113,9 +114,12 @@ function Virtualize(props) {
       disableCloseOnSelect
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={props.ids}
+      options={props.totalIds}
+      clearOnEscape
+      value={props.filtered ? props.displayedIds : []}
+      noOptionsText="ничего не найдено"
       renderInput={(params) => (
-        <TextField {...params} variant="outlined" label="KKS" placeholder="Favorites" />
+        <TextField {...params} variant="outlined" label="Works" placeholder="Чего ищем?" />
       )}
       onChange={onChangeFunction}
       renderOption={(option, { selected }) => (
@@ -134,8 +138,11 @@ function Virtualize(props) {
 }
 const getState = (state) => {
   return {
-    ids: state.mainReducer.ids.totalIds,
+    totalIds: state.mainReducer.ids.totalIds,
     fullData: state.mainReducer.fullData,
+    displayedIds: state.mainReducer.ids.displayedIds,
+    selectedIds: state.mainReducer.ids.selectedIds,
+    filtered: state.mainReducer.dataSpec.filtered,
   };
 };
 export default connect(getState, { setDisplayedData })(Virtualize);

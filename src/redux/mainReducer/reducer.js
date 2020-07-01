@@ -116,6 +116,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           dataRange,
           currentElementsOnPage,
           wheeled,
+          filtered: action.filtered,
         },
       };
 
