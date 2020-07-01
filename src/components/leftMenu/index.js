@@ -3,7 +3,7 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import StorageIcon from "@material-ui/icons/Storage";
 import DateRangeIcon from "@material-ui/icons/DateRange";
-import Search from "../finders/findWork.js";
+import Search from "./findWork.js";
 import DateFilter from "./dateFilter.js";
 
 const variants = {
