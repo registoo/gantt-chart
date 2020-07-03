@@ -10,39 +10,38 @@ export default function (state) {
     state.sizesSVG.width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
   const xScaleMinCoordinate = 0;
 
-  const displayedFinishMS = d3
-    .max(state.displayedData, (d) => {
-      if (rowHasError(d.data)) return null;
-      return moment.utc(d.data.finish.dateInMillisecons);
-    })
-    .add(1, "ms")
-    .valueOf();
+  const displayedFinishMS0 = d3.max(state.displayedData, (d) => {
+    if (rowHasError(d.data)) return moment.utc().endOf("day");
+    return moment.utc(d.data.finish.dateInMillisecons);
+  });
 
-  const displayedStartMS = d3
-    .min(state.displayedData, (d) => {
-      if (rowHasError(d.data)) return null;
-      return moment.utc(d.data.start.dateInMillisecons);
-    })
-    .valueOf();
+  const displayedStartMS0 = d3.min(state.displayedData, (d) => {
+    if (rowHasError(d.data)) return moment.utc().endOf("day");
+    return moment.utc(d.data.start.dateInMillisecons);
+  });
 
-  const projectStartMS = d3
-    .min(state.fullData, (d) => {
-      if (rowHasError(d.data)) return null;
-      return moment.utc(d.data.start.dateInMillisecons);
-    })
-    .valueOf();
+  const projectStartMS0 = d3.min(state.fullData, (d) => {
+    if (rowHasError(d.data)) return null;
+    return moment.utc(d.data.start.dateInMillisecons);
+  });
 
-  const projectFinishMS = d3
-    .max(state.fullData, (d) => {
-      if (rowHasError(d.data)) return null;
-      return moment.utc(d.data.finish.dateInMillisecons);
-    })
-    .add(1, "ms")
-    .valueOf();
+  const projectFinishMS0 = d3.max(state.fullData, (d) => {
+    if (rowHasError(d.data)) return null;
+    return moment.utc(d.data.finish.dateInMillisecons);
+  });
+
+  const displayedFinishMS = displayedFinishMS0
+    ? displayedFinishMS0.add(1, "ms").valueOf()
+    : displayedFinishMS0;
+  const projectFinishMS = projectFinishMS0
+    ? projectFinishMS0.add(1, "ms").valueOf()
+    : projectFinishMS0;
+  const displayedStartMS = displayedStartMS0 ? displayedStartMS0.valueOf() : displayedStartMS0;
+  const projectStartMS = projectStartMS0 ? projectStartMS0.valueOf() : projectStartMS0;
 
   const selectedFinishMS = d3
     .max(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
-      if (rowHasError(d.data)) return null;
+      if (rowHasError(d.data)) return moment.utc().endOf("day");
       return moment.utc(d.data.finish.dateInMillisecons);
     })
     .add(1, "ms")
@@ -50,7 +49,7 @@ export default function (state) {
 
   const selectedStartMS = d3
     .min(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
-      if (rowHasError(d.data)) return null;
+      if (rowHasError(d.data)) return moment.utc().endOf("day");
       return moment.utc(d.data.start.dateInMillisecons);
     })
     .valueOf();

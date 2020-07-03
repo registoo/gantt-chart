@@ -4,10 +4,11 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import { VariableSizeList } from "react-window";
 import { connect } from "react-redux";
-import { setDisplayedData } from "../../redux/mainReducer/action";
+import { setFilter } from "../../redux/mainReducer/action";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Checkbox from "@material-ui/core/Checkbox";
+import filtersTypes from "../../redux/mainReducer/dataFilters/typesOfFilters.js";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -94,15 +95,22 @@ function Virtualize(props) {
     if (arr.length) {
       const selectedData = arr.map((el) =>
         props.fullData.find((e, i) => {
+          if (e.data.isError && el === e.data.isError.formattedText) return true;
           if (el === e.id) return true;
           return false;
         })
       );
-      props.setDisplayedData({ selectedData, selectedIds: arr, filtered: true });
-      return;
+      props.setFilter({
+        filterType: filtersTypes.filterByWorks,
+        attr: { selectedData, selectedIds: arr },
+      });
+    } else {
+      // посылает пустой массив для сброса фильтра
+      props.setFilter({
+        filterType: filtersTypes.filterByWorks,
+        attr: { selectedIds: arr, selectedData: [] },
+      });
     }
-    // посылает пустой массив для сброса фильтра
-    props.setDisplayedData({ selectedIds: arr, filtered: false });
   }
 
   return (
@@ -116,7 +124,7 @@ function Virtualize(props) {
       ListboxComponent={ListboxComponent}
       options={props.fullIds}
       clearOnEscape
-      value={props.filtered ? props.selectedIds : []}
+      value={props.filterByWorks ? props.selectedIds : []}
       noOptionsText="ничего не найдено"
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label="Works" placeholder="Чего ищем?" />
@@ -141,7 +149,7 @@ const getState = (state) => {
     fullIds: state.mainReducer.ids.fullIds,
     fullData: state.mainReducer.fullData,
     selectedIds: state.mainReducer.ids.selectedIds,
-    filtered: state.mainReducer.dataSpec.filtered,
+    filterByWorks: state.mainReducer.dataSpec.filters.filtersIds.filterByWorks,
   };
 };
-export default connect(getState, { setDisplayedData })(Virtualize);
+export default connect(getState, { setFilter })(Virtualize);

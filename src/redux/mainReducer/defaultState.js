@@ -3,19 +3,26 @@ import changeScaleX from "./scales/x.js";
 import changeScaleY from "./scales/y.js";
 import columns from "../../data/columns.js";
 import { defaultResizer } from "../../auxFunctions/resizedTypes";
+import typesOfFilters from "./dataFilters/typesOfFilters.js";
 
 export default (fullData) => {
   // количетсво строк данных
   const maxElementsOnPage = 12;
-  const startData = 0;
+  const startDataForDataRange = 0;
   const dataSpec = {
-    dataRange: { start: startData, finish: startData + maxElementsOnPage },
+    dataRange: { start: startDataForDataRange, finish: startDataForDataRange + maxElementsOnPage },
     currentElementsOnPage: maxElementsOnPage,
     maxElementsOnPage,
     wheeled: true,
-    filtered: false,
+    startDataForDataRange,
+    filters: {
+      filtersIds: Object.keys(typesOfFilters).reduce((acc, el) => {
+        acc[el] = false;
+        return acc;
+      }, {}),
+      serializedFilters: [],
+    },
   };
-
   const displayedData = fullData.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
   const stringHeight = 35;
   const heightSVG = displayedData.length * (stringHeight * 1.25);

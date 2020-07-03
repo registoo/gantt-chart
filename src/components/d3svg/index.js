@@ -1,10 +1,11 @@
 import { connect } from "react-redux";
 import DrawFigures from "./drawFigures";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import DrawScales from "./scales";
 import Slider from "./slider";
 import { setWheeledData } from "../../redux/mainReducer/action";
 import { rowHasError } from "../../auxFunctions";
+import * as d3 from "d3";
 
 function Gantt(props) {
   const ref1 = useRef(null);
@@ -63,14 +64,30 @@ function Gantt(props) {
     }
   });
   // окончание прокрутки колёсиким
-
+  const data = () => {
+    if (props.selectedIds.length === 0 || !props.displayedStartMS || !props.displayedFinishMS) {
+      return (
+        <svg width="100%" height="100%" id="chart">
+          <text y="20" fontFamily="sans-serif" fontSize="20px" fill="red">
+            Ничего не найдено
+          </text>
+        </svg>
+      );
+    } else {
+      return (
+        <Fragment>
+          <Slider />
+          <svg width="100%" height={props.heightSVG} id="chart">
+            <DrawScales />
+            <DrawFigures />
+          </svg>
+        </Fragment>
+      );
+    }
+  };
   return (
     <div style={{ display: "flex", flexDirection: "column", width: props.widthSVG }} ref={ref1}>
-      <Slider />
-      <svg width="100%" height={props.heightSVG} id="chart">
-        <DrawScales />
-        <DrawFigures />
-      </svg>
+      {data()}
     </div>
   );
 }
@@ -81,6 +98,8 @@ const getState = (state) => {
     dataSpec: state.mainReducer.dataSpec,
     selectedIds: state.mainReducer.ids.selectedIds,
     selectedData: state.mainReducer.slicedData.selectedData,
+    displayedStartMS: state.mainReducer.scales.displayedStartMS,
+    displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
   };
 };
 

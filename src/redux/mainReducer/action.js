@@ -12,19 +12,35 @@ export const changeXRange = (selection) => {
     finish: selection[1],
   };
 };
-export const setDisplayedData = (data) => {
-  return {
-    type: "SELECT_DISPLAYED_DATA",
-    selectedIds: data.selectedIds,
-    selectedData: data.selectedData,
-    filtered: data.filtered,
-  };
-};
 export const setWheeledData = (data) => {
   return {
     type: "WHEEL_DATA",
     displayedIds: data.displayedIds,
     displayedData: data.displayedData,
     dataRange: data.dataRange,
+  };
+};
+export const filterByDates = (data) => {
+  return {
+    type: "FILTER_DATA_BY_DATE",
+    start: data.start,
+    finish: data.finish,
+    filteredByDate: data.filteredByDate,
+  };
+};
+
+export const setFilter = (data) => {
+  return {
+    type: "SERIALIZE_FILTERS",
+    attr: data.attr,
+    filterType: data.filterType,
+  };
+};
+
+export const setDisplayedData = (data) => {
+  return {
+    type: "SELECT_DISPLAYED_DATA",
+    selectedIds: data.selectedIds,
+    selectedData: data.selectedData,
   };
 };
