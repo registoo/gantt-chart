@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { filterByDates } from "../../redux/mainReducer/action";
+import { setFilter } from "../../redux/mainReducer/action";
 import Typography from "@material-ui/core/Typography";
 import moment from "moment";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
+import filtersTypes from "../../redux/mainReducer/dataFilters/typesOfFilters.js";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -81,17 +82,15 @@ function DatePickers(props) {
           setState({ ...state, start });
 
           if (state.initialDate.start === start && state.initialDate.finish === state.finish) {
-            props.filterByDates({
-              start,
-              finish: state.finish,
-              filteredByDate: false,
+            props.setFilter({
+              attr: { start, finish: state.finish },
+              filterType: filtersTypes.filterByStartDate,
             });
             return;
           }
-          props.filterByDates({
-            start,
-            finish: state.finish,
-            filteredByDate: true,
+          props.setFilter({
+            attr: { start, finish: state.finish },
+            filterType: filtersTypes.filterByStartDate,
           });
         }}
       />
@@ -118,4 +117,4 @@ const getState = (state) => {
     start: state.mainReducer.scales.selectedStartMS,
   };
 };
-export default connect(getState, { filterByDates })(DatePickers);
+export default connect(getState, { setFilter })(DatePickers);

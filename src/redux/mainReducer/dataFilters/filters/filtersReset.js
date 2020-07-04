@@ -40,6 +40,7 @@ export default (state) => {
       displayedData,
     }),
   };
+
   return {
     ...state,
     sizesSVG,
@@ -48,7 +49,7 @@ export default (state) => {
       displayedData,
       selectedData,
     },
-    ids: { ...state.ids, displayedIds, selectedIds },
+    ids: { ...state.ids, displayedIds, selectedIds, filteredIds: [] },
     scales: { ...state.scales, ...newScales },
     dataSpec,
   };

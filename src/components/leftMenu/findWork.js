@@ -124,7 +124,7 @@ function Virtualize(props) {
       ListboxComponent={ListboxComponent}
       options={props.fullIds}
       clearOnEscape
-      value={props.filterByWorks ? props.selectedIds : []}
+      value={props.filteredIds}
       noOptionsText="ничего не найдено"
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label="Works" placeholder="Чего ищем?" />
@@ -149,7 +149,7 @@ const getState = (state) => {
     fullIds: state.mainReducer.ids.fullIds,
     fullData: state.mainReducer.fullData,
     selectedIds: state.mainReducer.ids.selectedIds,
-    filterByWorks: state.mainReducer.dataSpec.filters.filtersIds.filterByWorks,
+    filteredIds: state.mainReducer.ids.filteredIds,
   };
 };
 export default connect(getState, { setFilter })(Virtualize);

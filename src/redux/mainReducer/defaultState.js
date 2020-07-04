@@ -66,7 +66,7 @@ export default (fullData) => {
     slicedData: { displayedData, selectedData },
     sizesSVG,
     workList: { sizesWL, columnsName: { ...columnsName() } },
-    ids: { fullIds, displayedIds, selectedIds },
+    ids: { fullIds, displayedIds, selectedIds, filteredIds: [] },
     dataSpec,
     scales: {
       ...changeScaleY({

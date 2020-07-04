@@ -36,11 +36,3 @@ export const setFilter = (data) => {
     filterType: data.filterType,
   };
 };
-
-export const setDisplayedData = (data) => {
-  return {
-    type: "SELECT_DISPLAYED_DATA",
-    selectedIds: data.selectedIds,
-    selectedData: data.selectedData,
-  };
-};

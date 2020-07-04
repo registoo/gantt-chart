@@ -37,17 +37,18 @@ export default (state, attr) => {
       displayedData,
       selectedData: attr.selectedData,
     },
-    ids: { ...state.ids, displayedIds, selectedIds: attr.selectedIds },
+    ids: {
+      ...state.ids,
+      displayedIds,
+      selectedIds: attr.selectedIds,
+      filteredIds: attr.selectedIds,
+    },
     scales: { ...state.scales, ...newScales },
     dataSpec: {
       ...state.dataSpec,
       dataRange,
       currentElementsOnPage,
       wheeled,
-      filters: {
-        ...state.dataSpec.filters,
-        filtersIds: { ...state.dataSpec.filters.filtersIds },
-      },
     },
   };
 };
