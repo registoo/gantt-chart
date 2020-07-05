@@ -21,6 +21,9 @@ export default (fullData) => {
         return acc;
       }, {}),
       serializedFilters: [],
+      pickedWorksIds: [],
+      filteredData: [],
+      filteredIds: [],
     },
   };
   const displayedData = fullData.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
@@ -66,7 +69,7 @@ export default (fullData) => {
     slicedData: { displayedData, selectedData },
     sizesSVG,
     workList: { sizesWL, columnsName: { ...columnsName() } },
-    ids: { fullIds, displayedIds, selectedIds, filteredIds: [] },
+    ids: { fullIds, displayedIds, selectedIds },
     dataSpec,
     scales: {
       ...changeScaleY({

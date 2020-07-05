@@ -10,6 +10,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import filtersTypes from "../../redux/mainReducer/dataFilters/typesOfFilters.js";
+import Button from "@material-ui/core/Button";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import SettingsBackupRestoreIcon from "@material-ui/icons/SettingsBackupRestore";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import SlideshowIcon from "@material-ui/icons/Slideshow";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,66 +55,214 @@ function DatePickers(props) {
   const classes = useStyles();
 
   return (
-    // <List component="nav" className={classes.root} aria-label="mailbox folders">
-    //   <ListItem>
-    //     <ListItemText primary="Inbox" />
-    //   </ListItem>
-    //   <Divider />
-    //   <ListItem divider>
-    //     <ListItemText primary="Drafts" />
-    //   </ListItem>
-    //   <ListItem>
-    //     <ListItemText primary="Trash" />
-    //   </ListItem>
-    //   <Divider light />
-    //   <ListItem>
-    //     <ListItemText primary="Spam" />
-    //   </ListItem>
-    // </List>
-    <form className={classes.container} noValidate>
-      <div className={classes.labelField}>
-        <Typography variant="subtitle2">Start</Typography>
-      </div>
-      <TextField
-        id="date-picker-start"
-        label="с"
-        type="date"
-        defaultValue={moment.utc(props.start).format("YYYY-MM-DD")}
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={(e) => {
-          const start = moment.utc(e.target.value).valueOf();
-          setState({ ...state, start });
+    <List component="nav" className={classes.root} aria-label="mailbox folders">
+      <ListItem id="listDateStart">
+        <ListItemIcon>
+          <Tooltip title="сброс дат">
+            <IconButton
+              aria-label="refresh"
+              onClick={() =>
+                props.setFilter({
+                  attr: { start: 0, finish: 0 },
+                  filterType: filtersTypes.filterByStartDate,
+                })
+              }
+            >
+              <SettingsBackupRestoreIcon />
+            </IconButton>
+          </Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Start" />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TextField
+            id="date-picker-start"
+            inputProps={{
+              min: moment.utc(props.start).format("YYYY-MM-DD"),
+              max: moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD"),
+            }}
+            label="с"
+            type="date"
+            defaultValue={moment.utc(props.start).format("YYYY-MM-DD")}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={(e) => {
+              const start = moment.utc(e.target.value).valueOf();
+              setState({ ...state, start });
+            }}
+          />
+          <TextField
+            id="date-picker-finish"
+            inputProps={{
+              min: moment.utc(props.start).format("YYYY-MM-DD"),
+              max: moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD"),
+            }}
+            label="по"
+            type="date"
+            defaultValue={moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD")}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={(e) => {
+              const finish = moment.utc(e.target.value).valueOf();
+              setState({ ...state, finish });
+            }}
+          />
+        </div>
+        <ListItemIcon>
+          <Tooltip title="применить">
+            <IconButton
+              color="primary"
+              aria-label="apply dates"
+              onClick={() =>
+                props.setFilter({
+                  attr: { start: state.start, finish: state.finish },
+                  filterType: filtersTypes.filterByStartDate,
+                })
+              }
+            >
+              <SlideshowIcon />
+            </IconButton>
+          </Tooltip>
+        </ListItemIcon>
+      </ListItem>
+      <Divider />
+      <ListItem id="listDateFinish">
+        <ListItemIcon>
+          <Tooltip title="сброс дат">
+            <IconButton
+              aria-label="refresh"
+              onClick={() =>
+                props.setFilter({
+                  attr: { start: 0, finish: 0 },
+                  filterType: filtersTypes.filterByStartDate,
+                })
+              }
+            >
+              <SettingsBackupRestoreIcon />
+            </IconButton>
+          </Tooltip>
+        </ListItemIcon>
+        <ListItemText primary="Finish" />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TextField
+            id="date-picker-start"
+            inputProps={{
+              min: moment.utc(props.start).format("YYYY-MM-DD"),
+              max: moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD"),
+            }}
+            label="с"
+            type="date"
+            defaultValue={moment.utc(props.start).format("YYYY-MM-DD")}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={(e) => {
+              const start = moment.utc(e.target.value).valueOf();
+              setState({ ...state, start });
+            }}
+          />
+          <TextField
+            id="date-picker-finish"
+            inputProps={{
+              min: moment.utc(props.start).format("YYYY-MM-DD"),
+              max: moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD"),
+            }}
+            label="по"
+            type="date"
+            defaultValue={moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD")}
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={(e) => {
+              const finish = moment.utc(e.target.value).valueOf();
+              setState({ ...state, finish });
+            }}
+          />
+        </div>
+        <ListItemIcon>
+          <Tooltip title="применить">
+            <IconButton
+              color="primary"
+              aria-label="apply dates"
+              onClick={() =>
+                props.setFilter({
+                  attr: { start: state.start, finish: state.finish },
+                  filterType: filtersTypes.filterByStartDate,
+                })
+              }
+            >
+              <SlideshowIcon />
+            </IconButton>
+          </Tooltip>
+        </ListItemIcon>
+      </ListItem>
+      <ListItem>
+        <ListItemText primary="Trash" />
+      </ListItem>
+      <Divider light />
+      <ListItem>
+        <ListItemText primary="Spam" />
+      </ListItem>
+    </List>
 
-          if (state.initialDate.start === start && state.initialDate.finish === state.finish) {
-            props.setFilter({
-              attr: { start, finish: state.finish },
-              filterType: filtersTypes.filterByStartDate,
-            });
-            return;
-          }
-          props.setFilter({
-            attr: { start, finish: state.finish },
-            filterType: filtersTypes.filterByStartDate,
-          });
-        }}
-      />
-      <TextField
-        id="date-picker-finish"
-        label="по"
-        type="date"
-        defaultValue={moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD")}
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={(e) => {
-          setState({ start: state.start, finish: e.target.value });
-        }}
-      />
-    </form>
+    // <form className={classes.container} noValidate>
+    //   <div className={classes.labelField}>
+    //     <Typography variant="subtitle2">Start</Typography>
+    //     <Button variant="outlined">Reset</Button>
+    //   </div>
+    //   <TextField
+    //     id="date-picker-start"
+    //     inputProps={{
+    //       min: moment.utc(props.start).format("YYYY-MM-DD"),
+    //       max: moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD"),
+    //     }}
+    //     label="с"
+    //     type="date"
+    //     defaultValue={moment.utc(props.start).format("YYYY-MM-DD")}
+    //     className={classes.textField}
+    //     InputLabelProps={{
+    //       shrink: true,
+    //     }}
+    //     onChange={(e) => {
+    //       const start = moment.utc(e.target.value).valueOf();
+    //       setState({ ...state, start });
+
+    //       if (state.initialDate.start === start && state.initialDate.finish === state.finish) {
+    //         props.setFilter({
+    //           attr: { start, finish: state.finish },
+    //           filterType: filtersTypes.filterByStartDate,
+    //         });
+    //         return;
+    //       }
+    //       props.setFilter({
+    //         attr: { start, finish: state.finish },
+    //         filterType: filtersTypes.filterByStartDate,
+    //       });
+    //     }}
+    //   />
+    //   <TextField
+    //     id="date-picker-finish"
+    //     inputProps={{
+    //       min: moment.utc(props.start).format("YYYY-MM-DD"),
+    //       max: moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD"),
+    //     }}
+    //     label="по"
+    //     type="date"
+    //     defaultValue={moment.utc(props.finish).subtract(1, "ms").format("YYYY-MM-DD")}
+    //     className={classes.textField}
+    //     InputLabelProps={{
+    //       shrink: true,
+    //     }}
+    //     onChange={(e) => {
+    //       setState({ start: state.start, finish: e.target.value });
+    //     }}
+    //   />
+    // </form>
   );
 }
 

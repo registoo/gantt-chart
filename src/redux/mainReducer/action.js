@@ -20,15 +20,6 @@ export const setWheeledData = (data) => {
     dataRange: data.dataRange,
   };
 };
-export const filterByDates = (data) => {
-  return {
-    type: "FILTER_DATA_BY_DATE",
-    start: data.start,
-    finish: data.finish,
-    filteredByDate: data.filteredByDate,
-  };
-};
-
 export const setFilter = (data) => {
   return {
     type: "SERIALIZE_FILTERS",

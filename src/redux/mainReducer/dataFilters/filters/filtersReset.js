@@ -18,6 +18,9 @@ export default (state) => {
         return acc;
       }, {}),
       serializedFilters: [],
+      pickedWorksIds: [],
+      filteredData: [],
+      filteredIds: [],
     },
   };
   const selectedData = state.fullData;

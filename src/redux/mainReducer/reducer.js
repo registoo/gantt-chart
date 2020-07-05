@@ -77,10 +77,15 @@ export default function testReducer(state = defaultState(fullData), action) {
       switch (action.filterType) {
         case filtersTypes.filterByWorks:
           filtersIds[action.filterType] = action.attr.selectedIds.length > 0 ? true : false;
-          if (!filtersIds[action.filterType]) state.ids.filteredIds = [];
+          if (!filtersIds[action.filterType]) {
+            state.dataSpec.findWorkIds = [];
+          } else {
+            state.dataSpec.findWorkIds = action.attr.selectedIds;
+          }
           break;
         case filtersTypes.filterByStartDate:
-          filtersIds[action.filterType] = true;
+          filtersIds[action.filterType] =
+            (action.attr.start || action.attr.finish) === 0 ? false : true;
           break;
         default:
           break;

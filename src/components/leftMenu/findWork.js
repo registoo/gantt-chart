@@ -93,8 +93,9 @@ function Virtualize(props) {
 
   function onChangeFunction(event, arr, d0, d) {
     if (arr.length) {
+      const data = props.filteredIds.length > 0 ? props.filteredData : props.fullData;
       const selectedData = arr.map((el) =>
-        props.fullData.find((e, i) => {
+        data.find((e, i) => {
           if (e.data.isError && el === e.data.isError.formattedText) return true;
           if (el === e.id) return true;
           return false;
@@ -122,9 +123,9 @@ function Virtualize(props) {
       disableCloseOnSelect
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={props.fullIds}
+      options={props.filteredIds.length > 0 ? props.filteredIds : props.fullIds}
       clearOnEscape
-      value={props.filteredIds}
+      value={props.pickedWorksIds}
       noOptionsText="ничего не найдено"
       renderInput={(params) => (
         <TextField {...params} variant="outlined" label="Works" placeholder="Чего ищем?" />
@@ -146,10 +147,11 @@ function Virtualize(props) {
 }
 const getState = (state) => {
   return {
+    pickedWorksIds: state.mainReducer.dataSpec.filters.pickedWorksIds,
     fullIds: state.mainReducer.ids.fullIds,
     fullData: state.mainReducer.fullData,
-    selectedIds: state.mainReducer.ids.selectedIds,
-    filteredIds: state.mainReducer.ids.filteredIds,
+    filteredData: state.mainReducer.dataSpec.filters.filteredData,
+    filteredIds: state.mainReducer.dataSpec.filters.filteredIds,
   };
 };
 export default connect(getState, { setFilter })(Virtualize);
