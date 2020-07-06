@@ -1,4 +1,5 @@
 import { rowHasError } from "../../../../auxFunctions";
+import moment from "moment";
 
 export default (obj) => {
   const data = obj.selectedData
@@ -9,8 +10,9 @@ export default (obj) => {
   const filteredData = data.filter((el) => {
     if (rowHasError(el.data)) return false;
     return (
-      el.data.start.dateInMillisecons >= obj.attr.earlyStart &&
-      el.data.start.dateInMillisecons <= obj.attr.lateStart
+      moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf() >=
+        obj.attr.earlyFinish &&
+      moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf() <= obj.attr.lateFinish
     );
   });
   const filteredIds = filteredData.map((d) =>

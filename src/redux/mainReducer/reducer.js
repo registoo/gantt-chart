@@ -1,7 +1,5 @@
 import fullData from "../../data";
 import defaultState from "./defaultState.js";
-import { handJob } from "../../auxFunctions/resizedTypes";
-import { rowHasError } from "../../auxFunctions";
 import setFilters from "./dataFilters";
 import filtersTypes from "./dataFilters/typesOfFilters.js";
 
@@ -85,7 +83,14 @@ export default function testReducer(state = defaultState(fullData), action) {
           break;
         case filtersTypes.filterByStartDate:
           filtersIds[action.filterType] =
-            (action.attr.start || action.attr.finish) === 0 ? false : true;
+            (action.attr.earlyStart || action.attr.lateStart) === 0 ? false : true;
+          break;
+        case filtersTypes.filterByFinishDate:
+          filtersIds[action.filterType] =
+            (action.attr.earlyFinish || action.attr.lateFinish) === 0 ? false : true;
+          break;
+        case filtersTypes.filterByPerformedDate:
+          filtersIds[action.filterType] = (action.attr.from || action.attr.to) === 0 ? false : true;
           break;
         default:
           break;
@@ -100,8 +105,9 @@ export default function testReducer(state = defaultState(fullData), action) {
           let index = -1;
           // поиск порядкового номера фильтра в массиве фильтров
           serializedFilters.find((e, i) => {
-            if (index >= 0) return;
+            if (index >= 0) return false;
             index = e.filterType === action.filterType ? i : -1;
+            return false;
           });
           // замена/добавление фильтра при его нахождении/не нахождении в массиве фильтров (-1 не найдено)
           index >= 0
@@ -114,8 +120,9 @@ export default function testReducer(state = defaultState(fullData), action) {
         // начальное значения для того, чтоб дальнейший поиск не замещал найденное значение
         let index = -1;
         serializedFilters.find((e, i) => {
-          if (index >= 0) return;
+          if (index >= 0) return false;
           index = e.filterType === action.filterType ? i : -1;
+          return false;
         });
         if (index >= 0) serializedFilters.splice(index, 1);
       }
@@ -123,7 +130,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         serializedFilters,
         state,
       });
-      console.log("result", result);
+      console.log(result);
       return result;
     }
 

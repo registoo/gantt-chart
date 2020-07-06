@@ -5,7 +5,6 @@ import DrawScales from "./scales";
 import Slider from "./slider";
 import { setWheeledData } from "../../redux/mainReducer/action";
 import { rowHasError } from "../../auxFunctions";
-import * as d3 from "d3";
 
 function Gantt(props) {
   const ref1 = useRef(null);
