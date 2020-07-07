@@ -12,6 +12,8 @@ const finishCell = "C";
 const predecessorCell = "D";
 const nameRus = "E";
 const nameEng = "F";
+const SPO = "G";
+const percentComplete = "H";
 
 // headRow - количество строк сверху таблицы Excel с общими данными,
 // которые не надо учитывать в результирующей data
@@ -52,6 +54,12 @@ const obj = keys.reduce(function (acc, el) {
           break;
         case nameEng:
           dataWorker(columns.colNameEng, acc, data, el, rowNumber);
+          break;
+        case SPO:
+          dataWorker(columns.colSPO, acc, data, el, rowNumber);
+          break;
+        case percentComplete:
+          dataWorker(columns.colPercentComplete, acc, data, el, rowNumber);
           break;
         default:
           dataWorker(columns.colIsError, acc, data, el, rowNumber);

@@ -19,13 +19,23 @@ function SearchStarts(props) {
   const projectLateStartYYYYMMDD = props.dates.projectLateStartYYYYMMDD;
   const selectedEarlyStartYYYYMMDD = props.dates.selectedEarlyStartYYYYMMDD;
   const selectedLateStartYYYYMMDD = props.dates.selectedLateStartYYYYMMDD;
+  const from = props.dates.from;
+  const to = props.dates.to;
   const classes = props.classes;
   const refStartStart = useRef(null);
   const refStartFinish = useRef(null);
-  const [stateStart, setStateStart] = useState({
+  const initialFinishState = {
     earlyStart: projectEarlyStart,
     lateStart: projectLateStart,
+  };
+  const [stateStart, setStateStart] = useState({ ...initialFinishState });
+  const [stateError, setStateError] = useState({
+    boolEarlyStart: false,
+    textEarlyStart: "",
+    boolLateStart: false,
+    textLateStart: "",
   });
+  console.log("stateError", stateError);
 
   return (
     <ListItem id="listDateStart">
@@ -34,6 +44,8 @@ function SearchStarts(props) {
           <IconButton
             aria-label="refresh"
             onClick={() => {
+              setStateError({ ...stateError, boolEarlyStart: false, boolLateStart: false });
+              setStateStart({ ...initialFinishState });
               props.setFilter({
                 attr: { earlyStart: 0, lateStart: 0 },
                 filterType: filtersTypes.filterByStartDate,
@@ -49,6 +61,8 @@ function SearchStarts(props) {
       <ListItemText>Старт</ListItemText>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
+          error={stateError.boolEarlyStart}
+          helperText={stateError.boolEarlyStart ? stateError.textEarlyStart : undefined}
           inputRef={refStartStart}
           id="date-picker-start-start"
           inputProps={{
@@ -63,18 +77,17 @@ function SearchStarts(props) {
             shrink: true,
           }}
           onChange={(e) => {
-            const earlyStart0 = moment.utc(e.target.value).valueOf();
-            // проверка если < projectEarlyStart
-            const earlyStart1 = earlyStart0 < projectEarlyStart ? projectEarlyStart : earlyStart0;
-            // проверка если > projectLateStart
-            const earlyStart2 = earlyStart1 > projectLateStart ? projectLateStart : earlyStart1;
+            setStateError({ ...stateError, boolEarlyStart: false });
+            const earlyStart = moment.utc(e.target.value).valueOf();
             setStateStart({
               ...stateStart,
-              earlyStart: earlyStart2,
+              earlyStart,
             });
           }}
         />
         <TextField
+          error={stateError.boolLateStart}
+          helperText={stateError.boolLateStart ? stateError.textLateStart : undefined}
           inputRef={refStartFinish}
           id="date-picker-start-finish"
           inputProps={{
@@ -89,29 +102,56 @@ function SearchStarts(props) {
             shrink: true,
           }}
           onChange={(e) => {
-            const lateStart0 = moment.utc(e.target.value).valueOf();
-            // проверка если > projectLateStart
-            const lateStart1 = lateStart0 > projectLateStart ? projectLateStart : lateStart0;
-            // проверка если < projectEarlyStart
-            const lateStart2 = lateStart1 < projectEarlyStart ? projectEarlyStart : lateStart1;
+            setStateError({ ...stateError, boolLateStart: false });
+            const lateStart = moment.utc(e.target.value).valueOf();
             setStateStart({
               ...stateStart,
-              lateStart: lateStart2,
+              lateStart,
             });
           }}
         />
       </div>
       <ButtonBadge
         filterType={filtersTypes.filterByStartDate}
-        onClickFunc={() =>
+        onClickFunc={() => {
+          if (stateStart.earlyStart < from) {
+            console.log("srabotalo1");
+            setStateError({
+              ...stateError,
+              boolEarlyStart: true,
+              boolLateStart: false,
+              textEarlyStart: `Дата меньше старта проекта ${moment.utc(from).format("DD-MM-YYYY")}`,
+            });
+            return;
+          } else if (stateStart.earlyStart > to) {
+            console.log("srabotalo2");
+            setStateError({
+              ...stateError,
+              boolEarlyStart: true,
+              boolLateStart: false,
+              textEarlyStart: `Дата больше финиша проекта ${moment.utc(to).format("DD-MM-YYYY")}`,
+            });
+            return;
+          } else if (stateStart.earlyStart > stateStart.lateStart) {
+            console.log("srabotalo3");
+
+            setStateError({
+              ...stateError,
+              boolLateStart: true,
+              textLateStart: `Проверьте даты. Поиск начинается с: ${moment
+                .utc(stateStart.earlyStart)
+                .format("DD-MM-YYYY")}`,
+            });
+            return;
+          }
           props.setFilter({
             attr: {
               earlyStart: stateStart.earlyStart,
               lateStart: stateStart.lateStart,
             },
             filterType: filtersTypes.filterByStartDate,
-          })
-        }
+          });
+        }}
       ></ButtonBadge>
     </ListItem>
   );

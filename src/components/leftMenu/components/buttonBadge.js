@@ -15,8 +15,13 @@ const StyledBadgeCalendar = withStyles((theme) => ({
 }))(Badge);
 
 const calendarBadge = (props) => {
+  const dataFilters = props.serializedFilters.reduce((acc, el) => {
+    if (!/Date$/.test(el.filterType)) return acc;
+    acc.push(el);
+    return acc;
+  }, []);
   let i = -1;
-  props.serializedFilters.find((e, index) => {
+  dataFilters.find((e, index) => {
     if (e.filterType === props.filterType) {
       i = index + 1;
     }

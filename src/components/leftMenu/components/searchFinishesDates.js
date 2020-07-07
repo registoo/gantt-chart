@@ -20,9 +20,18 @@ function SearchFinishes(props) {
   const projectLateFinishYYYYMMDD = props.dates.projectLateFinishYYYYMMDD;
   const selectedEarlyFinishYYYYMMDD = props.dates.selectedEarlyFinishYYYYMMDD;
   const selectedLateFinishYYYYMMDD = props.dates.selectedLateFinishYYYYMMDD;
-  const [stateFinish, setStateFinish] = useState({
+  const from = props.dates.from;
+  const to = props.dates.to;
+  const initialFinishState = {
     earlyFinish: projectEarlyFinish,
     lateFinish: projectLateFinish,
+  };
+  const [stateFinish, setStateFinish] = useState({ ...initialFinishState });
+  const [stateError, setStateError] = useState({
+    boolEarlyFinish: false,
+    textEarlyFinish: "",
+    boolLateFinish: false,
+    textLateFinish: "",
   });
   const refFinishStart = useRef(null);
   const refFinishFinish = useRef(null);
@@ -33,6 +42,8 @@ function SearchFinishes(props) {
           <IconButton
             aria-label="refresh"
             onClick={() => {
+              setStateError({ ...stateError, boolEarlyFinish: false, boolLateFinish: false });
+              setStateFinish({ ...initialFinishState });
               props.setFilter({
                 attr: { earlyFinish: 0, lateFinish: 0 },
                 filterType: filtersTypes.filterByFinishDate,
@@ -48,6 +59,8 @@ function SearchFinishes(props) {
       <ListItemText>Финиш</ListItemText>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
+          error={stateError.boolEarlyFinish}
+          helperText={stateError.boolEarlyFinish ? stateError.textEarlyFinish : undefined}
           inputRef={refFinishStart}
           id="date-picker-finish-start"
           inputProps={{
@@ -62,17 +75,14 @@ function SearchFinishes(props) {
             shrink: true,
           }}
           onChange={(e) => {
-            const earlyFinish0 = moment.utc(e.target.value).valueOf();
-            // проверка если < projectEarlyFinish
-            const earlyFinish1 =
-              earlyFinish0 < projectEarlyFinish ? projectEarlyFinish : earlyFinish0;
-            // проверка если > projectLateFinish
-            const earlyFinish2 =
-              earlyFinish1 > projectLateFinish ? projectLateFinish : earlyFinish1;
-            setStateFinish({ ...stateFinish, earlyFinish: earlyFinish2 });
+            setStateError({ ...stateError, boolEarlyFinish: false });
+            const earlyFinish = moment.utc(e.target.value).valueOf();
+            setStateFinish({ ...stateFinish, earlyFinish });
           }}
         />
         <TextField
+          error={stateError.boolLateFinish}
+          helperText={stateError.boolLateFinish ? stateError.textLateFinish : undefined}
           inputRef={refFinishFinish}
           id="date-picker-finish-finish"
           inputProps={{
@@ -87,21 +97,43 @@ function SearchFinishes(props) {
             shrink: true,
           }}
           onChange={(e) => {
-            const lateFinish0 = moment.utc(e.target.value).valueOf();
-            // проверка если > projectLateFinish
-            const lateFinish1 = lateFinish0 > projectLateFinish ? projectLateFinish : lateFinish0;
-            // проверка если < projectEarlyFinish
-            const lateFinish2 = lateFinish1 < projectEarlyFinish ? projectEarlyFinish : lateFinish1;
-            setStateFinish({
-              ...stateFinish,
-              lateFinish: lateFinish2,
-            });
+            setStateError({ ...stateError, boolLateFinish: false });
+            const lateFinish = moment.utc(e.target.value).valueOf();
+            setStateFinish({ ...stateFinish, lateFinish });
           }}
         />
       </div>
       <ButtonBadge
         filterType={filtersTypes.filterByFinishDate}
         onClickFunc={() => {
+          if (stateFinish.earlyFinish < from) {
+            setStateError({
+              ...stateError,
+              boolEarlyFinish: true,
+              boolLateFinish: false,
+              textEarlyFinish: `Дата меньше старта проекта ${moment
+                .utc(from)
+                .format("DD-MM-YYYY")}`,
+            });
+            return;
+          } else if (stateFinish.earlyFinish > to) {
+            setStateError({
+              ...stateError,
+              boolEarlyFinish: true,
+              boolLateFinish: false,
+              textEarlyFinish: `Дата больше финиша проекта ${moment.utc(to).format("DD-MM-YYYY")}`,
+            });
+            return;
+          } else if (stateFinish.lateFinish < stateFinish.earlyFinish) {
+            setStateError({
+              ...stateError,
+              boolLateFinish: true,
+              textLateFinish: `Проверьте даты. Поиск начинается с: ${moment
+                .utc(stateFinish.earlyFinish)
+                .format("DD-MM-YYYY")}`,
+            });
+            return;
+          }
           props.setFilter({
             attr: {
               earlyFinish: stateFinish.earlyFinish,

@@ -22,9 +22,16 @@ function SearchPerformed(props) {
   const classes = props.classes;
   const refFrom = useRef(null);
   const refTo = useRef(null);
-  const [statePerformed, setStatePerformed] = useState({
+  const initialFinishState = {
     from,
     to,
+  };
+  const [statePerformed, setStatePerformed] = useState({ ...initialFinishState });
+  const [stateError, setStateError] = useState({
+    boolFrom: false,
+    textFrom: "",
+    boolTo: false,
+    textTo: "",
   });
   return (
     <ListItem id="listPerformedWork">
@@ -33,6 +40,8 @@ function SearchPerformed(props) {
           <IconButton
             aria-label="refresh"
             onClick={() => {
+              setStateError({ ...stateError, boolTo: false, boolFrom: false });
+              setStatePerformed({ ...initialFinishState });
               props.setFilter({
                 attr: { from: 0, to: 0 },
                 filterType: filtersTypes.filterByPerformedDate,
@@ -54,6 +63,8 @@ function SearchPerformed(props) {
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
+          error={stateError.boolFrom}
+          helperText={stateError.boolFrom ? stateError.textFrom : undefined}
           inputRef={refFrom}
           id="date-picker-performed-start"
           inputProps={{
@@ -68,11 +79,14 @@ function SearchPerformed(props) {
             shrink: true,
           }}
           onChange={(e) => {
+            setStateError({ ...stateError, boolFrom: false });
             const from = moment.utc(e.target.value).valueOf();
             setStatePerformed({ ...statePerformed, from });
           }}
         />
         <TextField
+          error={stateError.boolTo}
+          helperText={stateError.boolTo ? stateError.textTo : undefined}
           inputRef={refTo}
           id="date-picker-performed-finish"
           inputProps={{
@@ -87,6 +101,7 @@ function SearchPerformed(props) {
             shrink: true,
           }}
           onChange={(e) => {
+            setStateError({ ...stateError, boolTo: false });
             const to = moment.utc(e.target.value).valueOf();
             setStatePerformed({ ...statePerformed, to });
           }}
@@ -94,15 +109,41 @@ function SearchPerformed(props) {
       </div>
       <ButtonBadge
         filterType={filtersTypes.filterByPerformedDate}
-        onClickFunc={() =>
+        onClickFunc={() => {
+          if (statePerformed.from > to) {
+            setStateError({
+              ...stateError,
+              boolFrom: true,
+              boolTo: false,
+              textFrom: `Дата больше финиша проекта ${moment.utc(to).format("DD-MM-YYYY")}`,
+            });
+            return;
+          } else if (statePerformed.from < from) {
+            setStateError({
+              ...stateError,
+              boolFrom: true,
+              boolTo: false,
+              textFrom: `Дата меньше старта проекта ${moment.utc(from).format("DD-MM-YYYY")}`,
+            });
+            return;
+          } else if (statePerformed.to < statePerformed.from) {
+            setStateError({
+              ...stateError,
+              boolTo: true,
+              textTo: `Проверьте даты. Поиск начинается с: ${moment
+                .utc(statePerformed.from)
+                .format("DD-MM-YYYY")}`,
+            });
+            return;
+          }
           props.setFilter({
             attr: {
               from: statePerformed.from,
-              to: statePerformed.to < statePerformed.from ? statePerformed.from : statePerformed.to,
+              to: statePerformed.to,
             },
             filterType: filtersTypes.filterByPerformedDate,
-          })
-        }
+          });
+        }}
       ></ButtonBadge>
     </ListItem>
   );
