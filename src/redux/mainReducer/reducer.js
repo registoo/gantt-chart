@@ -69,12 +69,12 @@ export default function testReducer(state = defaultState(fullData), action) {
     case "SERIALIZE_FILTERS": {
       // serializedFilters массив фильтров, с добавлением фильтров по порядку
       let serializedFilters = state.dataSpec.filters.serializedFilters;
-      // filtersIds - объект айдишников для более удобной сверки на true/false для отрисовки компонентов
+      // filtersIds - объект фильтров со значениями true/false для поиска активных фильтров
       let filtersIds = state.dataSpec.filters.filtersIds;
       // сбрасывается ли фильтр
       switch (action.filterType) {
         case filtersTypes.filterByWorks:
-          filtersIds[action.filterType] = action.attr.selectedIds.length === 0 ? false : true;
+          filtersIds[action.filterType] = action.attr.reset ? false : true;
           break;
         case filtersTypes.filterByStartDate:
           filtersIds[action.filterType] =
@@ -88,7 +88,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           filtersIds[action.filterType] = (action.attr.from || action.attr.to) === 0 ? false : true;
           break;
         case filtersTypes.filterBySPO:
-          filtersIds[action.filterType] = action.attr.selectedIds.length === 0 ? false : true;
+          filtersIds[action.filterType] = action.attr.reset ? false : true;
           break;
         default:
           break;
@@ -115,7 +115,6 @@ export default function testReducer(state = defaultState(fullData), action) {
       }
       // если фильтр снимается
       else {
-        // начальное значения для того, чтоб дальнейший поиск не замещал найденное значение
         let index = -1;
         serializedFilters.find((e, i) => {
           if (index >= 0) return false;

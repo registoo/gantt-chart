@@ -17,11 +17,8 @@ const FindSPO = (props) => {
 };
 const getState = (state) => {
   return {
-    displayedInputData: state.mainReducer.dataSpec.filters.pickedSPO,
-    localFullIds: state.mainReducer.someData.listOfSPO,
-    localFullData: state.mainReducer.fullData,
-    localFilteredData: state.mainReducer.dataSpec.filters.filteredData,
-    localFilteredIds: state.mainReducer.dataSpec.filters.filteredIds,
+    options: state.mainReducer.dataSpec.filters.SPOFilter.listOfSPOForSearcherInput,
+    value: state.mainReducer.dataSpec.filters.SPOFilter.pickedSPO,
   };
 };
 export default connect(getState, { setFilter })(FindSPO);

@@ -7,7 +7,6 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Checkbox from "@material-ui/core/Checkbox";
 import filtersTypes from "../../../redux/mainReducer/dataFilters/typesOfFilters.js";
-import { rowHasError } from "../../../auxFunctions/index.js";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -93,35 +92,19 @@ export default function Virtualize(props) {
   function onChangeFunction(event, arr, d0, d) {
     // если массив выборки не пустой, делаем фильтр
     if (arr.length) {
-      const data =
-        props.localFilteredIds.length > 0 ? props.localFilteredData : props.localFullData;
-
       // вызов экшена в зависимости от того, на каком фильтре смонтирован компонент
       switch (props.filterType) {
         case filtersTypes.filterByWorks: {
-          const selectedData = arr.map((el) =>
-            data.find((e) => {
-              if (e.data.isError && el === e.data.isError.formattedText) return true;
-              if (el === e.id) return true;
-              return false;
-            })
-          );
           props.setFilter({
             filterType: props.filterType,
-            attr: { selectedData, selectedIds: arr },
+            attr: { selectedIds: arr },
           });
           break;
         }
         case filtersTypes.filterBySPO: {
-          const selectedData = data.filter((e) =>
-            arr.lastIndexOf(e.data.SPO.formattedText) >= 0 ? true : false
-          );
-          const selectedIds = selectedData.map((d) =>
-            rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
-          );
           props.setFilter({
             filterType: props.filterType,
-            attr: { selectedData, selectedIds, selectedSPO: arr },
+            attr: { selectedSPO: arr },
           });
           break;
         }
@@ -129,10 +112,10 @@ export default function Virtualize(props) {
           return;
       }
     } else {
-      // посылает пустой массив для сброса фильтра
+      // сброс фильтра
       props.setFilter({
         filterType: props.filterType,
-        attr: { selectedIds: [] },
+        attr: { reset: true },
       });
     }
     return;
@@ -147,9 +130,9 @@ export default function Virtualize(props) {
       disableCloseOnSelect
       classes={classes}
       ListboxComponent={ListboxComponent}
-      options={props.localFullIds}
+      options={props.options}
       clearOnEscape
-      value={props.displayedInputData}
+      value={props.value}
       noOptionsText="ничего не найдено"
       renderInput={(params) => <TextField {...params} variant="outlined" label={props.label} />}
       onChange={onChangeFunction}

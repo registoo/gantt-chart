@@ -1,21 +1,25 @@
-import filters from "./filters";
 import { handJob } from "../../../auxFunctions/resizedTypes";
+import defaultState from "../../../redux/mainReducer/defaultState.js";
+import {
+  getData,
+  getListOfWorksForSearcherInput,
+  getListOfSPOForSearcherInput,
+} from "./auxFunctions.js";
 
-const getData = (obj) => {
-  const serializedFilters1 = [...obj.serializedFilters];
-  const firstElem = serializedFilters1.shift();
-  const attr = firstElem.attr;
-  const filterId = firstElem.filterType;
-  delete obj.serializedFilters;
-  const filteredData = filters[filterId]({ ...obj, attr });
-  if (serializedFilters1.length > 0) {
-    return getData({ serializedFilters: serializedFilters1, ...filteredData });
-  }
-  return filteredData;
-};
 export default function ({ serializedFilters, state }) {
   if (serializedFilters.length > 0) {
     const filteredData = getData({ serializedFilters, fullData: state.fullData });
+    const listOfWorksForSearcherInput = getListOfWorksForSearcherInput({
+      serializedFilters,
+      fullData: state.fullData,
+      filteredData,
+    });
+    const listOfSPOForSearcherInput = getListOfSPOForSearcherInput({
+      serializedFilters,
+      fullData: state.fullData,
+      filteredData,
+      listOfSPO: state.someData.listOfSPO,
+    });
     const maxElementsOnPage = state.dataSpec.maxElementsOnPage;
     const selectedData = filteredData.selectedData;
     const selectedIds = filteredData.selectedIds;
@@ -42,6 +46,25 @@ export default function ({ serializedFilters, state }) {
         displayedData,
       }),
     };
+    const dataSpec = {
+      ...state.dataSpec,
+      dataRange,
+      currentElementsOnPage,
+      wheeled,
+      filters: {
+        ...state.dataSpec.filters,
+        worksFilter: {
+          listOfWorksForSearcherInput,
+          pickedWorksIds: filteredData.pickedWorksIds ? filteredData.pickedWorksIds : [],
+        },
+        SPOFilter: {
+          listOfSPOForSearcherInput,
+          pickedSPO: filteredData.pickedSPO ? filteredData.pickedSPO : [],
+        },
+        filteredData: filteredData.filteredData ? filteredData.filteredData : [],
+        filteredIds: filteredData.filteredIds ? filteredData.filteredIds : [],
+      },
+    };
 
     return {
       ...state,
@@ -53,21 +76,9 @@ export default function ({ serializedFilters, state }) {
       },
       ids: { ...state.ids, displayedIds, selectedIds },
       scales: { ...state.scales, ...newScales },
-      dataSpec: {
-        ...state.dataSpec,
-        dataRange,
-        currentElementsOnPage,
-        wheeled,
-        filters: {
-          ...state.dataSpec.filters,
-          pickedWorksIds: filteredData.pickedWorksIds ? filteredData.pickedWorksIds : [],
-          pickedSPO: filteredData.pickedSPO ? filteredData.pickedSPO : [],
-          filteredData: filteredData.filteredData ? filteredData.filteredData : [],
-          filteredIds: filteredData.filteredIds ? filteredData.filteredIds : [],
-        },
-      },
+      dataSpec,
     };
   }
   // сброс state при отсутствии фильтров
-  return filters.filtersReset(state);
+  return defaultState(state.fullData);
 }

@@ -9,25 +9,10 @@ import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
 export default (fullData) => {
   const maxElementsOnPage = 12;
   const startDataForDataRange = 0;
-  const dataSpec = {
-    dataRange: { start: startDataForDataRange, finish: startDataForDataRange + maxElementsOnPage },
-    currentElementsOnPage: maxElementsOnPage,
-    maxElementsOnPage,
-    wheeled: true,
+  const displayedData = fullData.slice(
     startDataForDataRange,
-    filters: {
-      filtersIds: Object.keys(typesOfFilters).reduce((acc, el) => {
-        acc[el] = false;
-        return acc;
-      }, {}),
-      serializedFilters: [],
-      pickedSPO: [],
-      pickedWorksIds: [],
-      filteredData: [],
-      filteredIds: [],
-    },
-  };
-  const displayedData = fullData.slice(dataSpec.dataRange.start, dataSpec.dataRange.finish);
+    startDataForDataRange + maxElementsOnPage
+  );
   const stringHeight = 35;
   const heightSVG = displayedData.length * (stringHeight * 1.25);
   const marginSVG = {
@@ -64,7 +49,25 @@ export default (fullData) => {
     delete col.colIsError;
     return col;
   };
-
+  const listOfSPO = deleteDuplicates(fullData, "el.data.SPO.formattedText");
+  const dataSpec = {
+    dataRange: { start: startDataForDataRange, finish: startDataForDataRange + maxElementsOnPage },
+    currentElementsOnPage: maxElementsOnPage,
+    startDataForDataRange,
+    maxElementsOnPage,
+    wheeled: true,
+    filters: {
+      filtersIds: Object.keys(typesOfFilters).reduce((acc, el) => {
+        acc[el] = false;
+        return acc;
+      }, {}),
+      worksFilter: { listOfWorksForSearcherInput: fullIds, pickedWorksIds: [] },
+      SPOFilter: { listOfSPOForSearcherInput: listOfSPO, pickedSPO: [] },
+      serializedFilters: [],
+      filteredData: [],
+      filteredIds: [],
+    },
+  };
   const result = {
     fullData,
     slicedData: { displayedData, selectedData },
@@ -85,7 +88,7 @@ export default (fullData) => {
       }),
       changeScales: { changeScaleX, changeScaleY },
     },
-    someData: { listOfSPO: deleteDuplicates(fullData, "el.data.SPO.formattedText") },
+    someData: { listOfSPO },
   };
 
   return result;
