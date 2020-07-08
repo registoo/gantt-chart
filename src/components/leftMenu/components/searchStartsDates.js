@@ -35,7 +35,6 @@ function SearchStarts(props) {
     boolLateStart: false,
     textLateStart: "",
   });
-  console.log("stateError", stateError);
 
   return (
     <ListItem id="listDateStart">
@@ -115,7 +114,6 @@ function SearchStarts(props) {
         filterType={filtersTypes.filterByStartDate}
         onClickFunc={() => {
           if (stateStart.earlyStart < from) {
-            console.log("srabotalo1");
             setStateError({
               ...stateError,
               boolEarlyStart: true,
@@ -124,7 +122,6 @@ function SearchStarts(props) {
             });
             return;
           } else if (stateStart.earlyStart > to) {
-            console.log("srabotalo2");
             setStateError({
               ...stateError,
               boolEarlyStart: true,
@@ -133,8 +130,6 @@ function SearchStarts(props) {
             });
             return;
           } else if (stateStart.earlyStart > stateStart.lateStart) {
-            console.log("srabotalo3");
-
             setStateError({
               ...stateError,
               boolLateStart: true,

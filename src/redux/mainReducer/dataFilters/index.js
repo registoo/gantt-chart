@@ -42,6 +42,7 @@ export default function ({ serializedFilters, state }) {
         displayedData,
       }),
     };
+
     return {
       ...state,
       sizesSVG,
@@ -60,6 +61,7 @@ export default function ({ serializedFilters, state }) {
         filters: {
           ...state.dataSpec.filters,
           pickedWorksIds: filteredData.pickedWorksIds ? filteredData.pickedWorksIds : [],
+          pickedSPO: filteredData.pickedSPO ? filteredData.pickedSPO : [],
           filteredData: filteredData.filteredData ? filteredData.filteredData : [],
           filteredIds: filteredData.filteredIds ? filteredData.filteredIds : [],
         },

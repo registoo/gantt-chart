@@ -1,9 +1,6 @@
 import rowHasError from "../../../auxFunctions/rowHasError";
 
 export default (row) => {
-  console.log("ROW", row.SPO);
-  console.log("ROW", row.percentComplete);
-
   if (rowHasError(row))
     return {
       workName: row.isError.formattedText,

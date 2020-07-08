@@ -4,9 +4,9 @@ import changeScaleY from "./scales/y.js";
 import columns from "../../data/columns.js";
 import { defaultResizer } from "../../auxFunctions/resizedTypes";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
+import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
 
 export default (fullData) => {
-  // количетсво строк данных
   const maxElementsOnPage = 12;
   const startDataForDataRange = 0;
   const dataSpec = {
@@ -21,6 +21,7 @@ export default (fullData) => {
         return acc;
       }, {}),
       serializedFilters: [],
+      pickedSPO: [],
       pickedWorksIds: [],
       filteredData: [],
       filteredIds: [],
@@ -84,6 +85,7 @@ export default (fullData) => {
       }),
       changeScales: { changeScaleX, changeScaleY },
     },
+    someData: { listOfSPO: deleteDuplicates(fullData, "el.data.SPO.formattedText") },
   };
 
   return result;

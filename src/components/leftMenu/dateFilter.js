@@ -6,7 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import SearchStarts from "./components/searchStartsDates.js";
 import SearchFinishes from "./components/searchFinishesDates.js";
-import SearchPerformed from "./components/searchPerformed.js";
+import SearchPerformed from "./components/searchPerformedDates.js";
 import computeDates from "./components/computeDates.js";
 
 const useStyles = makeStyles((theme) => ({

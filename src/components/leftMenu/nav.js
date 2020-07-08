@@ -6,6 +6,7 @@ import StorageIcon from "@material-ui/icons/Storage";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
+import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalk";
 
 function f(props) {
   return (
@@ -41,6 +42,20 @@ function f(props) {
             </Tooltip>
           ) : (
             <DateRangeIcon />
+          )
+        }
+      />
+      <BottomNavigationAction
+        label="SPO"
+        icon={
+          props.filterByStartDate || props.filterByFinishDate || props.filterByPerformedDate ? (
+            <Tooltip title="имеется активный фильтр">
+              <Badge color="secondary" variant="dot">
+                <DirectionsWalkIcon />
+              </Badge>
+            </Tooltip>
+          ) : (
+            <DirectionsWalkIcon />
           )
         }
       />

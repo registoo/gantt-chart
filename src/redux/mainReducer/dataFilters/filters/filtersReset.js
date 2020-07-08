@@ -13,12 +13,14 @@ export default (state) => {
     currentElementsOnPage,
     wheeled: true,
     filters: {
+      ...state.dataSpec.filters,
       filtersIds: Object.keys(typesOfFilters).reduce((acc, el) => {
         acc[el] = false;
         return acc;
       }, {}),
       serializedFilters: [],
       pickedWorksIds: [],
+      pickedSPO: [],
       filteredData: [],
       filteredIds: [],
     },

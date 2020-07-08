@@ -3,4 +3,5 @@ export default {
   filterByStartDate: "filterByStartDate",
   filterByFinishDate: "filterByFinishDate",
   filterByPerformedDate: "filterByPerformedDate",
+  filterBySPO: "filterBySPO",
 };

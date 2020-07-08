@@ -1,6 +1,7 @@
 import React from "react";
 import Search from "./findWork.js";
 import DateFilter from "./dateFilter.js";
+import FindSPO from "./findSPO.js";
 import NavPanel from "./nav.js";
 
 const localChildren = (d) => {
@@ -9,6 +10,8 @@ const localChildren = (d) => {
       return <Search />;
     case 1:
       return <DateFilter />;
+    case 2:
+      return <FindSPO />;
     default:
       return "error";
   }

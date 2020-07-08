@@ -74,12 +74,7 @@ export default function testReducer(state = defaultState(fullData), action) {
       // сбрасывается ли фильтр
       switch (action.filterType) {
         case filtersTypes.filterByWorks:
-          filtersIds[action.filterType] = action.attr.selectedIds.length > 0 ? true : false;
-          if (!filtersIds[action.filterType]) {
-            state.dataSpec.findWorkIds = [];
-          } else {
-            state.dataSpec.findWorkIds = action.attr.selectedIds;
-          }
+          filtersIds[action.filterType] = action.attr.selectedIds.length === 0 ? false : true;
           break;
         case filtersTypes.filterByStartDate:
           filtersIds[action.filterType] =
@@ -91,6 +86,9 @@ export default function testReducer(state = defaultState(fullData), action) {
           break;
         case filtersTypes.filterByPerformedDate:
           filtersIds[action.filterType] = (action.attr.from || action.attr.to) === 0 ? false : true;
+          break;
+        case filtersTypes.filterBySPO:
+          filtersIds[action.filterType] = action.attr.selectedIds.length === 0 ? false : true;
           break;
         default:
           break;
