@@ -73,7 +73,7 @@ function SearchFinishes(props) {
   });
 
   return (
-    <ListItem id={`listDate${props.dateType}`}>
+    <ListItem id={`listDate${props.dateType}`} className={classes.container}>
       <ListItemIcon>
         <Tooltip title="сброс фильтра">
           <IconButton
@@ -92,7 +92,7 @@ function SearchFinishes(props) {
         </Tooltip>
       </ListItemIcon>
       <ListItemText>{textForListItem}</ListItemText>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div className={classes.inputContainer}>
         <TextField
           error={stateError.boolEarly}
           helperText={stateError.boolEarly ? stateError.textEarly : undefined}

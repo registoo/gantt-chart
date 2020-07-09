@@ -3,6 +3,7 @@ import Search from "./findWork.js";
 import DateFilter from "./dateFilter.js";
 import FindSPO from "./findSPO.js";
 import NavPanel from "./nav.js";
+import FilterPercentage from "./filterPercentage.js";
 
 const localChildren = (d) => {
   switch (d) {
@@ -12,6 +13,8 @@ const localChildren = (d) => {
       return <DateFilter />;
     case 2:
       return <FindSPO />;
+    case 3:
+      return <FilterPercentage />;
     default:
       return "error";
   }

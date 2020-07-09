@@ -173,7 +173,7 @@
     "w": "That builder not, us not: itself any master — no explain, dislikes. Account obtain must obtain some system with"
   },
   "G8": { "t": "s", "v": "Рога", "r": "<t>Рога</t>", "h": "Рога", "w": "Рога" },
-  "H8": { "t": "n", "v": 76, "f": "RANDBETWEEN(0,100)", "w": "76" },
+  "H8": { "t": "n", "v": 100, "f": "RANDBETWEEN(0,100)", "w": "100" },
   "A9": { "t": "s", "v": "qwee", "r": "<t>qwee</t>", "h": "qwee", "w": "qwee" },
   "B9": { "t": "d", "v": "2020-07-13T20:59:43.000Z", "f": "C8", "w": "7/14/20" },
   "C9": { "t": "d", "v": "2020-07-15T20:59:43.000Z", "f": "B9+2", "w": "7/16/20" },

@@ -4,4 +4,5 @@ export default {
   filterByFinishDate: "filterByFinishDate",
   filterByPerformedDate: "filterByPerformedDate",
   filterBySPO: "filterBySPO",
+  filterPercentage: "filterPercentage",
 };

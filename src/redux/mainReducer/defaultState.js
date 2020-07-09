@@ -64,6 +64,7 @@ export default (fullData) => {
       worksFilter: { listOfWorksForSearcherInput: fullIds, pickedWorksIds: [] },
       SPOFilter: { listOfSPOForSearcherInput: listOfSPO, pickedSPO: [] },
       serializedFilters: [],
+      percentageFilter: { from: 0, to: 100 },
     },
   };
   const result = {

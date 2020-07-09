@@ -8,26 +8,16 @@ import DataInputComponent from "./components/dataInputComponent.js";
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    justifyContent: "space-between",
+  },
+  inputContainer: {
     display: "flex",
-    flexWrap: "wrap",
-    alignItems: "flex-start",
+    flexDirection: "column",
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 150,
-  },
-  labelField: {
-    display: "flex",
-    flexDirection: "column",
-    maxWidth: 62,
-    minWidth: 62,
-    marginRight: 6,
-    root: {
-      width: "100%",
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-    },
+    width: 140,
   },
 }));
 

@@ -7,10 +7,12 @@ import DateRangeIcon from "@material-ui/icons/DateRange";
 import { connect } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
 import DirectionsWalkIcon from "@material-ui/icons/DirectionsWalk";
+import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 
 function f(props) {
   return (
     <BottomNavigation
+      style={{ alignItems: "flex-start", minHeight: 70 }}
       value={props.value}
       onChange={(event, newValue) => {
         props.setValue(newValue);
@@ -56,6 +58,20 @@ function f(props) {
             </Tooltip>
           ) : (
             <DirectionsWalkIcon />
+          )
+        }
+      />
+      <BottomNavigationAction
+        label="% выполнения"
+        icon={
+          props.filterByStartDate || props.filterByFinishDate || props.filterByPerformedDate ? (
+            <Tooltip title="имеется активный фильтр">
+              <Badge color="secondary" variant="dot">
+                <DonutLargeIcon />
+              </Badge>
+            </Tooltip>
+          ) : (
+            <DonutLargeIcon />
           )
         }
       />
