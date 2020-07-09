@@ -45,7 +45,7 @@ function SearchFinishes(props) {
               setStateError({ ...stateError, boolEarlyFinish: false, boolLateFinish: false });
               setStateFinish({ ...initialFinishState });
               props.setFilter({
-                attr: { earlyFinish: 0, lateFinish: 0 },
+                attr: { reset: true },
                 filterType: filtersTypes.filterByFinishDate,
               });
               refFinishStart.current.value = projectEarlyFinishYYYYMMDD;

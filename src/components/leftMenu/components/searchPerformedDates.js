@@ -43,7 +43,7 @@ function SearchPerformed(props) {
               setStateError({ ...stateError, boolTo: false, boolFrom: false });
               setStatePerformed({ ...initialFinishState });
               props.setFilter({
-                attr: { from: 0, to: 0 },
+                attr: { reset: true },
                 filterType: filtersTypes.filterByPerformedDate,
               });
               refFrom.current.value = projectEarlyStartYYYYMMDD;

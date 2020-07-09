@@ -72,28 +72,7 @@ export default function testReducer(state = defaultState(fullData), action) {
       // filtersIds - объект фильтров со значениями true/false для поиска активных фильтров
       let filtersIds = state.dataSpec.filters.filtersIds;
       // сбрасывается ли фильтр
-      switch (action.filterType) {
-        case filtersTypes.filterByWorks:
-          filtersIds[action.filterType] = action.attr.reset ? false : true;
-          break;
-        case filtersTypes.filterByStartDate:
-          filtersIds[action.filterType] =
-            (action.attr.earlyStart || action.attr.lateStart) === 0 ? false : true;
-          break;
-        case filtersTypes.filterByFinishDate:
-          filtersIds[action.filterType] =
-            (action.attr.earlyFinish || action.attr.lateFinish) === 0 ? false : true;
-          break;
-        case filtersTypes.filterByPerformedDate:
-          filtersIds[action.filterType] = (action.attr.from || action.attr.to) === 0 ? false : true;
-          break;
-        case filtersTypes.filterBySPO:
-          filtersIds[action.filterType] = action.attr.reset ? false : true;
-          break;
-        default:
-          break;
-      }
-
+      filtersIds[action.filterType] = action.attr.reset ? false : true;
       // если фильтр не снимается
       if (filtersIds[action.filterType]) {
         // добавление первого фильтра

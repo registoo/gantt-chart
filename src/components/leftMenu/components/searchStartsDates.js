@@ -24,6 +24,7 @@ function SearchStarts(props) {
   const classes = props.classes;
   const refStartStart = useRef(null);
   const refStartFinish = useRef(null);
+
   const initialFinishState = {
     earlyStart: projectEarlyStart,
     lateStart: projectLateStart,
@@ -46,7 +47,7 @@ function SearchStarts(props) {
               setStateError({ ...stateError, boolEarlyStart: false, boolLateStart: false });
               setStateStart({ ...initialFinishState });
               props.setFilter({
-                attr: { earlyStart: 0, lateStart: 0 },
+                attr: { reset: true },
                 filterType: filtersTypes.filterByStartDate,
               });
               refStartStart.current.value = projectEarlyStartYYYYMMDD;
