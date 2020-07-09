@@ -6,9 +6,8 @@ export default (obj) => {
   const filteredData = data.filter((el) => {
     if (rowHasError(el.data)) return false;
     return (
-      moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf() >=
-        obj.attr.earlyFinish &&
-      moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf() <= obj.attr.lateFinish
+      moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf() >= obj.attr.earlyDate &&
+      moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf() <= obj.attr.lateDate
     );
   });
   const filteredIds = filteredData.map((d) =>

@@ -2,12 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
-import SearchStarts from "./components/searchStartsDates.js";
-import SearchFinishes from "./components/searchFinishesDates.js";
-import SearchPerformed from "./components/searchPerformedDates.js";
 import computeDates from "./components/computeDates.js";
+import DataInputComponent from "./components/dataInputComponent.js";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,13 +36,12 @@ function DatePickers(props) {
   const datesObject = computeDates(props);
   return (
     <List component="nav" className={classes.root} aria-label="mailbox folders">
-      <SearchStarts dates={datesObject} classes={classes} />
+      <DataInputComponent dateType="Start" dates={datesObject} classes={classes} />
       <Divider />
-      <SearchFinishes dates={datesObject} classes={classes} />
+      <DataInputComponent dateType="Finish" dates={datesObject} classes={classes} />
       <Divider light />
-      <SearchPerformed dates={datesObject} classes={classes} />
+      <DataInputComponent dateType="Performed" dates={datesObject} classes={classes} />
       <Divider light />
-      <ListItem></ListItem>
     </List>
   );
 }

@@ -7,9 +7,9 @@ export default (obj) => {
     if (rowHasError(el.data)) return false;
     const workStart = el.data.start.dateInMillisecons;
     const workFinish = moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf();
-    if (workStart >= obj.attr.from && workStart <= obj.attr.to) {
+    if (workStart >= obj.attr.earlyDate && workStart <= obj.attr.lateDate) {
       return true;
-    } else if (workFinish <= obj.attr.to && workFinish >= obj.attr.from) {
+    } else if (workFinish <= obj.attr.lateDate && workFinish >= obj.attr.earlyDate) {
       return true;
     } else {
       return false;
