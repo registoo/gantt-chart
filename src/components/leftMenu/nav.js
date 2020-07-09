@@ -18,7 +18,7 @@ function f(props) {
       showLabels
     >
       <BottomNavigationAction
-        label="Works"
+        label="Работы"
         icon={
           props.filterByWorks ? (
             <Tooltip title={`выбрано работ: ${props.selectedIds.length}`}>
@@ -32,7 +32,7 @@ function f(props) {
         }
       />
       <BottomNavigationAction
-        label="Dates"
+        label="Выбор дат"
         icon={
           props.filterByStartDate || props.filterByFinishDate || props.filterByPerformedDate ? (
             <Tooltip title="имеется активный фильтр">
@@ -46,7 +46,7 @@ function f(props) {
         }
       />
       <BottomNavigationAction
-        label="SPO"
+        label="СПО"
         icon={
           props.filterByStartDate || props.filterByFinishDate || props.filterByPerformedDate ? (
             <Tooltip title="имеется активный фильтр">

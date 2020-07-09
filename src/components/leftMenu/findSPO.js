@@ -11,7 +11,7 @@ const FindSPO = (props) => {
       limitTags={5}
       selfId={"FindSPO"}
       filterType={filtersTypes.filterBySPO}
-      label="СПО"
+      label="Выберите СПО"
     />
   );
 };

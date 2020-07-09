@@ -36,6 +36,7 @@ function DatePickers(props) {
   const datesObject = computeDates(props);
   return (
     <List component="nav" className={classes.root} aria-label="mailbox folders">
+      <Divider />
       <DataInputComponent dateType="Start" dates={datesObject} classes={classes} />
       <Divider />
       <DataInputComponent dateType="Finish" dates={datesObject} classes={classes} />

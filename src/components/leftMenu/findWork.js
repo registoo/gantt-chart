@@ -11,7 +11,7 @@ const FindWork = (props) => {
       limitTags={2}
       selfId={"FindWork"}
       filterType={filtersTypes.filterByWorks}
-      label="Works"
+      label="Выберите работы"
     />
   );
 };
