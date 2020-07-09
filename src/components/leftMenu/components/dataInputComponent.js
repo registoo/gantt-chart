@@ -6,7 +6,7 @@ import moment from "moment";
 import ButtonBadge from "./buttonBadge.js";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import TextField from "@material-ui/core/TextField";
-import SettingsBackupRestoreIcon from "@material-ui/icons/SettingsBackupRestore";
+import ClearIcon from "@material-ui/icons/Clear";
 import ListItemText from "@material-ui/core/ListItemText";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
@@ -87,7 +87,7 @@ function SearchFinishes(props) {
               });
             }}
           >
-            <SettingsBackupRestoreIcon />
+            <ClearIcon />
           </IconButton>
         </Tooltip>
       </ListItemIcon>
@@ -168,6 +168,13 @@ function SearchFinishes(props) {
               textLate: `Проверьте даты. Поиск начинается с: ${moment
                 .utc(state.earlyDate)
                 .format("DD-MM-YYYY")}`,
+            });
+            return;
+          } else if (state.lateDate > to) {
+            setStateError({
+              ...stateError,
+              boolLate: true,
+              textLate: `Дата больше финиша проекта ${moment.utc(to).format("DD-MM-YYYY")}`,
             });
             return;
           }
