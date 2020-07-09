@@ -1,7 +1,6 @@
 import fullData from "../../data";
 import defaultState from "./defaultState.js";
 import setFilters from "./dataFilters";
-import filtersTypes from "./dataFilters/typesOfFilters.js";
 
 export default function testReducer(state = defaultState(fullData), action) {
   let result;

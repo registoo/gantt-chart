@@ -153,4 +153,10 @@ function SearchStarts(props) {
   );
 }
 
-export default connect(null, { setFilter })(SearchStarts);
+const getState = (state) => {
+  return {
+    selectedData: state.mainReducer.slicedData.selectedData,
+  };
+};
+
+export default connect(getState, { setFilter })(SearchStarts);

@@ -61,8 +61,6 @@ export default function ({ serializedFilters, state }) {
           listOfSPOForSearcherInput,
           pickedSPO: filteredData.pickedSPO ? filteredData.pickedSPO : [],
         },
-        filteredData: filteredData.filteredData ? filteredData.filteredData : [],
-        filteredIds: filteredData.filteredIds ? filteredData.filteredIds : [],
       },
     };
 

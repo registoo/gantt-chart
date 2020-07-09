@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { setFilter } from "../../../redux/mainReducer/action.js";
 import { connect } from "react-redux";
 import filtersTypes from "../../../redux/mainReducer/dataFilters/typesOfFilters.js";
@@ -26,6 +26,7 @@ function SearchFinishes(props) {
     earlyFinish: projectEarlyFinish,
     lateFinish: projectLateFinish,
   };
+
   const [stateFinish, setStateFinish] = useState({ ...initialFinishState });
   const [stateError, setStateError] = useState({
     boolEarlyFinish: false,
@@ -33,8 +34,6 @@ function SearchFinishes(props) {
     boolLateFinish: false,
     textLateFinish: "",
   });
-  const refFinishStart = useRef(null);
-  const refFinishFinish = useRef(null);
   return (
     <ListItem id="listDateFinish">
       <ListItemIcon>
@@ -48,8 +47,6 @@ function SearchFinishes(props) {
                 attr: { reset: true },
                 filterType: filtersTypes.filterByFinishDate,
               });
-              refFinishStart.current.value = projectEarlyFinishYYYYMMDD;
-              refFinishFinish.current.value = projectLateFinishYYYYMMDD;
             }}
           >
             <SettingsBackupRestoreIcon />
@@ -61,7 +58,6 @@ function SearchFinishes(props) {
         <TextField
           error={stateError.boolEarlyFinish}
           helperText={stateError.boolEarlyFinish ? stateError.textEarlyFinish : undefined}
-          inputRef={refFinishStart}
           id="date-picker-finish-start"
           inputProps={{
             min: projectEarlyFinishYYYYMMDD,
@@ -69,21 +65,27 @@ function SearchFinishes(props) {
           }}
           label="с"
           type="date"
-          defaultValue={selectedEarlyFinishYYYYMMDD}
+          value={
+            stateFinish.earlyFinishYYYYMMDD
+              ? stateFinish.earlyFinishYYYYMMDD
+              : selectedEarlyFinishYYYYMMDD
+          }
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
           }}
           onChange={(e) => {
             setStateError({ ...stateError, boolEarlyFinish: false });
-            const earlyFinish = moment.utc(e.target.value).valueOf();
-            setStateFinish({ ...stateFinish, earlyFinish });
+            setStateFinish({
+              ...stateFinish,
+              earlyFinish: moment.utc(e.target.value).valueOf(),
+              earlyFinishYYYYMMDD: e.target.value,
+            });
           }}
         />
         <TextField
           error={stateError.boolLateFinish}
           helperText={stateError.boolLateFinish ? stateError.textLateFinish : undefined}
-          inputRef={refFinishFinish}
           id="date-picker-finish-finish"
           inputProps={{
             min: projectEarlyFinishYYYYMMDD,
@@ -91,15 +93,22 @@ function SearchFinishes(props) {
           }}
           label="по"
           type="date"
-          defaultValue={selectedLateFinishYYYYMMDD}
+          value={
+            stateFinish.lateFinishYYYYMMDD
+              ? stateFinish.lateFinishYYYYMMDD
+              : selectedLateFinishYYYYMMDD
+          }
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
           }}
           onChange={(e) => {
             setStateError({ ...stateError, boolLateFinish: false });
-            const lateFinish = moment.utc(e.target.value).valueOf();
-            setStateFinish({ ...stateFinish, lateFinish });
+            setStateFinish({
+              ...stateFinish,
+              lateFinish: moment.utc(e.target.value).valueOf(),
+              lateFinishYYYYMMDD: e.target.value,
+            });
           }}
         />
       </div>
@@ -146,4 +155,5 @@ function SearchFinishes(props) {
     </ListItem>
   );
 }
+
 export default connect(null, { setFilter })(SearchFinishes);

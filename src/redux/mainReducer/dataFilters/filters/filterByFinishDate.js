@@ -2,11 +2,7 @@ import { rowHasError } from "../../../../auxFunctions";
 import moment from "moment";
 
 export default (obj) => {
-  const data = obj.selectedData
-    ? obj.selectedData
-    : obj.filteredData
-    ? obj.filteredData
-    : obj.fullData;
+  const data = obj.selectedData.length > 0 ? obj.selectedData : obj.fullData;
   const filteredData = data.filter((el) => {
     if (rowHasError(el.data)) return false;
     return (
@@ -20,8 +16,6 @@ export default (obj) => {
   );
   return {
     ...obj,
-    filteredData,
-    filteredIds,
     selectedData: filteredData,
     selectedIds: filteredIds,
   };

@@ -64,8 +64,6 @@ export default (fullData) => {
       worksFilter: { listOfWorksForSearcherInput: fullIds, pickedWorksIds: [] },
       SPOFilter: { listOfSPOForSearcherInput: listOfSPO, pickedSPO: [] },
       serializedFilters: [],
-      filteredData: [],
-      filteredIds: [],
     },
   };
   const result = {
