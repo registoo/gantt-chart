@@ -50,7 +50,7 @@ function f(props) {
       <BottomNavigationAction
         label="СПО"
         icon={
-          props.filterByStartDate || props.filterByFinishDate || props.filterByPerformedDate ? (
+          props.filterBySPO ? (
             <Tooltip title="имеется активный фильтр">
               <Badge color="secondary" variant="dot">
                 <DirectionsWalkIcon />
@@ -64,7 +64,7 @@ function f(props) {
       <BottomNavigationAction
         label="% выполнения"
         icon={
-          props.filterByStartDate || props.filterByFinishDate || props.filterByPerformedDate ? (
+          props.filterPercentage ? (
             <Tooltip title="имеется активный фильтр">
               <Badge color="secondary" variant="dot">
                 <DonutLargeIcon />
@@ -86,6 +86,8 @@ const getState = (state) => {
     filterByFinishDate: state.mainReducer.dataSpec.filters.filtersIds.filterByFinishDate,
     filterByPerformedDate: state.mainReducer.dataSpec.filters.filtersIds.filterByPerformedDate,
     selectedIds: state.mainReducer.ids.selectedIds,
+    filterPercentage: state.mainReducer.dataSpec.filters.filtersIds.filterPercentage,
+    filterBySPO: state.mainReducer.dataSpec.filters.filtersIds.filterBySPO,
   };
 };
 

@@ -22,14 +22,17 @@ export default function testReducer(state = defaultState(fullData), action) {
         },
         scales: { ...state.scales, ...setXScaleWidth },
       };
-      console.log(result);
+      console.log("SET_SVG_WIDTH", result);
       return result;
     }
     case "SET_RESIZER_TYPE": {
-      return {
+      result = {
         ...state,
         sizesSVG: { ...state.sizesSVG, resizedType: action.position },
       };
+
+      console.log("SET_RESIZER_TYPE", result);
+      return result;
     }
     case "CHANGE_SVG_RANGE": {
       const setXScaleRange = state.scales.aux.setXRange(action.start, action.finish, state);
@@ -37,7 +40,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
-      console.log(result);
+      console.log("CHANGE_SVG_RANGE", result);
       return result;
     }
 
@@ -61,7 +64,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           dataRange: action.dataRange,
         },
       };
-      console.log(result);
+      console.log("WHEEL_DATA", result);
       return result;
     }
 
@@ -105,7 +108,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         serializedFilters,
         state,
       });
-      console.log(result);
+      console.log("SERIALIZE_FILTERS", result);
       return result;
     }
 

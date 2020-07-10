@@ -3,7 +3,7 @@ import { setFilter } from "../../../redux/mainReducer/action.js";
 import { connect } from "react-redux";
 import filtersTypes from "../../../redux/mainReducer/dataFilters/typesOfFilters.js";
 import moment from "moment";
-import ButtonBadge from "./buttonBadge.js";
+import ButtonBadge from "./buttonBadgeForDateFilter.js";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import TextField from "@material-ui/core/TextField";
 import ClearIcon from "@material-ui/icons/Clear";
