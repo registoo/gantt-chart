@@ -61,9 +61,12 @@ export default function ({ serializedFilters, state }) {
           listOfSPOForSearcherInput,
           pickedSPO: filteredData.pickedSPO ? filteredData.pickedSPO : [],
         },
-        percentageFilter: filteredData.percentageSelected
-          ? filteredData.percentageSelected
-          : { from: 0, to: 100 },
+        percentageFilter: {
+          range: filteredData.percentageSelected
+            ? filteredData.percentageSelected
+            : { from: 0, to: 100 },
+          selectedPercentageFilter: filteredData.selectedPercentageFilter,
+        },
       },
     };
 

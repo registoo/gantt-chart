@@ -23,5 +23,6 @@ export default (obj) => {
     selectedData,
     selectedIds,
     percentageSelected: { from, to },
+    selectedPercentageFilter: obj.attr.optionsType,
   };
 };

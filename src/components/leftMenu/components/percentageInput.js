@@ -36,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BadgePercentage = (props) => {
-  if (props.badgeId === props.activeFilter) {
+  if (props.disableFilter) {
+    return <SlideshowIcon fontSize="large" color="disabled" />;
+  }
+  if (props.activeFilter === props.currentFilter) {
     return (
       <StyledBadgeCalendar color="primary" badgeContent=" ">
         <Tooltip title={`фильтр активен`}>
@@ -44,19 +47,36 @@ const BadgePercentage = (props) => {
         </Tooltip>
       </StyledBadgeCalendar>
     );
-  } else if (props.activeFilter === "both") {
+  } else {
     return (
       <Tooltip title="применить фильтр">
         <SlideshowIcon fontSize="large" />
       </Tooltip>
     );
-  } else {
-    return <SlideshowIcon fontSize="large" color="disabled" />;
   }
 };
-const initialState = { activeFilter: "both" }; // "oneFilter" "twoFilters" "both"
+
 const Func = (props) => {
   const classes = useStyles();
+  const disableOneFilter = (() => {
+    if (!props.selectedPercentageFilter || props.selectedPercentageFilter === "oneFilter") {
+      return false;
+    } else {
+      return true;
+    }
+  })();
+  const disableTwoFilters = (() => {
+    if (!props.selectedPercentageFilter || props.selectedPercentageFilter === "twoFilters") {
+      return false;
+    } else {
+      return true;
+    }
+  })();
+  const initialState = {
+    from: !props.selectedPercentageFilter ? undefined : props.rangeOfPercentageFilter.from,
+    to: !props.selectedPercentageFilter ? undefined : props.rangeOfPercentageFilter.to,
+    one: !props.selectedPercentageFilter ? undefined : props.rangeOfPercentageFilter.from,
+  };
   const [state, setState] = useState({ ...initialState });
   const filterType = filtersTypes.filterPercentage;
 
@@ -65,29 +85,22 @@ const Func = (props) => {
       <Divider />
       <ListItem id="percentageOnePercent" className={classes.container}>
         <ListItemIcon>
-          <Tooltip title="сброс фильтра">
-            <IconButton
-              disabled={
-                state.activeFilter === "both"
-                  ? false
-                  : state.activeFilter === "oneFilter"
-                  ? false
-                  : true
-              }
-              aria-label="refresh"
-              onClick={() => {
-                setState({
-                  ...initialState,
-                  activeFilter: state.activeFilter === "oneFilter" ? "both" : state.activeFilter,
-                });
-                props.setFilter({
-                  attr: { reset: true },
-                  filterType,
-                });
-              }}
-            >
-              <ClearIcon />
-            </IconButton>
+          <Tooltip title={disableOneFilter ? "активен другой фильтр" : "сброс фильтра"}>
+            <span>
+              <IconButton
+                disabled={disableOneFilter}
+                aria-label="refresh"
+                onClick={() => {
+                  setState({});
+                  props.setFilter({
+                    attr: { reset: true },
+                    filterType,
+                  });
+                }}
+              >
+                <ClearIcon />
+              </IconButton>
+            </span>
           </Tooltip>
         </ListItemIcon>
         <div>
@@ -95,7 +108,7 @@ const Func = (props) => {
             className={classes.someWidth}
             id="oneOption"
             label="Точное значение"
-            value={typeof state.one === "number" ? state.one : ""}
+            value={disableOneFilter ? "" : typeof state.one === "number" ? state.one : ""}
             type="number"
             inputProps={{
               min: 0,
@@ -112,13 +125,13 @@ const Func = (props) => {
               setState({ ...state, one: value });
             }}
             onBlur={(e) => {
-              if (state.activeFilter === "oneFilter") {
+              if (!disableOneFilter) {
                 if (e.target.value.length === 0) {
                   if (
-                    typeof props.percentageFilter.from === "number" &&
-                    !isNaN(props.percentageFilter.from)
+                    typeof props.rangeOfPercentageFilter.from === "number" &&
+                    !isNaN(props.rangeOfPercentageFilter.from)
                   ) {
-                    setState({ ...state, one: props.percentageFilter.from });
+                    setState({ ...state, one: props.rangeOfPercentageFilter.from });
                   }
                 }
               }
@@ -130,56 +143,46 @@ const Func = (props) => {
         </div>
         <ListItemIcon>
           <IconButton
-            disabled={
-              state.activeFilter === "both"
-                ? false
-                : state.activeFilter === "oneFilter"
-                ? false
-                : true
-            }
+            disabled={disableOneFilter}
             color="primary"
             aria-label="apply dates"
             onClick={() => {
-              setState({
-                ...state,
-                activeFilter: "oneFilter",
-              });
+              if (!state.one && typeof state.one !== "number") {
+                return;
+              }
               props.setFilter({
-                attr: { from: state.one, to: state.one },
+                attr: { from: state.one, to: state.one, optionsType: "oneFilter" },
                 filterType,
               });
             }}
           >
-            <BadgePercentage activeFilter={state.activeFilter} badgeId="oneFilter" />
+            <BadgePercentage
+              disableFilter={disableOneFilter}
+              activeFilter={props.selectedPercentageFilter}
+              currentFilter={"oneFilter"}
+            />
           </IconButton>
         </ListItemIcon>
       </ListItem>
       <Divider />
       <ListItem id="percentageFromTo" className={classes.container}>
         <ListItemIcon>
-          <Tooltip title="сброс фильтра">
-            <IconButton
-              disabled={
-                state.activeFilter === "both"
-                  ? false
-                  : state.activeFilter === "twoFilters"
-                  ? false
-                  : true
-              }
-              aria-label="refresh"
-              onClick={() => {
-                setState({
-                  ...initialState,
-                  activeFilter: state.activeFilter === "twoFilters" ? "both" : state.activeFilter,
-                });
-                props.setFilter({
-                  attr: { reset: true },
-                  filterType,
-                });
-              }}
-            >
-              <ClearIcon />
-            </IconButton>
+          <Tooltip title={disableTwoFilters ? "активен другой фильтр" : "сброс фильтра"}>
+            <span>
+              <IconButton
+                disabled={disableTwoFilters}
+                aria-label="refresh"
+                onClick={() => {
+                  setState({});
+                  props.setFilter({
+                    attr: { reset: true },
+                    filterType,
+                  });
+                }}
+              >
+                <ClearIcon />
+              </IconButton>
+            </span>
           </Tooltip>
         </ListItemIcon>
         <div>
@@ -187,7 +190,7 @@ const Func = (props) => {
             className={`${classes.someWidth} ${classes.rightMargin}`}
             id="twoOptionsFrom"
             label="С"
-            value={typeof state.from === "number" ? state.from : ""}
+            value={disableTwoFilters ? "" : typeof state.from === "number" ? state.from : ""}
             type="number"
             inputProps={{
               min: 0,
@@ -204,10 +207,10 @@ const Func = (props) => {
               setState({ ...state, from: value });
             }}
             onBlur={(e) => {
-              if (state.activeFilter === "twoFilters") {
+              if (!disableTwoFilters) {
                 if (e.target.value.length === 0) {
-                  if (typeof props.percentageFilter.from === "number") {
-                    setState({ ...state, from: props.percentageFilter.from });
+                  if (typeof props.rangeOfPercentageFilter.from === "number") {
+                    setState({ ...state, from: props.rangeOfPercentageFilter.from });
                   }
                 }
               }
@@ -220,7 +223,7 @@ const Func = (props) => {
             className={classes.someWidth}
             id="twoOptionsTo"
             label="По"
-            value={typeof state.to === "number" ? state.to : ""}
+            value={disableTwoFilters ? "" : typeof state.to === "number" ? state.to : ""}
             type="number"
             inputProps={{
               min: 0,
@@ -237,10 +240,10 @@ const Func = (props) => {
               setState({ ...state, to: value });
             }}
             onBlur={(e) => {
-              if (state.activeFilter === "twoFilters") {
+              if (!disableTwoFilters) {
                 if (e.target.value.length === 0) {
-                  if (typeof props.percentageFilter.to === "number") {
-                    setState({ ...state, to: props.percentageFilter.to });
+                  if (typeof props.rangeOfPercentageFilter.to === "number") {
+                    setState({ ...state, to: props.rangeOfPercentageFilter.to });
                   }
                 }
               }
@@ -252,21 +255,14 @@ const Func = (props) => {
         </div>
         <ListItemIcon>
           <IconButton
-            disabled={
-              state.activeFilter === "both"
-                ? false
-                : state.activeFilter === "twoFilters"
-                ? false
-                : true
-            }
+            disabled={disableTwoFilters}
             color="primary"
             aria-label="apply dates"
             onClick={() => {
               if (state.from === 0 && state.to === 100) {
                 // сброс фильтра при поиске от 0 до 100
-                setState({ ...state, activeFilter: "both" });
                 return props.setFilter({
-                  attr: { reset: true },
+                  attr: { reset: true, optionsType: "twoFilters" },
                   filterType,
                 });
               } else if (
@@ -276,34 +272,33 @@ const Func = (props) => {
                 typeof state.to !== "number"
               ) {
                 // если не введены оба параметра
-                setState({ from: 0, to: 100, activeFilter: "twoFilters" });
-                return props.setFilter({
-                  attr: { from: 0, to: 100 },
-                  filterType,
-                });
+                return;
               } else if (!state.from && typeof state.from !== "number") {
                 // если не введён параметр from
-                setState({ ...state, from: 0, activeFilter: "twoFilters" });
+                setState({ ...state, from: 0 });
                 return props.setFilter({
-                  attr: { from: 0, to: state.to },
+                  attr: { from: 0, to: state.to, optionsType: "twoFilters" },
                   filterType,
                 });
               } else if (!state.to && typeof state.to !== "number") {
                 // если не введён параметр to
-                setState({ ...state, to: 100, activeFilter: "twoFilters" });
+                setState({ ...state, to: 100 });
                 return props.setFilter({
-                  attr: { from: state.from, to: 100 },
+                  attr: { from: state.from, to: 100, optionsType: "twoFilters" },
                   filterType,
                 });
               }
-              setState({ ...state, activeFilter: "twoFilters" });
               props.setFilter({
-                attr: { from: state.from, to: state.to },
+                attr: { from: state.from, to: state.to, optionsType: "twoFilters" },
                 filterType,
               });
             }}
           >
-            <BadgePercentage activeFilter={state.activeFilter} badgeId="twoFilters" />
+            <BadgePercentage
+              disableFilter={disableTwoFilters}
+              activeFilter={props.selectedPercentageFilter}
+              currentFilter={"twoFilters"}
+            />
           </IconButton>
         </ListItemIcon>
       </ListItem>
@@ -315,7 +310,9 @@ const Func = (props) => {
 const getState = (state) => {
   return {
     filterPercentage: state.mainReducer.dataSpec.filters.filtersIds.filterPercentage,
-    percentageFilter: state.mainReducer.dataSpec.filters.percentageFilter,
+    rangeOfPercentageFilter: state.mainReducer.dataSpec.filters.percentageFilter.range,
+    selectedPercentageFilter:
+      state.mainReducer.dataSpec.filters.percentageFilter.selectedPercentageFilter,
   };
 };
 
