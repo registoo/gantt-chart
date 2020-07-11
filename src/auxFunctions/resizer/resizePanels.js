@@ -14,11 +14,12 @@ function ResizePanel(props) {
         onDrag={function (e, ui) {
           if (!props.widthSVG) return;
           const parentWidth = props.parentDiv.current.offsetWidth;
+          const freeWidth = parentWidth - props.sizesLeftMenuWidth;
           const resizableElemWidth = props.widthSVG - ui.deltaX;
           const minSize = props.minWidth;
-          if (parentWidth <= minSize * 2 + props.separatorWidth) {
+          if (freeWidth <= minSize * 2 + props.separatorWidth) {
             props.setWidth({
-              svgWidth: (parentWidth - props.separatorWidth) / 2,
+              svgWidth: (freeWidth - props.separatorWidth) / 2,
               resizedType: handJob,
             });
             return;
@@ -30,9 +31,9 @@ function ResizePanel(props) {
             });
             return;
           }
-          if (resizableElemWidth + separatorWidth >= parentWidth) {
+          if (resizableElemWidth + separatorWidth >= freeWidth) {
             props.setWidth({
-              svgWidth: parentWidth,
+              svgWidth: freeWidth,
               resizedType: handJob,
             });
             return;
@@ -57,6 +58,7 @@ const getState = (state) => {
     widthSVG: state.mainReducer.sizes.sizesSVG.width,
     minWidth: state.mainReducer.sizes.sizesSVG.minWidth,
     separatorWidth: state.mainReducer.sizes.sizesSVG.separatorWidth,
+    sizesLeftMenuWidth: state.mainReducer.sizes.sizesLeftMenu.width,
   };
 };
 

@@ -33,6 +33,7 @@ export default (fullData) => {
       resizedType: defaultResizer,
     },
     sizesWL: { width: 0, height: heightSVG },
+    sizesLeftMenu: { width: 400 },
   };
 
   const displayedIds = displayedData.map((d) =>

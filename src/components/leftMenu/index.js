@@ -4,6 +4,7 @@ import DateFilter from "./dateFilter.js";
 import FindSPO from "./findSPO.js";
 import NavPanel from "./nav.js";
 import FilterPercentage from "./filterPercentage.js";
+import { connect } from "react-redux";
 
 const localChildren = (d) => {
   switch (d) {
@@ -20,7 +21,7 @@ const localChildren = (d) => {
   }
 };
 
-export default function SimpleBottomNavigation() {
+function SimpleBottomNavigation(props) {
   const [value, setValue] = React.useState(0);
 
   return (
@@ -28,9 +29,9 @@ export default function SimpleBottomNavigation() {
       style={{
         display: "flex",
         flexDirection: "column",
-        maxWidth: 400,
-        width: 400,
-        minWidth: 400,
+        maxWidth: props.width,
+        width: props.width,
+        minWidth: props.width,
         marginRight: 10,
         marginTop: 10,
       }}
@@ -40,3 +41,11 @@ export default function SimpleBottomNavigation() {
     </div>
   );
 }
+
+const getState = (state) => {
+  return {
+    width: state.mainReducer.sizes.sizesLeftMenu.width,
+  };
+};
+
+export default connect(getState)(SimpleBottomNavigation);
