@@ -21,9 +21,9 @@ const Slider = (props) => {
 
 const getState = (state) => {
   return {
-    marginSVG: state.mainReducer.sizesSVG.margin,
-    widthSVG: state.mainReducer.sizesSVG.width,
-    height: state.mainReducer.sizesSVG.slider.height,
+    marginSVG: state.mainReducer.sizes.sizesSVG.margin,
+    widthSVG: state.mainReducer.sizes.sizesSVG.width,
+    height: state.mainReducer.sizes.sizesSVG.slider.height,
     xScale: state.mainReducer.scales.xScale,
     selectedStartMS: state.mainReducer.scales.selectedStartMS,
     selectedFinishMS: state.mainReducer.scales.selectedFinishMS,

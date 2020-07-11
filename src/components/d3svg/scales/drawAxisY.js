@@ -30,7 +30,7 @@ const DrawAxisY = (props) => {
 const getState = (state) => {
   return {
     yAxis: state.mainReducer.scales.yAxis,
-    marginSVG: state.mainReducer.sizesSVG.margin,
+    marginSVG: state.mainReducer.sizes.sizesSVG.margin,
     listID: state.mainReducer.ids.displayedIds,
   };
 };

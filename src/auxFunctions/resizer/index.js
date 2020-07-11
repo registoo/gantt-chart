@@ -46,9 +46,9 @@ function CustomComponent(props) {
 
 const getState = (state) => {
   return {
-    width: state.mainReducer.sizesSVG.width,
-    resizedType: state.mainReducer.sizesSVG.resizedType,
-    separatorWidth: state.mainReducer.sizesSVG.separatorWidth,
+    width: state.mainReducer.sizes.sizesSVG.width,
+    resizedType: state.mainReducer.sizes.sizesSVG.resizedType,
+    separatorWidth: state.mainReducer.sizes.sizesSVG.separatorWidth,
   };
 };
 

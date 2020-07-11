@@ -32,8 +32,8 @@ export default function ({ serializedFilters, state }) {
         ? { start: 0, finish: maxElementsOnPage }
         : { start: 0, finish: 0 };
     const wheeled = selectedIds.length > maxElementsOnPage;
-    const heightSVG = currentElementsOnPage * (state.sizesSVG.stringHeight * 1.25);
-    const sizesSVG = { ...state.sizesSVG, height: heightSVG, resizedType: handJob };
+    const heightSVG = currentElementsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
+    const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG, resizedType: handJob };
     const newScales = {
       ...state.scales.changeScales.changeScaleY({
         displayedIds,
@@ -72,7 +72,7 @@ export default function ({ serializedFilters, state }) {
 
     return {
       ...state,
-      sizesSVG,
+      sizes: { ...state.sizes, sizesSVG },
       slicedData: {
         ...state.slicedData,
         displayedData,

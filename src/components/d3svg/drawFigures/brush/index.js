@@ -46,8 +46,8 @@ const DrawBrush = (props) => {
 
 const getState = (state) => {
   return {
-    widthSVG: state.mainReducer.sizesSVG.width,
-    marginSVG: state.mainReducer.sizesSVG.margin,
+    widthSVG: state.mainReducer.sizes.sizesSVG.width,
+    marginSVG: state.mainReducer.sizes.sizesSVG.margin,
     displayedData: state.mainReducer.slicedData.displayedData,
     yScale: state.mainReducer.scales.yScale,
     xScale: state.mainReducer.scales.xScale,

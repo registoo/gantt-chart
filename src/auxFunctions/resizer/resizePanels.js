@@ -54,9 +54,9 @@ function ResizePanel(props) {
 
 const getState = (state) => {
   return {
-    widthSVG: state.mainReducer.sizesSVG.width,
-    minWidth: state.mainReducer.sizesSVG.minWidth,
-    separatorWidth: state.mainReducer.sizesSVG.separatorWidth,
+    widthSVG: state.mainReducer.sizes.sizesSVG.width,
+    minWidth: state.mainReducer.sizes.sizesSVG.minWidth,
+    separatorWidth: state.mainReducer.sizes.sizesSVG.separatorWidth,
   };
 };
 

@@ -21,17 +21,19 @@ export default (fullData) => {
     bottom: 0,
     left: 0,
   };
-  const sizesSVG = {
-    separatorWidth: 6,
-    minWidth: 400,
-    width: 0,
-    height: heightSVG,
-    margin: marginSVG,
-    stringHeight,
-    slider: { height: 20 },
-    resizedType: defaultResizer,
+  const sizes = {
+    sizesSVG: {
+      separatorWidth: 6,
+      minWidth: 400,
+      width: 0,
+      height: heightSVG,
+      margin: marginSVG,
+      stringHeight,
+      slider: { height: 20 },
+      resizedType: defaultResizer,
+    },
+    sizesWL: { width: 0, height: heightSVG },
   };
-  const sizesWL = { width: 0, height: heightSVG };
 
   const displayedIds = displayedData.map((d) =>
     rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
@@ -70,17 +72,17 @@ export default (fullData) => {
   const result = {
     fullData,
     slicedData: { displayedData, selectedData },
-    sizesSVG,
-    workList: { sizesWL, columnsName: { ...columnsName() } },
+    sizes,
+    workList: { columnsName: { ...columnsName() } },
     ids: { fullIds, displayedIds, selectedIds },
     dataSpec,
     scales: {
       ...changeScaleY({
         displayedIds,
-        sizesSVG,
+        sizesSVG: sizes.sizesSVG,
       }),
       ...changeScaleX({
-        sizesSVG,
+        sizesSVG: sizes.sizesSVG,
         fullData,
         displayedData,
         selectedData,

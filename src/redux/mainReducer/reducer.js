@@ -8,17 +8,19 @@ export default function testReducer(state = defaultState(fullData), action) {
     case "SET_SVG_WIDTH": {
       const setXScaleWidth = state.scales.aux.setWidthOfHorizontalScale({
         widthSVG: action.svgWidth,
-        marginSVG: state.sizesSVG.margin,
+        marginSVG: state.sizes.sizesSVG.margin,
         displayedStartMS: state.scales.displayedStartMS,
         displayedFinishMS: state.scales.displayedFinishMS,
         xScaleMinCoordinate: state.scales.xScaleMinCoordinate,
       });
       result = {
         ...state,
-        sizesSVG: {
-          ...state.sizesSVG,
-          width: action.svgWidth,
-          resizedType: action.resizedType,
+        sizes: {
+          sizesSVG: {
+            ...state.sizes.sizesSVG,
+            width: action.svgWidth,
+            resizedType: action.resizedType,
+          },
         },
         scales: { ...state.scales, ...setXScaleWidth },
       };
@@ -28,7 +30,7 @@ export default function testReducer(state = defaultState(fullData), action) {
     case "SET_RESIZER_TYPE": {
       result = {
         ...state,
-        sizesSVG: { ...state.sizesSVG, resizedType: action.position },
+        sizes: { sizesSVG: { ...state.sizes.sizesSVG, resizedType: action.position } },
       };
 
       console.log("SET_RESIZER_TYPE", result);
@@ -48,7 +50,7 @@ export default function testReducer(state = defaultState(fullData), action) {
       const newScales = {
         ...state.scales.changeScales.changeScaleY({
           displayedIds: action.displayedIds,
-          sizesSVG: state.sizesSVG,
+          sizesSVG: state.sizes.sizesSVG,
         }),
       };
       result = {

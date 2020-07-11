@@ -89,7 +89,7 @@ const getState = (state) => {
     currentElementsOnPage: state.mainReducer.dataSpec.currentElementsOnPage,
     displayedData: state.mainReducer.slicedData.displayedData,
     ids: state.mainReducer.ids.fullIds,
-    headerHeight: state.mainReducer.sizesSVG.slider.height,
+    headerHeight: state.mainReducer.sizes.sizesSVG.slider.height,
   };
 };
 

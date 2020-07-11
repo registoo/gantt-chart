@@ -92,8 +92,8 @@ function Gantt(props) {
 }
 const getState = (state) => {
   return {
-    heightSVG: state.mainReducer.sizesSVG.height,
-    widthSVG: state.mainReducer.sizesSVG.width,
+    heightSVG: state.mainReducer.sizes.sizesSVG.height,
+    widthSVG: state.mainReducer.sizes.sizesSVG.width,
     dataSpec: state.mainReducer.dataSpec,
     selectedIds: state.mainReducer.ids.selectedIds,
     selectedData: state.mainReducer.slicedData.selectedData,

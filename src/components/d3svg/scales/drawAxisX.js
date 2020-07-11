@@ -53,9 +53,9 @@ const DrawAxisX = (props) => {
 const getState = (state) => {
   return {
     xAxis: state.mainReducer.scales.xAxis,
-    widthSVG: state.mainReducer.sizesSVG.width,
-    heightSVG: state.mainReducer.sizesSVG.height,
-    marginSVG: state.mainReducer.sizesSVG.margin,
+    widthSVG: state.mainReducer.sizes.sizesSVG.width,
+    heightSVG: state.mainReducer.sizes.sizesSVG.height,
+    marginSVG: state.mainReducer.sizes.sizesSVG.margin,
     displayedStartMS: state.mainReducer.scales.displayedStartMS,
     displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
     getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
