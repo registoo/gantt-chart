@@ -16,6 +16,7 @@ export default function testReducer(state = defaultState(fullData), action) {
       result = {
         ...state,
         sizes: {
+          ...state.sizes,
           sizesSVG: {
             ...state.sizes.sizesSVG,
             width: action.svgWidth,
@@ -30,7 +31,10 @@ export default function testReducer(state = defaultState(fullData), action) {
     case "SET_RESIZER_TYPE": {
       result = {
         ...state,
-        sizes: { sizesSVG: { ...state.sizes.sizesSVG, resizedType: action.position } },
+        sizes: {
+          ...state.sizes,
+          sizesSVG: { ...state.sizes.sizesSVG, resizedType: action.position },
+        },
       };
 
       console.log("SET_RESIZER_TYPE", result);
