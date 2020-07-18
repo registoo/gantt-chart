@@ -6,7 +6,6 @@ import ResizeDetector from "./auxFunctions/resizer/index.js";
 import Polzynok from "./components/polzynok";
 import LeftMenu from "././components/leftMenu";
 import Slider from "./components/d3svg/slider";
-import Tree from "./components/tree.js";
 import Accordion from "./components/accordion.js";
 
 function App(props) {
