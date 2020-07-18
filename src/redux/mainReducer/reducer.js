@@ -1,6 +1,7 @@
 import fullData from "../../data";
 import defaultState from "./defaultState.js";
 import setFilters from "./dataFilters";
+import { handJob } from "../../auxFunctions/resizedTypes";
 
 export default function testReducer(state = defaultState(fullData), action) {
   let result;
@@ -47,6 +48,42 @@ export default function testReducer(state = defaultState(fullData), action) {
         scales: { ...state.scales, ...setXScaleRange },
       };
       console.log("CHANGE_SVG_RANGE", result);
+      return result;
+    }
+
+    case "ACCORDION_DATA": {
+      const wheeled = false;
+      const heightSVG = action.displayedIds.length * (state.sizes.sizesSVG.stringHeight * 1.25);
+      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG, resizedType: handJob };
+      const newScales = {
+        ...state.scales.changeScales.changeScaleY({
+          displayedIds: action.displayedIds,
+          sizesSVG,
+        }),
+        ...state.scales.changeScales.changeScaleX({
+          sizesSVG,
+          selectedData: state.slicedData.selectedData,
+          fullData: state.fullData,
+          displayedData: action.displayedData,
+        }),
+      };
+      result = {
+        ...state,
+        scales: { ...state.scales, ...newScales },
+        sizes: { ...state.sizes, sizesSVG },
+        slicedData: {
+          ...state.slicedData,
+          displayedData: action.displayedData,
+        },
+        ids: { ...state.ids, displayedIds: action.displayedIds },
+        dataSpec: {
+          ...state.dataSpec,
+          dataRange: action.dataRange,
+          accordionExpanded: action.accordionExpanded,
+          wheeled,
+        },
+      };
+      console.log("ACCORDION_DATA", result);
       return result;
     }
 

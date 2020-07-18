@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import DrawFigures from "./drawFigures";
 import React, { useRef, useEffect, useState, Fragment } from "react";
 import DrawScales from "./scales";
-import Slider from "./slider";
 import { setWheeledData } from "../../redux/mainReducer/action";
 import { rowHasError } from "../../auxFunctions";
 
@@ -21,7 +20,7 @@ function Gantt(props) {
         const start = finish - props.dataSpec.currentElementsOnPage;
         const displayedData = props.selectedData.slice(start, finish);
         const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+          rowHasError(d.data) ? d.data.isError.formattedText : d.id
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
@@ -39,7 +38,7 @@ function Gantt(props) {
         const finish = start + props.dataSpec.currentElementsOnPage;
         const displayedData = props.selectedData.slice(start, finish);
         const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+          rowHasError(d.data) ? d.data.isError.formattedText : d.id
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
@@ -75,7 +74,7 @@ function Gantt(props) {
     } else {
       return (
         <Fragment>
-          <Slider />
+          <div style={{ minHeight: props.sliderHeight, backgroundColor: "yellow" }}></div>
           <svg width="100%" height={props.heightSVG} id="chart">
             <DrawScales />
             <DrawFigures />
@@ -99,6 +98,7 @@ const getState = (state) => {
     selectedData: state.mainReducer.slicedData.selectedData,
     displayedStartMS: state.mainReducer.scales.displayedStartMS,
     displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
+    sliderHeight: state.mainReducer.sizes.sizesSVG.slider.height,
   };
 };
 

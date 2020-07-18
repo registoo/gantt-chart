@@ -27,3 +27,13 @@ export const setFilter = (data) => {
     filterType: data.filterType,
   };
 };
+
+export const setAccordionData = (data) => {
+  return {
+    type: "ACCORDION_DATA",
+    displayedIds: data.displayedIds,
+    displayedData: data.displayedData,
+    dataRange: data.dataRange,
+    accordionExpanded: data.accordionExpanded,
+  };
+};

@@ -37,12 +37,10 @@ export default (fullData) => {
   };
 
   const displayedIds = displayedData.map((d) =>
-    rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+    rowHasError(d.data) ? d.data.isError.formattedText : d.id
   );
 
-  const fullIds = fullData.map((d) =>
-    rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
-  );
+  const fullIds = fullData.map((d) => (rowHasError(d.data) ? d.data.isError.formattedText : d.id));
 
   const selectedData = fullData;
   const selectedIds = fullIds;
@@ -59,6 +57,7 @@ export default (fullData) => {
     startDataForDataRange,
     maxElementsOnPage,
     wheeled: true,
+    accordionExpanded: false,
     filters: {
       filtersIds: Object.keys(typesOfFilters).reduce((acc, el) => {
         acc[el] = false;

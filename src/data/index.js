@@ -4,6 +4,7 @@ import rowHasError from "../auxFunctions/rowHasError";
 import moment from "moment";
 import * as d3 from "d3";
 import columns from "./columns.js";
+import setChildren from "./setChildren.js";
 
 // Обозначение столбов с данными
 const nameCell = "A";
@@ -104,7 +105,7 @@ const resultData = IDAddedToObj();
 const arrayOfIds = d3.keys(resultData);
 const resultArray = arrayOfIds.map((el) => {
   const value = resultData[el];
-  return { id: el, data: value };
+  return { id: el, data: value, children: setChildren(el, value) };
 });
 
 export default resultArray;

@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 
 const DrawRect = (props) => {
   const x = (d) => props.xScale(d.start.dateInMillisecons);
-  const y = (d) =>
-    rowHasError(d) ? props.yScale(d.isError.formattedText) : props.yScale(d.jobName.formattedText);
+  const y = (data, id) =>
+    rowHasError(data) ? props.yScale(data.isError.formattedText) : props.yScale(id);
   const height = (d) => props.yScale.bandwidth();
   const width = (d) =>
     props.xScale(d.start.dateInMillisecons + (d.duration * 86400000 - 1)) -
@@ -18,7 +18,7 @@ const DrawRect = (props) => {
       <rect
         key={keyGenerator(d.id)}
         x={x(d.data)}
-        y={y(d.data)}
+        y={y(d.data, d.id)}
         height={height(d.data)}
         width={width(d.data)}
         id={id(d.data)}

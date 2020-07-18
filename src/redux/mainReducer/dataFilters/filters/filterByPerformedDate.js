@@ -16,7 +16,7 @@ export default (obj) => {
     }
   });
   const filteredIds = filteredData.map((d) =>
-    rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+    rowHasError(d.data) ? d.data.isError.formattedText : d.id
   );
   return {
     ...obj,

@@ -23,9 +23,7 @@ export const getListOfWorksForSearcherInput = (obj) => {
     return !(el.filterType === typesOfFilters.filterByWorks);
   });
   if (serializedFiltersWithoutWorkFilter.length === 0) {
-    return obj.fullData.map((d) =>
-      rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
-    );
+    return obj.fullData.map((d) => (rowHasError(d.data) ? d.data.isError.formattedText : d.id));
   } else {
     return getData({
       serializedFilters: serializedFiltersWithoutWorkFilter,
