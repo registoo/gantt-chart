@@ -52,7 +52,7 @@ export default function testReducer(state = defaultState(fullData), action) {
     }
 
     case "ACCORDION_DATA": {
-      const wheeled = false;
+      const wheeled = !action.accordionExpanded;
       const heightSVG = action.displayedIds.length * (state.sizes.sizesSVG.stringHeight * 1.25);
       const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG, resizedType: handJob };
       const newScales = {

@@ -167,7 +167,6 @@ function DetailedAccordion(props) {
 
 const getState = (state) => {
   return {
-    fullData: state.mainReducer.fullData,
     yScale: state.mainReducer.scales.yScale,
     displayedData: state.mainReducer.slicedData.displayedData,
     displayedIds: state.mainReducer.ids.displayedIds,
