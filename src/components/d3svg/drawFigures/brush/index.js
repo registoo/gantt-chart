@@ -1,9 +1,8 @@
 import * as d3 from "d3";
-import { brushed } from "./events.js";
+import { brushed, brushEnd } from "./events.js";
 import React, { useCallback } from "react";
 import { keyGenerator, rowHasError } from "../../../../auxFunctions/index.js";
 import { connect } from "react-redux";
-import { lvl4BrushSelected } from "../../../../redux/mainReducer/action.js";
 
 const DrawBrush = (props) => {
   const id = (d) => `Rabota ${d.id} brush`;
@@ -34,13 +33,18 @@ const DrawBrush = (props) => {
             .brushX()
             .extent(brushCoordinate)
             .on("brush", function () {
-              brushed(
+              brushed({
                 node,
-                props.xScale,
-                d,
-                props.displayedData[0],
-                props.accordionExpanded ? true : false
-              );
+                xScale: props.xScale,
+                currentChildren: d,
+                lvl4BrushSelected: props.accordionExpanded ? true : false,
+              });
+            })
+            .on("end", function () {
+              brushEnd({
+                currentChildren: d,
+                lvl4BrushSelected: props.accordionExpanded ? true : false,
+              });
             });
 
           d3.select(node).call(brush);
@@ -70,4 +74,4 @@ const getState = (state) => {
   };
 };
 
-export default connect(getState, { lvl4BrushSelected })(DrawBrush);
+export default connect(getState)(DrawBrush);

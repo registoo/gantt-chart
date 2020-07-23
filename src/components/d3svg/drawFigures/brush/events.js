@@ -5,9 +5,8 @@ export const brushStart = (node, xScale) => {
   console.log("brushStart", d3.event.sourceEvent.type, node, xScale());
 };
 
-export function brushed(node, xScale, currentChildren, lvl4BrushSelected) {
+export function brushed({ node, xScale, currentChildren, lvl4BrushSelected }) {
   if (d3.event.sourceEvent.type === "brush") return;
-
   const d0 = d3.event.selection.map(xScale.invert),
     d1 = d0.map(d3.utcDay.round);
   // If empty when rounded, use floor instead.
@@ -48,6 +47,10 @@ export function brushed(node, xScale, currentChildren, lvl4BrushSelected) {
     currentChildren.data.percentComplete = 0;
   }
 }
-export const brushEnd = (node, xScale) => {
-  // console.log(d3.event.sourceEvent.type);
+export const brushEnd = ({ currentChildren, lvl4BrushSelected }) => {
+  if (lvl4BrushSelected && !d3.event.selection) {
+    delete currentChildren.data.start;
+    delete currentChildren.data.finish;
+    delete currentChildren.data.duration;
+  }
 };
