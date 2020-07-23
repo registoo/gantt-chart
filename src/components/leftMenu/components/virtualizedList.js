@@ -91,7 +91,7 @@ export default function Virtualize(props) {
 
   function onChangeFunction(event, arr, d0, d) {
     // если массив выборки не пустой, делаем фильтр
-    if (arr.length) {
+    if (arr && arr.length) {
       // вызов экшена в зависимости от того, на каком фильтре смонтирован компонент
       switch (props.filterType) {
         case filtersTypes.filterByWorks: {
@@ -120,7 +120,6 @@ export default function Virtualize(props) {
     }
     return;
   }
-
   return (
     <Autocomplete
       multiple

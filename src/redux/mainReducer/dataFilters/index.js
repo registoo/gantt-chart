@@ -7,6 +7,7 @@ import {
 } from "./auxFunctions.js";
 
 export default function ({ serializedFilters, state }) {
+  // если есть применённые фильтры
   if (serializedFilters.length > 0) {
     const filteredData = getData({ serializedFilters, fullData: state.fullData });
     const listOfWorksForSearcherInput = getListOfWorksForSearcherInput({
@@ -23,34 +24,9 @@ export default function ({ serializedFilters, state }) {
     const maxElementsOnPage = state.dataSpec.maxElementsOnPage;
     const selectedData = filteredData.selectedData;
     const selectedIds = filteredData.selectedIds;
-    const currentElementsOnPage =
-      selectedData.length >= maxElementsOnPage ? maxElementsOnPage : selectedData.length;
-    const displayedIds = selectedIds.slice(0, currentElementsOnPage);
-    const displayedData = selectedData.slice(0, currentElementsOnPage);
-    const dataRange =
-      currentElementsOnPage >= maxElementsOnPage
-        ? { start: 0, finish: maxElementsOnPage }
-        : { start: 0, finish: 0 };
-    const wheeled = selectedIds.length > maxElementsOnPage;
-    const heightSVG = currentElementsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
-    const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG, resizedType: handJob };
-    const newScales = {
-      ...state.scales.changeScales.changeScaleY({
-        displayedIds,
-        sizesSVG,
-      }),
-      ...state.scales.changeScales.changeScaleX({
-        sizesSVG,
-        selectedData,
-        fullData: state.fullData,
-        displayedData,
-      }),
-    };
+
     const dataSpec = {
       ...state.dataSpec,
-      dataRange,
-      currentElementsOnPage,
-      wheeled,
       filters: {
         ...state.dataSpec.filters,
         worksFilter: {
@@ -70,18 +46,52 @@ export default function ({ serializedFilters, state }) {
       },
     };
 
-    return {
+    const result = {
       ...state,
-      sizes: { ...state.sizes, sizesSVG },
       slicedData: {
         ...state.slicedData,
-        displayedData,
         selectedData,
       },
-      ids: { ...state.ids, displayedIds, selectedIds },
-      scales: { ...state.scales, ...newScales },
+      ids: {
+        ...state.ids,
+        selectedIds,
+      },
       dataSpec,
     };
+
+    // если не открыт Г4У
+    if (!state.dataSpec.accordionExpanded) {
+      const currentElementsOnPage =
+        selectedData.length >= maxElementsOnPage ? maxElementsOnPage : selectedData.length;
+      const dataRange =
+        currentElementsOnPage >= maxElementsOnPage
+          ? { start: 0, finish: maxElementsOnPage }
+          : { start: 0, finish: 0 };
+      const wheeled = selectedIds.length > maxElementsOnPage;
+      const heightSVG = currentElementsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
+      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG, resizedType: handJob };
+      const displayedIds = selectedIds.slice(0, currentElementsOnPage);
+      const displayedData = selectedData.slice(0, currentElementsOnPage);
+      const newScales = {
+        ...state.scales.changeScales.changeScaleY({
+          displayedIds,
+          sizesSVG,
+        }),
+        ...state.scales.changeScales.changeScaleX({
+          sizesSVG,
+          selectedData,
+          fullData: state.fullData,
+          displayedData,
+        }),
+      };
+      result.slicedData = { ...result.slicedData, displayedData };
+      result.ids = { ...result.ids, displayedIds };
+      result.scales = { ...result.scales, ...newScales };
+      result.sizes = { ...result.sizes, sizesSVG };
+      result.dataSpec = { ...result.dataSpec, dataRange, currentElementsOnPage, wheeled };
+    }
+
+    return result;
   }
   // сброс state при отсутствии фильтров
   return defaultState(state.fullData);

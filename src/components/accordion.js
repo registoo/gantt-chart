@@ -99,13 +99,16 @@ function DetailedAccordion(props) {
           expanded={props.accordionExpanded}
           TransitionProps={{ unmountOnExit: true }}
           onChange={(e, boolExpanded) => {
+            // при нажатии на строку с ошибкой ничего не происходит
             if (rowHasError(el.data)) return;
+            // добавляем детей в одномерный массив
             const displayedData = [el];
             el.children.map((el) => displayedData.push(el));
             const displayedIds = displayedData.map((d) => {
               return rowHasError(d.data) ? d.data.isError.formattedText : d.id;
             });
             const dataRange = { start: 0, finish: 0 + el.children.length };
+            // если раскрыто
             if (boolExpanded) {
               setState({
                 bool: true,
@@ -119,16 +122,32 @@ function DetailedAccordion(props) {
                 dataRange,
                 accordionExpanded: boolExpanded,
               });
-            } else {
-              const saveChangedElem = state.displayedData.find((el, indx, arr) => {
-                if (el.id === displayedData[0].id) arr[indx] = displayedData[0];
-              });
-              props.setAccordionData({
-                displayedData: state.displayedData,
-                displayedIds: state.displayedIds,
-                dataRange: state.dataRange,
-                accordionExpanded: boolExpanded,
-              });
+            }
+            // если не раскрыто
+            else {
+              // если есть активные фильтры, то при выходе из Г4У берём данные для отображения из них
+              if (props.serializedFilters.length > 0) {
+                const displayedData = props.selectedData.slice(
+                  props.startDataForDataRange,
+                  props.maxElementsOnPage
+                );
+                const displayedIds = displayedData.map((d) =>
+                  rowHasError(d.data) ? d.data.isError.formattedText : d.id
+                );
+                props.setAccordionData({
+                  displayedData,
+                  displayedIds,
+                  dataRange: props.dataRange,
+                  accordionExpanded: boolExpanded,
+                });
+              } else {
+                props.setAccordionData({
+                  displayedData: state.displayedData,
+                  displayedIds: state.displayedIds,
+                  dataRange: state.dataRange,
+                  accordionExpanded: boolExpanded,
+                });
+              }
               setState({
                 bool: false,
                 displayedData: [],
@@ -170,9 +189,13 @@ const getState = (state) => {
     displayedData: state.mainReducer.slicedData.displayedData,
     displayedIds: state.mainReducer.ids.displayedIds,
     dataRange: state.mainReducer.dataSpec.dataRange,
+    startDataForDataRange: state.mainReducer.dataSpec.startDataForDataRange,
+    maxElementsOnPage: state.mainReducer.dataSpec.maxElementsOnPage,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
+    serializedFilters: state.mainReducer.dataSpec.filters.serializedFilters,
     sizesSVG: state.mainReducer.sizes.sizesSVG,
     headerHeight: state.mainReducer.sizes.sizesSVG.slider.height,
+    selectedData: state.mainReducer.slicedData.selectedData,
   };
 };
 
