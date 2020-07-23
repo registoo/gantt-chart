@@ -37,3 +37,10 @@ export const setAccordionData = (data) => {
     accordionExpanded: data.accordionExpanded,
   };
 };
+export const lvl4BrushSelected = (data) => {
+  return {
+    type: "LVL_4_BRUSH_SELECTED",
+    date: data.date,
+    element: data.currentParentElement,
+  };
+};

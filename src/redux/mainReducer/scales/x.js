@@ -12,21 +12,25 @@ export default function (state) {
 
   const displayedFinishMS0 = d3.max(state.displayedData, (d) => {
     if (rowHasError(d.data)) return moment.utc().endOf("day");
+    if (!d.data.finish) return;
     return moment.utc(d.data.finish.dateInMillisecons);
   });
 
   const displayedStartMS0 = d3.min(state.displayedData, (d) => {
     if (rowHasError(d.data)) return moment.utc().endOf("day");
+    if (!d.data.start) return;
     return moment.utc(d.data.start.dateInMillisecons);
   });
 
   const projectStartMS0 = d3.min(state.fullData, (d) => {
     if (rowHasError(d.data)) return null;
+    if (!d.data.start) return;
     return moment.utc(d.data.start.dateInMillisecons);
   });
 
   const projectFinishMS0 = d3.max(state.fullData, (d) => {
     if (rowHasError(d.data)) return null;
+    if (!d.data.finish) return;
     return moment.utc(d.data.finish.dateInMillisecons);
   });
 
@@ -42,6 +46,7 @@ export default function (state) {
   const selectedFinishMS = d3
     .max(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
       if (rowHasError(d.data)) return moment.utc().endOf("day");
+      if (!d.data.finish) return;
       return moment.utc(d.data.finish.dateInMillisecons);
     })
     .add(1, "ms")
@@ -50,6 +55,7 @@ export default function (state) {
   const selectedStartMS = d3
     .min(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
       if (rowHasError(d.data)) return moment.utc().endOf("day");
+      if (!d.data.start) return;
       return moment.utc(d.data.start.dateInMillisecons);
     })
     .valueOf();

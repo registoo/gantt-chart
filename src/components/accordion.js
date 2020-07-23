@@ -82,12 +82,7 @@ function DetailedAccordion(props) {
   const CompactExpansionPanelSummary = withStyles(summaryStyles)(AccordionSummary);
   CompactExpansionPanelSummary.muiName = "AccordionSummary";
 
-  const [state, setState] = useState({
-    bool: false,
-    notAccordionatedDisplayedData: props.displayedData,
-    notAccordionatedDisplayedIds: props.displayedIds,
-    notAccordionatedDataRange: props.dataRange,
-  });
+  const [state, setState] = useState({});
 
   const elem = (el) => {
     const children = el.children.map((el) => {
@@ -104,6 +99,7 @@ function DetailedAccordion(props) {
           expanded={props.accordionExpanded}
           TransitionProps={{ unmountOnExit: true }}
           onChange={(e, boolExpanded) => {
+            if (rowHasError(el.data)) return;
             const displayedData = [el];
             el.children.map((el) => displayedData.push(el));
             const displayedIds = displayedData.map((d) => {
@@ -124,6 +120,9 @@ function DetailedAccordion(props) {
                 accordionExpanded: boolExpanded,
               });
             } else {
+              const saveChangedElem = state.displayedData.find((el, indx, arr) => {
+                if (el.id === displayedData[0].id) arr[indx] = displayedData[0];
+              });
               props.setAccordionData({
                 displayedData: state.displayedData,
                 displayedIds: state.displayedIds,

@@ -3,17 +3,26 @@ import { brushed } from "./events.js";
 import React, { useCallback } from "react";
 import { keyGenerator, rowHasError } from "../../../../auxFunctions/index.js";
 import { connect } from "react-redux";
+import { lvl4BrushSelected } from "../../../../redux/mainReducer/action.js";
 
 const DrawBrush = (props) => {
   const id = (d) => `Rabota ${d.id} brush`;
-  const x0 = 0;
-  const x1 = props.widthSVG - props.marginSVG.right - props.marginSVG.left;
 
-  const arr = [...props.displayedData].map((d) => {
+  const arr = [...props.displayedData].map((d, index) => {
+    if (props.accordionExpanded && index === 0) return;
     if (rowHasError(d.data)) return <g key={keyGenerator(d.id)}></g>;
 
-    const y0 = props.yScale(d.id);
-    const y1 = y0 + props.yScale.bandwidth();
+    const brushHeight = props.accordionExpanded
+      ? { y0: 0, y1: props.yScale.bandwidth() }
+      : {
+          y0: props.yScale.bandwidth() * (1 - props.brushHeight),
+          y1: props.yScale.bandwidth() * props.brushHeight,
+        };
+
+    const x0 = 0;
+    const x1 = props.widthSVG - props.marginSVG.right - props.marginSVG.left;
+    const y0 = props.yScale(d.id) + brushHeight.y0;
+    const y1 = y0 + brushHeight.y1;
     const brushCoordinate = [
       [x0, y0],
       [x1, y1],
@@ -25,7 +34,13 @@ const DrawBrush = (props) => {
             .brushX()
             .extent(brushCoordinate)
             .on("brush", function () {
-              brushed(node, props.xScale);
+              brushed(
+                node,
+                props.xScale,
+                d,
+                props.displayedData[0],
+                props.accordionExpanded ? true : false
+              );
             });
 
           d3.select(node).call(brush);
@@ -51,7 +66,8 @@ const getState = (state) => {
     displayedData: state.mainReducer.slicedData.displayedData,
     yScale: state.mainReducer.scales.yScale,
     xScale: state.mainReducer.scales.xScale,
+    accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
   };
 };
 
-export default connect(getState)(DrawBrush);
+export default connect(getState, { lvl4BrushSelected })(DrawBrush);

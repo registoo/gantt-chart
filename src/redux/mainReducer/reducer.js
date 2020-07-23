@@ -111,6 +111,19 @@ export default function testReducer(state = defaultState(fullData), action) {
       return result;
     }
 
+    case "LVL_4_BRUSH_SELECTED": {
+      const newFulldata = [...fullData];
+      fullData.find((el, i) => {
+        if (el.id === action.element.id) newFulldata[i] = action.element;
+      });
+      const newState = defaultState(newFulldata);
+      result = {
+        ...newState,
+      };
+      console.log("LVL_4_BRUSH_SELECTED", action);
+      return result;
+    }
+
     case "SERIALIZE_FILTERS": {
       // serializedFilters массив фильтров, с добавлением фильтров по порядку
       let serializedFilters = state.dataSpec.filters.serializedFilters;
