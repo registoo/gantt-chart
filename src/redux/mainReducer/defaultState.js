@@ -22,6 +22,7 @@ export default (fullData) => {
   };
   const sizes = {
     mainResizer: { width: 0 },
+    polzynok: { width: 10, margin: { left: 5 } },
     sizesSVG: {
       separatorWidth: 6,
       minWidth: 100,

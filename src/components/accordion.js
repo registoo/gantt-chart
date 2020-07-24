@@ -168,7 +168,6 @@ function DetailedAccordion(props) {
       style={{
         marginTop: props.headerHeight,
         flexGrow: 1,
-        flexShrink: 1,
         minWidth: 0,
         overflowX: "scroll",
       }}
