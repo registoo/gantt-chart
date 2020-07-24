@@ -26,10 +26,10 @@ const DrawAxisX = (props) => {
           })
           .call((g) => {
             g.selectAll(".tick text").attr("display", "block");
-          })
-          .call((g) => {
-            g.selectAll(".tick:last-of-type text").attr("display", "none");
           });
+        // .call((g) => {
+        //   g.selectAll(".tick:last-of-type text").attr("display", "none");
+        // });
         // .call((g) => {
         //   g.selectAll(".tick:not(:last-of-type) line, :not(:first-of-type) line").attr(
         //     "stroke-width",

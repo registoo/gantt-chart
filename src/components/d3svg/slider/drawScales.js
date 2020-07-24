@@ -9,7 +9,7 @@ export default (props) => {
   const xAxis = d3
     .axisBottom()
     .scale(xScale)
-    .ticks(d3.utcDay)
+    .ticks(d3.timeWeek)
     .tickFormat((d) => d3.timeFormat("%d/%m")(d));
 
   const x0 = 0;
