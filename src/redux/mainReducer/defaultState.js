@@ -16,14 +16,15 @@ export default (fullData) => {
   const heightSVG = displayedData.length * (stringHeight * 1.25);
   const marginSVG = {
     top: 0,
-    right: 2,
-    bottom: 0,
+    right: 1,
+    bottom: 1,
     left: 0,
   };
   const sizes = {
     mainResizer: { width: 0 },
     polzynok: { width: 10, margin: { left: 5 } },
     sizesSVG: {
+      ganttTopScale: { width: 20 },
       separatorWidth: 6,
       minWidth: 100,
       width: 400,

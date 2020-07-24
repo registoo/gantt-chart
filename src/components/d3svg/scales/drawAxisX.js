@@ -19,14 +19,15 @@ const DrawAxisX = (props) => {
               .tickFormat((d) => d3.timeFormat("%d/%m")(d))
               .tickSize(-props.heightSVG + props.marginSVG.top + props.marginSVG.bottom)
           )
+
           .call((g) => {
             g.selectAll(".tick text")
               .attr("font-size", "0.4rem")
               .attr("x", pixelsInOneDay / 2);
-          })
-          .call((g) => {
-            g.selectAll(".tick text").attr("display", "block");
           });
+        // .call((g) => {
+        //   g.selectAll(".tick text").attr("display", "block");
+        // });
         // .call((g) => {
         //   g.selectAll(".tick:last-of-type text").attr("display", "none");
         // });

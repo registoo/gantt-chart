@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState, Fragment } from "react";
 import DrawScales from "./scales";
 import { setWheeledData } from "../../redux/mainReducer/action";
 import { rowHasError } from "../../auxFunctions";
+import GanttTopScale from "./scales/ganttTopScale.js";
 
 function Gantt(props) {
   const ref1 = useRef(null);
@@ -75,7 +76,7 @@ function Gantt(props) {
     } else {
       return (
         <Fragment>
-          <div style={{ minHeight: props.sliderHeight, backgroundColor: "yellow" }}></div>
+          <GanttTopScale />
           <svg width="100%" height={props.heightSVG} id="chart">
             <DrawScales />
             <DrawFigures />
