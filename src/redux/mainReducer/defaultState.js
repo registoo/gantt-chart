@@ -16,7 +16,7 @@ export default (fullData) => {
   const heightSVG = displayedData.length * (stringHeight * 1.25);
   const marginSVG = {
     top: 0,
-    right: 0,
+    right: 2,
     bottom: 0,
     left: 0,
   };
