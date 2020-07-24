@@ -32,8 +32,8 @@ function SimpleBottomNavigation(props) {
         maxWidth: props.width,
         width: props.width,
         minWidth: props.width,
-        marginRight: 10,
-        marginTop: 10,
+        marginRight: props.margin.right,
+        marginTop: props.margin.top,
       }}
     >
       <NavPanel value={value} setValue={setValue} />
@@ -45,6 +45,7 @@ function SimpleBottomNavigation(props) {
 const getState = (state) => {
   return {
     width: state.mainReducer.sizes.sizesLeftMenu.width,
+    margin: state.mainReducer.sizes.sizesLeftMenu.margin,
   };
 };
 

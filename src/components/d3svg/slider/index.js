@@ -13,6 +13,7 @@ const Slider = (props) => {
       width="100%"
       height={`${props.height}px`}
       transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}
+      style={{ marginLeft: props.leftMenuSizes.width + props.leftMenuSizes.margin.right }}
     >
       <g id={"gForSlider"}></g>
     </svg>
@@ -29,6 +30,7 @@ const getState = (state) => {
     selectedFinishMS: state.mainReducer.scales.selectedFinishMS,
     getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
     selectedIds: state.mainReducer.ids.selectedIds,
+    leftMenuSizes: state.mainReducer.sizes.sizesLeftMenu,
   };
 };
 

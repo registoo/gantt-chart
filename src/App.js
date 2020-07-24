@@ -11,6 +11,7 @@ import Accordion from "./components/accordion.js";
 function App(props) {
   return (
     <Container maxWidth="xl">
+      <Slider />
       <ResizeDetector>
         <LeftMenu />
         <Polzynok />
