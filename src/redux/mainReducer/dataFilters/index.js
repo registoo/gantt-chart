@@ -1,4 +1,3 @@
-import { handJob } from "../../../auxFunctions/resizedTypes";
 import defaultState from "../../../redux/mainReducer/defaultState.js";
 import {
   getData,
@@ -69,7 +68,7 @@ export default function ({ serializedFilters, state }) {
           : { start: 0, finish: 0 };
       const wheeled = selectedIds.length > maxElementsOnPage;
       const heightSVG = currentElementsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
-      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG, resizedType: handJob };
+      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
       const displayedIds = selectedIds.slice(0, currentElementsOnPage);
       const displayedData = selectedData.slice(0, currentElementsOnPage);
       const newScales = {

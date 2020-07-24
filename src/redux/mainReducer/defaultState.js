@@ -2,7 +2,6 @@ import rowHasError from "../../auxFunctions/rowHasError";
 import changeScaleX from "./scales/x.js";
 import changeScaleY from "./scales/y.js";
 import columns from "../../data/columns.js";
-import { defaultResizer } from "../../auxFunctions/resizedTypes";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
 import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
 
@@ -22,15 +21,15 @@ export default (fullData) => {
     left: 0,
   };
   const sizes = {
+    mainResizer: { width: 0 },
     sizesSVG: {
       separatorWidth: 6,
-      minWidth: 400,
-      width: 0,
+      minWidth: 100,
+      width: 400,
       height: heightSVG,
       margin: marginSVG,
       stringHeight,
       slider: { height: 20 },
-      resizedType: defaultResizer,
     },
     sizesWL: { width: 0, height: heightSVG },
     sizesLeftMenu: { width: 400, margin: { right: 10, top: 10 } },

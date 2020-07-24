@@ -1,8 +1,8 @@
-export const setWidth = (data) => {
+export const setWidth = ({ svgWidth, parentWidth }) => {
   return {
     type: "SET_SVG_WIDTH",
-    svgWidth: data.svgWidth,
-    resizedType: data.resizedType,
+    svgWidth: svgWidth,
+    parentWidth,
   };
 };
 export const changeXRange = (selection) => {

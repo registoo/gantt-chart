@@ -5,7 +5,7 @@ export default (props) => {
   const xScale = d3
     .scaleTime()
     .domain([props.selectedStartMS, props.selectedFinishMS])
-    .range([0, props.widthSVG - props.marginSVG.left - props.marginSVG.right]);
+    .range([0, props.widthSVG]);
   const xAxis = d3
     .axisBottom()
     .scale(xScale)
@@ -14,7 +14,7 @@ export default (props) => {
 
   const x0 = 0;
   const y0 = 0;
-  const x1 = props.widthSVG - props.marginSVG.right - props.marginSVG.left;
+  const x1 = props.widthSVG;
 
   const y1 = y0 + props.height;
   const brushCoordinate = [

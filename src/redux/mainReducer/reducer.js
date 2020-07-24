@@ -1,7 +1,6 @@
 import fullData from "../../data";
 import defaultState from "./defaultState.js";
 import setFilters from "./dataFilters";
-import { handJob } from "../../auxFunctions/resizedTypes";
 
 export default function testReducer(state = defaultState(fullData), action) {
   let result;
@@ -18,10 +17,10 @@ export default function testReducer(state = defaultState(fullData), action) {
         ...state,
         sizes: {
           ...state.sizes,
+          mainResizer: { ...state.sizes.mainResizer, width: action.parentWidth },
           sizesSVG: {
             ...state.sizes.sizesSVG,
             width: action.svgWidth,
-            resizedType: action.resizedType,
           },
         },
         scales: { ...state.scales, ...setXScaleWidth },
@@ -34,7 +33,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         ...state,
         sizes: {
           ...state.sizes,
-          sizesSVG: { ...state.sizes.sizesSVG, resizedType: action.position },
+          sizesSVG: { ...state.sizes.sizesSVG },
         },
       };
 
@@ -54,7 +53,7 @@ export default function testReducer(state = defaultState(fullData), action) {
     case "ACCORDION_DATA": {
       const wheeled = !action.accordionExpanded;
       const heightSVG = action.displayedIds.length * (state.sizes.sizesSVG.stringHeight * 1.25);
-      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG, resizedType: handJob };
+      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
       const newScales = {
         ...state.scales.changeScales.changeScaleY({
           displayedIds: action.displayedIds,

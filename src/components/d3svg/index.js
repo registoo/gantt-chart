@@ -10,6 +10,7 @@ function Gantt(props) {
   // добавление прокрутки колёсиком
   const [state, setState] = useState({ start: 0, finish: props.dataSpec.maxElementsOnPage });
   function onWheel(e) {
+    e.preventDefault();
     const wDelta = e.wheelDelta < 0 ? "down" : "up";
     switch (wDelta) {
       case "down": {

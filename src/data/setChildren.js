@@ -1,4 +1,4 @@
-import getRandom from "../auxFunctions/getRandom.js";
+import { getRandom } from "../auxFunctions";
 
 export default (el, value) => {
   const childrenInit = [];
