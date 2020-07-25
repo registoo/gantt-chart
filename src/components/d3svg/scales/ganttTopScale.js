@@ -30,12 +30,12 @@ const GanttTopScale = (props) => {
 
 const getState = (state) => {
   return {
-    widthSVG: state.mainReducer.sizes.sizesSVG.width,
-    ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.width,
     xScale: state.mainReducer.scales.xScale,
+    widthSVG: state.mainReducer.sizes.sizesSVG.width,
     displayedStartMS: state.mainReducer.scales.displayedStartMS,
-    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
     displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
+    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
+    ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.width,
   };
 };
 
