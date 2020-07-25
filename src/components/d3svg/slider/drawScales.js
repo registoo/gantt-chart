@@ -1,7 +1,6 @@
 import * as d3 from "d3";
 
 export default (props) => {
-  const pixelsInOneDay = props.getPixelsInOneDay(props.selectedStartMS, props.selectedFinishMS);
   const xScale = d3
     .scaleTime()
     .domain([props.selectedStartMS, props.selectedFinishMS])
@@ -22,5 +21,5 @@ export default (props) => {
     [x1, y1],
   ];
 
-  return { pixelsInOneDay, xScale, xAxis, brushCoordinate };
+  return { xScale, xAxis, brushCoordinate };
 };

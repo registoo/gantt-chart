@@ -21,7 +21,6 @@ const getState = (state) => {
     xScale: state.mainReducer.scales.xScale,
     selectedStartMS: state.mainReducer.scales.selectedStartMS,
     selectedFinishMS: state.mainReducer.scales.selectedFinishMS,
-    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
     selectedIds: state.mainReducer.ids.selectedIds,
     leftMenuSizes: state.mainReducer.sizes.sizesLeftMenu,
   };

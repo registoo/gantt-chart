@@ -7,10 +7,7 @@ const GanttTopScale = (props) => {
     (node) => {
       if (node !== null) {
         const xAxis = d3.axisTop().scale(props.xScale);
-        const pixelsInOneDay = props.getPixelsInOneDay(
-          props.displayedStartMS,
-          props.displayedFinishMS
-        );
+        const pixelsInOneDay = props.getPixelsInOneDay(props.widthSVG, props.xScale);
         const currentNode = d3.select(node);
         currentNode
           .call(xAxis.ticks(d3.utcDay).tickFormat((d) => d3.timeFormat("%d/%m")(d)))

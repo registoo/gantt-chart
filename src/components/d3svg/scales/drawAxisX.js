@@ -5,11 +5,6 @@ import { connect } from "react-redux";
 const DrawAxisX = (props) => {
   const addSomething = useCallback(
     (node) => {
-      const pixelsInOneDay = props.getPixelsInOneDay(
-        props.displayedStartMS,
-        props.displayedFinishMS
-      );
-
       if (node !== null) {
         const currentNode = d3.select(node);
         currentNode
@@ -19,11 +14,8 @@ const DrawAxisX = (props) => {
               .tickFormat((d) => d3.timeFormat("%d/%m")(d))
               .tickSize(-props.heightSVG + props.marginSVG.top + props.marginSVG.bottom)
           )
-
           .call((g) => {
-            g.selectAll(".tick text")
-              .attr("font-size", "0.4rem")
-              .attr("x", pixelsInOneDay / 2);
+            g.selectAll(".tick text").attr("display", "none");
           });
         // .call((g) => {
         //   g.selectAll(".tick text").attr("display", "block");
@@ -59,7 +51,6 @@ const getState = (state) => {
     marginSVG: state.mainReducer.sizes.sizesSVG.margin,
     displayedStartMS: state.mainReducer.scales.displayedStartMS,
     displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
-    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
   };
 };
 

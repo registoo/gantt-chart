@@ -3,8 +3,9 @@ import { rowHasError } from "../../../auxFunctions";
 import moment from "moment";
 
 export default function (state) {
-  const getPixelsInOneDay = (start, finish) =>
-    state.sizesSVG.width / moment.duration(moment.utc(finish).diff(moment.utc(start))).as("d");
+  const getPixelsInOneDay = (SVGwidth, scale) =>
+    SVGwidth /
+    moment.duration(moment.utc(scale.domain()[1]).diff(moment.utc(scale.domain()[0]))).as("d");
 
   const xScaleMaxCoordinate =
     state.sizesSVG.width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
