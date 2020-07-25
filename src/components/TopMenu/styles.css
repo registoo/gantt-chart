@@ -1,5 +1,5 @@
 .top-menu__container * {
-  color: #bfbfbf;
+  color: #cccccc;
 }
 
 .top-menu__container {
@@ -8,6 +8,8 @@
   display: grid;
   grid-template-columns: min-content min-content;
   background-color: #3c3c3c;
+  position: relative;
+  z-index: 1488;
 }
 
 .logo {
@@ -32,12 +34,10 @@
   position: relative;
 }
 
-.top-menu__button:hover {
+.top-menu__button:hover,
+.top-menu__button:focus {
   background-color: #505050;
   transition: ease-in 0.05s;
-}
-
-.top-menu__button:focus {
   outline: none;
 }
 
