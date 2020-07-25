@@ -33,7 +33,6 @@ function SimpleBottomNavigation(props) {
         width: props.width,
         minWidth: props.width,
         marginRight: props.margin.right,
-        marginTop: props.margin.top,
       }}
     >
       <NavPanel value={value} setValue={setValue} />
