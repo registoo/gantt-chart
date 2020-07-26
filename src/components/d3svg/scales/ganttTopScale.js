@@ -10,7 +10,7 @@ const GanttTopScale = (props) => {
         const pixelsInOneDay = props.getPixelsInOneDay(props.widthSVG, props.xScale);
         const currentNode = d3.select(node);
         currentNode
-          .call(xAxis.ticks(d3.utcDay).tickFormat((d) => d3.timeFormat("%d/%m")(d)))
+          .call(xAxis.ticks(d3.utcMonth).tickFormat((d) => d3.timeFormat("%d/%m")(d)))
           .call((g) => {
             g.selectAll(".tick text")
               .attr("font-size", "0.4rem")

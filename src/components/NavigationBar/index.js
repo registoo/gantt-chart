@@ -10,10 +10,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import LeftMenu from "../leftMenu";
 import "./styles.css";
 
-let toggle = false;
-
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, toggle, ...other } = props;
 
   return (
     <div
@@ -54,21 +52,34 @@ const useStyles = makeStyles((theme) => ({
     width: "fit-content",
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
     backgroundColor: "#333333",
+  },
+  tab: {
+    "& svg ": {
+      color: "#858585",
+      transition: "ease-out 0.05s",
+    },
+    "&:hover svg": {
+      color: "#ffffff",
+      transition: "ease-in 0.05s",
+    },
+    "&.Mui-selected svg": {
+      color: (isOpen) => (isOpen ? "#ffffff" : "#858585"),
+    },
+  },
+  indicator: {
+    left: "0px",
+    display: (isOpen) => (isOpen ? "inline-block" : "none"),
   },
 }));
 
 export default function NavigationBar() {
-  const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [isOpen, setIsOpen] = React.useState(true);
+  const classes = useStyles(isOpen);
 
   const handleChange = (event, newValue) => {
-    toggle = value === newValue ? false : true;
-
-    console.log(toggle);
-    console.log(value);
-    console.log(newValue);
+    setIsOpen(value === newValue ? !isOpen : true);
     setValue(newValue);
   };
 
@@ -81,22 +92,28 @@ export default function NavigationBar() {
         onChange={handleChange}
         aria-label="Vertical tabs example"
         className={classes.tabs}
+        indicator={isOpen.toString()}
+        classes={{
+          indicator: classes.indicator,
+        }}
       >
         <Tab
-          icon={<FilterNoneIcon style={{ color: "#858585" }} />}
+          icon={<FilterNoneIcon />}
           title="Фильтры (Ctrl+Shift+W)"
           {...a11yProps(0)}
+          className={classes.tab}
         />
         <Tab
-          icon={<SearchIcon style={{ color: "#858585" }} />}
+          icon={<SearchIcon />}
           title="Фильтры (Ctrl+Shift+F)"
           {...a11yProps(1)}
+          className={classes.tab}
         />
       </Tabs>
-      <TabPanel className="TabPanel" value={value} index={0}>
+      <TabPanel className="TabPanel" value={value} index={0} toggle={isOpen}>
         Text
       </TabPanel>
-      <TabPanel className="TabPanel" value={value} index={1}>
+      <TabPanel className="TabPanel" value={value} index={1} toggle={isOpen}>
         <LeftMenu />
       </TabPanel>
     </div>

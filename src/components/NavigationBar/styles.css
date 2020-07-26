@@ -7,23 +7,8 @@
   width: 48px !important;
 }
 
-.MuiTab-root svg {
-  color: #858585 !important;
-  transition: ease-out 0.05s;
-}
-
-.MuiTab-root:hover svg {
-  color: #ffffff !important;
-  transition: ease-in 0.05s;
-}
-
-.MuiTab-root.Mui-selected svg {
-  color: #ffffff !important;
-  transition: ease-in 0.05s;
-}
-
 .TabPanel {
-  min-width: 100px;
+  min-width: 0;
   max-width: 442px;
   overflow: hidden;
   /* background-color: #252526; */
