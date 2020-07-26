@@ -32,6 +32,7 @@
   cursor: context-menu;
   transition: ease-out 0.05s;
   position: relative;
+  white-space: nowrap;
 }
 
 .top-menu__button:hover,
@@ -54,6 +55,12 @@
   z-index: 1488;
   padding: 5px 0;
   visibility: hidden;
+  transition: ease-out 0.05s;
+}
+
+.top-menu-context__container a {
+  text-decoration: none;
+  cursor: context-menu;
 }
 
 .top-menu-context__container hr {

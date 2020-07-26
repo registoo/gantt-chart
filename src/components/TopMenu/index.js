@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Box from "@material-ui/core/Box";
 import logo from "../../assets/images/logo.svg";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
 const TopMenu = (props) => {
@@ -27,48 +28,21 @@ const TopMenu = (props) => {
             </div>
           </Box>
         </div>
-        <div className="top-menu__button" tabIndex="1">
-          Редактировать
-          <Box className="top-menu-context__container" boxShadow={3}>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Lorem</span>
-              <span className="top-menu-context__shortcut">Alt+F4</span>
-            </div>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Ipsum</span>
-              <span className="top-menu-context__shortcut">F4</span>
-            </div>
-            <hr />
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Отменить действие</span>
-              <span className="top-menu-context__shortcut">Ctrl+Z</span>
-            </div>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Lorem Ipsum LoremIpsum Lorem</span>
-              <span className="top-menu-context__shortcut">Alt+F4</span>
-            </div>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Ipsum</span>
-              <span className="top-menu-context__shortcut">F4</span>
-            </div>
-            <hr />
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Отменить действие</span>
-              <span className="top-menu-context__shortcut">Ctrl+Z</span>
-            </div>
-          </Box>
-        </div>
         <div className="top-menu__button" tabIndex="2">
-          Помощь
+          Рабочая область
           <Box className="top-menu-context__container" boxShadow={3}>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Lorem</span>
-              <span className="top-menu-context__shortcut">Alt+F4</span>
-            </div>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Ipsum</span>
-              <span className="top-menu-context__shortcut">F4</span>
-            </div>
+            <Link to="/gantt">
+              <div className="top-menu-context">
+                <span className="top-menu-context__name">Гантт</span>
+                <span className="top-menu-context__shortcut">Ctrl+Q</span>
+              </div>
+            </Link>
+            <Link to="/consolidated">
+              <div className="top-menu-context">
+                <span className="top-menu-context__name">Сводные</span>
+                <span className="top-menu-context__shortcut">Ctrl+W</span>
+              </div>
+            </Link>
             <hr />
             <div className="top-menu-context">
               <span className="top-menu-context__name">Отменить действие</span>
@@ -76,24 +50,7 @@ const TopMenu = (props) => {
             </div>
             <div className="top-menu-context">
               <span className="top-menu-context__name">Ipsum</span>
-              <span className="top-menu-context__shortcut">F4</span>
-            </div>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Lorem</span>
-              <span className="top-menu-context__shortcut">Alt+F4</span>
-            </div>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Ipsum</span>
-              <span className="top-menu-context__shortcut">F4</span>
-            </div>
-            <hr />
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Отменить действие</span>
-              <span className="top-menu-context__shortcut">Ctrl+Z</span>
-            </div>
-            <div className="top-menu-context">
-              <span className="top-menu-context__name">Ipsum</span>
-              <span className="top-menu-context__shortcut">F4</span>
+              <span className="top-menu-context__shortcut"></span>
             </div>
           </Box>
         </div>
