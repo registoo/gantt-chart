@@ -1,6 +1,7 @@
 import rowHasError from "../../auxFunctions/rowHasError";
-import changeScaleX from "./scales/x.js";
-import changeScaleY from "./scales/y.js";
+import changeScaleX from "./auxDefaultState/scaleX.js";
+import changeScaleY from "./auxDefaultState/scaleY.js";
+import d3TimeFormatLocale from "./auxDefaultState/d3TimeFormatLocale.js";
 import columns from "../../data/columns.js";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
 import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
@@ -24,7 +25,7 @@ export default (fullData) => {
     mainResizer: { width: 0 },
     polzynok: { width: 10, margin: { left: 5 } },
     sizesSVG: {
-      ganttTopScale: { width: 20 },
+      ganttTopScale: { height: 17 },
       separatorWidth: 6,
       minWidth: 100,
       width: 400,
@@ -90,7 +91,7 @@ export default (fullData) => {
       }),
       changeScales: { changeScaleX, changeScaleY },
     },
-    someData: { listOfSPO },
+    someData: { listOfSPO, d3TimeFormatLocale },
   };
 
   return result;

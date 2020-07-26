@@ -4,7 +4,8 @@ import React, { useRef, useEffect, useState, Fragment } from "react";
 import DrawScales from "./scales";
 import { setWheeledData } from "../../redux/mainReducer/action";
 import { rowHasError } from "../../auxFunctions";
-import GanttTopScale from "./scales/ganttTopScale.js";
+import GanttTopScaleDays from "./scales/ganttTopScaleDays.js";
+import GanttTopScaleMonth from "./scales/ganttTopScaleMonth.js";
 
 function Gantt(props) {
   const ref1 = useRef(null);
@@ -76,7 +77,8 @@ function Gantt(props) {
     } else {
       return (
         <Fragment>
-          <GanttTopScale />
+          <GanttTopScaleMonth />
+          <GanttTopScaleDays />
           <svg width="100%" height={props.heightSVG} id="chart">
             <DrawScales />
             <DrawFigures />
