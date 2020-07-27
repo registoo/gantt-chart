@@ -7,6 +7,7 @@ import Slider from "./components/d3svg/slider";
 import Accordion from "./components/accordion.js";
 import TopMenu from "./components/TopMenu";
 import NavigationBar from "./components/NavigationBar";
+import Dashboards from "./components/WorkingPlace/Dashboards";
 import { Switch, Route, withRouter } from "react-router-dom";
 
 function App(props) {
@@ -30,7 +31,7 @@ function App(props) {
             </MainResizer>
           </Route>
           <Route history={history} path="/consolidated">
-            <h2>Сводные таблички</h2>
+            <Dashboards />
           </Route>
         </Switch>
       </div>
