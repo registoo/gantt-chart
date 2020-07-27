@@ -20,6 +20,7 @@
     "react-motion": "^0.5.2",
     "react-redux": "^7.2.0",
     "react-resize-detector": "^5.0.2",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-transition-group": "^4.4.1",
     "react-window": "^1.8.5",

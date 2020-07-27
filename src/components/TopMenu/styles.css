@@ -1,5 +1,5 @@
 .top-menu__container * {
-  color: #bfbfbf;
+  color: #cccccc;
 }
 
 .top-menu__container {
@@ -8,6 +8,8 @@
   display: grid;
   grid-template-columns: min-content min-content;
   background-color: #3c3c3c;
+  position: relative;
+  z-index: 1488;
 }
 
 .logo {
@@ -30,14 +32,13 @@
   cursor: context-menu;
   transition: ease-out 0.05s;
   position: relative;
+  white-space: nowrap;
 }
 
-.top-menu__button:hover {
+.top-menu__button:hover,
+.top-menu__button:focus {
   background-color: #505050;
   transition: ease-in 0.05s;
-}
-
-.top-menu__button:focus {
   outline: none;
 }
 
@@ -54,6 +55,12 @@
   z-index: 1488;
   padding: 5px 0;
   visibility: hidden;
+  transition: ease-out 0.05s;
+}
+
+.top-menu-context__container a {
+  text-decoration: none;
+  cursor: context-menu;
 }
 
 .top-menu-context__container hr {
