@@ -34,7 +34,7 @@ const DrawRect = (props) => {
             ></rect>
           );
         }
-        return;
+        return null;
       }
       return (
         <rect

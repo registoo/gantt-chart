@@ -17,8 +17,11 @@ function CustomComponent(props) {
   return (
     <div
       ref={parentDiv}
-      style={{ minWidth: props.minWidth + props.separatorWidth + polzynokTotalWIdth }}
-      style={{ display: "flex", direction: "row" }}
+      style={{
+        minWidth: props.minWidth + props.separatorWidth + polzynokTotalWIdth,
+        display: "flex",
+        direction: "row",
+      }}
     >
       {otherELem}
       <div style={{ display: "flex", direction: "row" }}>

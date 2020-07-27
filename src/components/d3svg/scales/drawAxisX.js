@@ -3,12 +3,13 @@ import * as d3 from "d3";
 import React, { useCallback } from "react";
 import { connect } from "react-redux";
 import convertLength from "to-px";
+import getPixelsInOneDay from "../../../auxFunctions/getPixelsInOneDay.js";
 
 const DrawAxisX = (props) => {
   const addSomething = useCallback(
     (node) => {
       if (node !== null) {
-        const pixelsInOneDay = props.getPixelsInOneDay(props.widthSVG, props.xScale);
+        const pixelsInOneDay = getPixelsInOneDay(props.widthSVG, props.xScale);
         const currentNode = d3.select(node);
         currentNode
           .call(
@@ -52,9 +53,6 @@ const getState = (state) => {
     widthSVG: state.mainReducer.sizes.sizesSVG.width,
     heightSVG: state.mainReducer.sizes.sizesSVG.height,
     marginSVG: state.mainReducer.sizes.sizesSVG.margin,
-    displayedStartMS: state.mainReducer.scales.displayedStartMS,
-    displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
-    getPixelsInOneDay: state.mainReducer.scales.aux.getPixelsInOneDay,
   };
 };
 

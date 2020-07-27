@@ -112,9 +112,9 @@ export default function testReducer(state = defaultState(fullData), action) {
 
     case "LVL_4_BRUSH_SELECTED": {
       const newFulldata = [...fullData];
-      fullData.find((el, i) => {
-        if (el.id === action.element.id) newFulldata[i] = action.element;
-      });
+      fullData.find((el, i) =>
+        el.id === action.element.id ? (newFulldata[i] = action.element) : null
+      );
       const newState = defaultState(newFulldata);
       result = {
         ...newState,

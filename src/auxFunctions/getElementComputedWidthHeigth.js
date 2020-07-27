@@ -6,6 +6,5 @@ export default (node) => {
 
   height -= parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom);
   width -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
-  console.log("width", width, "clientWidth", node.clientWidth);
   return { height, width };
 };

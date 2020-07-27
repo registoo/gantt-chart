@@ -1,7 +1,6 @@
 import rowHasError from "../../auxFunctions/rowHasError";
 import changeScaleX from "./auxDefaultState/scaleX.js";
 import changeScaleY from "./auxDefaultState/scaleY.js";
-import d3TimeFormatLocale from "./auxDefaultState/d3TimeFormatLocale.js";
 import columns from "../../data/columns.js";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
 import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
@@ -91,7 +90,7 @@ export default (fullData) => {
       }),
       changeScales: { changeScaleX, changeScaleY },
     },
-    someData: { listOfSPO, d3TimeFormatLocale },
+    someData: { listOfSPO },
   };
 
   return result;

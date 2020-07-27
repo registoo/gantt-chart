@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 const DrawBrush = (props) => {
   const id = (d) => `Rabota ${d.id} brush`;
 
-  const arr = [...props.displayedData].map((d, index) => {
-    if (props.accordionExpanded && index === 0) return;
+  const arr = [...props.displayedData].map(function (d, index) {
+    if (props.accordionExpanded && index === 0) return null;
     if (rowHasError(d.data)) return <g key={keyGenerator(d.id)}></g>;
 
     const brushHeight = props.accordionExpanded
