@@ -23,6 +23,10 @@ function App(props) {
       </div>
       <div className="AppResizeContainer">
         <Switch>
+          <Route history={history} exact path="/">
+            <h1>Доброго времени суток путник!</h1>
+            <h3>Ты попал на главную страницу, потыкай в верхнем меню</h3>
+          </Route>
           <Route history={history} path="/gantt">
             <Slider />
             <MainResizer>
