@@ -9,7 +9,7 @@ const Polzynok = (props) => {
     <Box className="top-menu__container" boxShadow={3}>
       <img className="logo" src={logo} alt="" />
       <div className="top-menu-buttons__container">
-        <div className="top-menu__button" tabindex="0">
+        <div className="top-menu__button" tabIndex="0">
           Файл
           <Box className="top-menu-context__container" boxShadow={3}>
             <div className="top-menu-context">
@@ -27,7 +27,7 @@ const Polzynok = (props) => {
             </div>
           </Box>
         </div>
-        <div className="top-menu__button" tabindex="1">
+        <div className="top-menu__button" tabIndex="1">
           Редактировать
           <Box className="top-menu-context__container" boxShadow={3}>
             <div className="top-menu-context">
@@ -58,7 +58,7 @@ const Polzynok = (props) => {
             </div>
           </Box>
         </div>
-        <div className="top-menu__button" tabindex="2">
+        <div className="top-menu__button" tabIndex="2">
           Помощь
           <Box className="top-menu-context__container" boxShadow={3}>
             <div className="top-menu-context">
