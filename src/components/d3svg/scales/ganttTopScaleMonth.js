@@ -5,43 +5,40 @@ import convertLength from "to-px";
 import moment from "moment";
 import months from "./auxData/ganttTopScale/monthes.js";
 import addTicksCallback from "./auxData/ganttTopScale/addTicks.js";
-import getMultiDraw from "./auxData/ganttTopScale/multiDraw.js";
-import getPixelsInOneDay from "../../../auxFunctions/getPixelsInOneDay.js";
-import drawTicks from "./auxData/ganttTopScale/drawTicks.js";
+import drawTicks from "./auxData/ganttTopScale/drawTicksValues.js";
 
 const GanttTopScale = (props) => {
   const addTicksText = useCallback(
     (node) => {
       if (node !== null) {
-        const xAxis = d3.axisTop().scale(props.xScale);
         const currentNode = d3.select(node);
-        const pixelsInOneDay = getPixelsInOneDay(props.widthSVG, props.xScale);
-        const multiDraw = getMultiDraw(pixelsInOneDay);
 
         const counts = {};
-        currentNode.call(drawTicks("month", xAxis, counts, pixelsInOneDay, multiDraw)).call((g) => {
-          g.selectAll(".tick text")
-            .attr("font-size", "0.6rem")
-            .attr("x", (a, i, arr) => {
-              // проверям нарисован ли тик и берём его innerHTML (название месяца, например "Июль" или "июн")
-              if (arr[i].innerHTML.length > 0) {
-                let result;
-                const currentMonthNumber = months[arr[i].innerHTML];
-                // пробегаем по counts, берём длину показываемого месяца и расчитываем чтоб по центру рисовалось
-                Object.keys(counts).map((dateInMS) => {
-                  const monthNumberInCounts = +moment.utc(+dateInMS).format("M");
-                  if (currentMonthNumber === monthNumberInCounts) {
-                    result = multiDraw.positionX(counts[dateInMS].count);
-                  }
-                  return null;
-                });
-                return result;
-              }
-              return 0;
-            })
-            // отступ наименования тика от границы шкалы
-            .attr("y", -4);
-        });
+        currentNode
+          .call(drawTicks("month", props.xAxis, counts, props.pixelsInOneDay, props.multiDraw))
+          .call((g) => {
+            g.selectAll(".tick text")
+              .attr("font-size", "0.6rem")
+              .attr("x", (a, i, arr) => {
+                // проверям нарисован ли тик и берём его innerHTML (название месяца, например "Июль" или "июн")
+                if (arr[i].innerHTML.length > 0) {
+                  let result;
+                  const currentMonthNumber = months[arr[i].innerHTML];
+                  // пробегаем по counts, берём длину показываемого месяца и расчитываем чтоб по центру рисовалось
+                  Object.keys(counts).map((dateInMS) => {
+                    const monthNumberInCounts = +moment.utc(+dateInMS).format("M");
+                    if (currentMonthNumber === monthNumberInCounts) {
+                      result = props.multiDraw.positionX(counts[dateInMS].count);
+                    }
+                    return null;
+                  });
+                  return result;
+                }
+                return 0;
+              })
+              // отступ наименования тика от границы шкалы
+              .attr("y", -4);
+          });
       }
     },
     [props]
@@ -70,7 +67,6 @@ const GanttTopScale = (props) => {
 
 const getState = (state) => {
   return {
-    xScale: state.mainReducer.scales.xScale,
     widthSVG: state.mainReducer.sizes.sizesSVG.width,
     ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.height,
   };

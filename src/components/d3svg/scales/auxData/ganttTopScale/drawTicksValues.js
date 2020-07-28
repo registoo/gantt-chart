@@ -3,7 +3,7 @@ import moment from "moment";
 import convertLength from "to-px";
 import d3TimeFormatLocale from "../../../../../auxFunctions/d3TimeFormatLocale.js";
 
-// period - "month" || "week"
+// period - "month" || "week" || "day"
 export default (period, xAxis, counts, pixelsInOneDay, multiDraw) =>
   xAxis
     .ticks(d3.utcDay)
@@ -30,9 +30,9 @@ export default (period, xAxis, counts, pixelsInOneDay, multiDraw) =>
         switch (period) {
           case "month": {
             // проверка, влезает ли полное наименование периода
-            if (wordBreaks(d, "%B")) return multiDraw.timeFormat(d, "%B");
+            if (wordBreaks(d, period)) return multiDraw.timeFormat(d, period);
             // проверка, влезает ли краткое наименование месяца
-            else if (wordBreaks(d, "%B")) return multiDraw.timeFormat(d, "%B");
+            else if (wordBreaks(d, period)) return multiDraw.timeFormat(d, period);
             else return null;
           }
           case "week": {

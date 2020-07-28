@@ -6,8 +6,14 @@ import { setWheeledData } from "../../redux/mainReducer/action";
 import { rowHasError } from "../../auxFunctions";
 import GanttTopScaleDays from "./scales/ganttTopScaleDays.js";
 import GanttTopScaleMonth from "./scales/ganttTopScaleMonth.js";
+import getPixelsInOneDay from "../../auxFunctions/getPixelsInOneDay.js";
+import getMultiDraw from "./scales/auxData/ganttTopScale/multiDraw.js";
+import * as d3 from "d3";
 
 function Gantt(props) {
+  // const pixelsInOneDay = getPixelsInOneDay(props.widthSVG, props.xScale);
+  // const xAxis = d3.axisTop().scale(props.xScale);
+  // const multiDraw = getMultiDraw(pixelsInOneDay);
   const ref1 = useRef(null);
   // добавление прокрутки колёсиком
   const [state, setState] = useState({ start: 0, finish: props.dataSpec.maxElementsOnPage });
@@ -77,8 +83,8 @@ function Gantt(props) {
     } else {
       return (
         <Fragment>
-          <GanttTopScaleMonth />
-          <GanttTopScaleDays />
+          {/* <GanttTopScaleMonth pixelsInOneDay={pixelsInOneDay} xAxis={xAxis} multiDraw={multiDraw} /> */}
+          {/* <GanttTopScaleDays pixelsInOneDay={pixelsInOneDay} xAxis={xAxis} /> */}
           <svg width="100%" height={props.heightSVG} id="chart">
             <DrawScales />
             <DrawFigures />
@@ -95,6 +101,7 @@ function Gantt(props) {
 }
 const getState = (state) => {
   return {
+    xScale: state.mainReducer.scales.xScale,
     heightSVG: state.mainReducer.sizes.sizesSVG.height,
     widthSVG: state.mainReducer.sizes.sizesSVG.width,
     dataSpec: state.mainReducer.dataSpec,
