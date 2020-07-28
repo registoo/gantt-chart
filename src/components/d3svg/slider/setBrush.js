@@ -48,19 +48,13 @@ export default function (props) {
     .on("end", function () {
       brushEnded();
     });
-
   g.call(drawScales.xAxis)
     .call(brush)
     .call(brush.move, selectedDates)
     .call((g) => {
-      g.selectAll(".tick text")
-        .attr("font-size", "0.5rem")
-        .attr("x", drawScales.pixelsInOneDay / 2);
+      g.selectAll(".tick text").attr("font-size", "0.5rem");
     })
     .call((g) => {
       g.selectAll(".tick text").attr("display", "block");
-    })
-    .call((g) => {
-      g.selectAll(".tick:last-of-type text").attr("display", "none");
     });
 }

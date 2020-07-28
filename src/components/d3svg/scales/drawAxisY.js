@@ -8,6 +8,7 @@ const DrawAxisY = (props) => {
       if (node !== null) {
         const currentNode = d3.select(node);
         currentNode.call(props.yAxis.ticks(props.listID.length));
+        currentNode.call(props.yAxis.tickSizeOuter(0));
         currentNode.call((g) =>
           g
             .selectAll(".tick:not(:first-of-type) line")
@@ -30,7 +31,7 @@ const DrawAxisY = (props) => {
 const getState = (state) => {
   return {
     yAxis: state.mainReducer.scales.yAxis,
-    marginSVG: state.mainReducer.sizesSVG.margin,
+    marginSVG: state.mainReducer.sizes.sizesSVG.margin,
     listID: state.mainReducer.ids.displayedIds,
   };
 };

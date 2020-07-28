@@ -6,4 +6,6 @@ export default {
   colNameRus: "nameRus",
   colNameEng: "nameEng",
   colIsError: "isError",
+  colSPO: "SPO",
+  colPercentComplete: "percentComplete",
 };

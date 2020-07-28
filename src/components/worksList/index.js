@@ -20,7 +20,7 @@ const WorksList = (props) => {
 
 const getState = (state) => {
   return {
-    sizesSVG: state.mainReducer.sizesSVG,
+    sizesSVG: state.mainReducer.sizes.sizesSVG,
   };
 };
 

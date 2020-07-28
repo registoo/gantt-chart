@@ -4,31 +4,71 @@ import { connect } from "react-redux";
 
 const DrawRect = (props) => {
   const x = (d) => props.xScale(d.start.dateInMillisecons);
-  const y = (d) =>
-    rowHasError(d) ? props.yScale(d.isError.formattedText) : props.yScale(d.jobName.formattedText);
-  const height = (d) => props.yScale.bandwidth();
+  const y = (data, id) =>
+    rowHasError(data) ? props.yScale(data.isError.formattedText) : props.yScale(id);
+  const height = (d, h) => props.yScale.bandwidth() * (h ? h : props.state.targetPlan);
   const width = (d) =>
     props.xScale(d.start.dateInMillisecons + (d.duration * 86400000 - 1)) -
     props.xScale(d.start.dateInMillisecons);
+
   const id = (d) => `Rabota ${d.id} rect`;
 
-  const arr = [...props.displayedData].map((d) => {
-    if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
-    return (
-      <rect
-        key={keyGenerator(d.id)}
-        x={x(d.data)}
-        y={y(d.data)}
-        height={height(d.data)}
-        width={width(d.data)}
-        id={id(d.data)}
-      ></rect>
-    );
-  });
+  let arrMain = [];
+  let arrLvl4 = [];
+  // если раскрыто, рисуем план только для верхней строчки, т.к. он - родитель
+  if (props.accordionExpanded) {
+    arrMain = [...props.displayedData].map((d, index) => {
+      if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
+      if (index > 0) {
+        // для работ графика 4 уровня
+        // если есть браш у работы, то рисуем прямоугольник
+        if (d.data.start && d.data.finish) {
+          return (
+            <rect
+              key={keyGenerator(d.id)}
+              x={x(d.data)}
+              y={y(d.data, d.id)}
+              height={height(d.data, 1)}
+              width={width(d.data)}
+              id={id(d)}
+            ></rect>
+          );
+        }
+        return null;
+      }
+      return (
+        <rect
+          key={keyGenerator(d.id)}
+          x={x(d.data)}
+          y={y(d.data, d.id)}
+          height={height(d.data)}
+          width={width(d.data)}
+          id={id(d)}
+        ></rect>
+      );
+    });
+  }
+  // иначе рисуем базовый план для главной страницы
+  else {
+    arrMain = [...props.displayedData].map((d) => {
+      if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
+      return (
+        <rect
+          key={keyGenerator(d.id)}
+          x={x(d.data)}
+          y={y(d.data, d.id)}
+          height={height(d.data)}
+          width={width(d.data)}
+          id={id(d)}
+        ></rect>
+      );
+    });
+  }
 
   return (
     <g id="gForRects" transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}>
-      {arr}
+      {arrMain}
+      {arrLvl4}
     </g>
   );
 };
@@ -38,7 +78,9 @@ const getState = (state) => {
     xScale: state.mainReducer.scales.xScale,
     yScale: state.mainReducer.scales.yScale,
     displayedData: state.mainReducer.slicedData.displayedData,
-    marginSVG: state.mainReducer.sizesSVG.margin,
+    marginSVG: state.mainReducer.sizes.sizesSVG.margin,
+    lvl4: state.mainReducer.slicedData.lvl4,
+    accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
   };
 };
 

@@ -4,6 +4,7 @@ import rowHasError from "../auxFunctions/rowHasError";
 import moment from "moment";
 import * as d3 from "d3";
 import columns from "./columns.js";
+import setChildren from "./setChildren.js";
 
 // Обозначение столбов с данными
 const nameCell = "A";
@@ -12,6 +13,8 @@ const finishCell = "C";
 const predecessorCell = "D";
 const nameRus = "E";
 const nameEng = "F";
+const SPO = "G";
+const percentComplete = "H";
 
 // headRow - количество строк сверху таблицы Excel с общими данными,
 // которые не надо учитывать в результирующей data
@@ -52,6 +55,12 @@ const obj = keys.reduce(function (acc, el) {
           break;
         case nameEng:
           dataWorker(columns.colNameEng, acc, data, el, rowNumber);
+          break;
+        case SPO:
+          dataWorker(columns.colSPO, acc, data, el, rowNumber);
+          break;
+        case percentComplete:
+          dataWorker(columns.colPercentComplete, acc, data, el, rowNumber);
           break;
         default:
           dataWorker(columns.colIsError, acc, data, el, rowNumber);
@@ -96,7 +105,7 @@ const resultData = IDAddedToObj();
 const arrayOfIds = d3.keys(resultData);
 const resultArray = arrayOfIds.map((el) => {
   const value = resultData[el];
-  return { id: el, data: value };
+  return { id: el, data: value, children: setChildren(el, value) };
 });
 
 export default resultArray;

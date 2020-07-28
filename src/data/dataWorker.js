@@ -1,4 +1,5 @@
 import moment from "moment";
+import columns from "./columns.js";
 
 export default (currentKey, acc, data, el, rowNumber) => {
   // расписываем типы данных Excel
@@ -60,38 +61,44 @@ export default (currentKey, acc, data, el, rowNumber) => {
 
   // основной код функции
   switch (currentKey) {
-    case "start":
+    case columns.colStart:
       // проверка ячейки "старт" Excel на тип данных date
       if (data[el].t === "d") {
         const dateInMillisecons = moment.utc(data[el].w, "MM/DD/YYYY").format("x");
         setCorrectAttr(currentKey, +dateInMillisecons);
       } else {
-        cellError("isError", 0, 0);
+        cellError(columns.colIsError, 0, 0);
       }
       break;
-    case "finish":
+    case columns.colFinish:
       // проверка ячейки "финиш" Excel на тип данных date
       // 86400000 мс в 24 часах
       if (data[el].t === "d") {
         const dateInMillisecons = moment.utc(data[el].w, "MM/DD/YYYY").format("x");
         setCorrectAttr(currentKey, +dateInMillisecons + (86400000 - 1));
       } else {
-        cellError("isError", 0, 0);
+        cellError(columns.colIsError, 0, 0);
       }
       break;
-    case "jobName":
+    case columns.colJobName:
       setCorrectAttr(currentKey);
       break;
-    case "predecessor":
+    case columns.colPredecessor:
       setCorrectAttr(currentKey);
       break;
-    case "isError":
-      cellError("isError");
+    case columns.colIsError:
+      cellError(columns.colIsError);
       break;
-    case "nameRus":
+    case columns.colNameRus:
       setCorrectAttr(currentKey);
       break;
-    case "nameEng":
+    case columns.colNameEng:
+      setCorrectAttr(currentKey);
+      break;
+    case columns.colSPO:
+      setCorrectAttr(currentKey);
+      break;
+    case columns.colPercentComplete:
       setCorrectAttr(currentKey);
       break;
     default:

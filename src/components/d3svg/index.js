@@ -1,16 +1,18 @@
 import { connect } from "react-redux";
 import DrawFigures from "./drawFigures";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import DrawScales from "./scales";
-import Slider from "./slider";
 import { setWheeledData } from "../../redux/mainReducer/action";
 import { rowHasError } from "../../auxFunctions";
+import GanttTopScaleDays from "./scales/ganttTopScaleDays.js";
+import GanttTopScaleMonth from "./scales/ganttTopScaleMonth.js";
 
 function Gantt(props) {
   const ref1 = useRef(null);
   // добавление прокрутки колёсиком
   const [state, setState] = useState({ start: 0, finish: props.dataSpec.maxElementsOnPage });
   function onWheel(e) {
+    e.preventDefault();
     const wDelta = e.wheelDelta < 0 ? "down" : "up";
     switch (wDelta) {
       case "down": {
@@ -21,7 +23,7 @@ function Gantt(props) {
         const start = finish - props.dataSpec.currentElementsOnPage;
         const displayedData = props.selectedData.slice(start, finish);
         const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+          rowHasError(d.data) ? d.data.isError.formattedText : d.id
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
@@ -39,7 +41,7 @@ function Gantt(props) {
         const finish = start + props.dataSpec.currentElementsOnPage;
         const displayedData = props.selectedData.slice(start, finish);
         const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data) ? d.data.isError.formattedText : d.data.jobName.formattedText
+          rowHasError(d.data) ? d.data.isError.formattedText : d.id
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
@@ -63,24 +65,44 @@ function Gantt(props) {
     }
   });
   // окончание прокрутки колёсиким
-
+  const data = () => {
+    if (props.selectedIds.length === 0 || !props.displayedStartMS || !props.displayedFinishMS) {
+      return (
+        <svg width="100%" height="100%" id="chart">
+          <text y="20" fontFamily="sans-serif" fontSize="20px" fill="red">
+            Ничего не найдено
+          </text>
+        </svg>
+      );
+    } else {
+      return (
+        <Fragment>
+          <GanttTopScaleMonth />
+          <GanttTopScaleDays />
+          <svg width="100%" height={props.heightSVG} id="chart">
+            <DrawScales />
+            <DrawFigures />
+          </svg>
+        </Fragment>
+      );
+    }
+  };
   return (
     <div style={{ display: "flex", flexDirection: "column", width: props.widthSVG }} ref={ref1}>
-      <Slider />
-      <svg width="100%" height={props.heightSVG} id="chart">
-        <DrawScales />
-        <DrawFigures />
-      </svg>
+      {data()}
     </div>
   );
 }
 const getState = (state) => {
   return {
-    heightSVG: state.mainReducer.sizesSVG.height,
-    widthSVG: state.mainReducer.sizesSVG.width,
+    heightSVG: state.mainReducer.sizes.sizesSVG.height,
+    widthSVG: state.mainReducer.sizes.sizesSVG.width,
     dataSpec: state.mainReducer.dataSpec,
     selectedIds: state.mainReducer.ids.selectedIds,
     selectedData: state.mainReducer.slicedData.selectedData,
+    displayedStartMS: state.mainReducer.scales.displayedStartMS,
+    displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
+    sliderHeight: state.mainReducer.sizes.sizesSVG.slider.height,
   };
 };
 

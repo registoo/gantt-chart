@@ -10,10 +10,10 @@ function App(props) {
       return (
         <Fragment key={keyGenerator()}>
           <div key={keyGenerator()} style={{ border: "1px solid green" }}>
-            {props.ids.indexOf(el.KKS)}
+            {props.ids.indexOf(el.workName)}
           </div>
           <div key={keyGenerator()} style={{ wordBreak: "break-all", border: "1px solid green" }}>
-            {el.KKS}
+            {el.workName}
           </div>
           <div key={keyGenerator()} style={{ border: "1px solid green" }}>
             {el.start}
@@ -36,6 +36,16 @@ function App(props) {
           >
             {el.nameEng}
           </div>
+          <div
+            key={keyGenerator()}
+            onWheel={(e) => e.stopPropagation()}
+            style={{ wordBreak: "break-all", overflowY: "scroll", border: "1px solid green" }}
+          >
+            {el.SPO}
+          </div>
+          <div key={keyGenerator()} style={{ border: "1px solid green" }}>
+            {el.percentComplete}
+          </div>
         </Fragment>
       );
     });
@@ -46,7 +56,7 @@ function App(props) {
         className="WLContainer"
         style={{
           display: "grid",
-          gridTemplateColumns: `20px 150px 100px 100px repeat(2, minmax(200px, 400px))`,
+          gridTemplateColumns: `20px 150px 100px 100px repeat(2, minmax(200px, 400px)) 100px 100px`,
           gridTemplateRows: `${props.headerHeight}px repeat(${
             props.currentElementsOnPage
           }, ${props.yScale.bandwidth()}px)`,
@@ -55,11 +65,13 @@ function App(props) {
         }}
       >
         <div style={{ border: "1px solid red" }}>№</div>
-        <div style={{ border: "1px solid red" }}>KKS</div>
+        <div style={{ border: "1px solid red" }}>workName</div>
         <div style={{ border: "1px solid red" }}>start</div>
         <div style={{ border: "1px solid red" }}>finish</div>
         <div style={{ border: "1px solid red" }}>nameRus</div>
         <div style={{ border: "1px solid red" }}>nameEng</div>
+        <div style={{ border: "1px solid red" }}>SPO</div>
+        <div style={{ border: "1px solid red" }}>percentComplete</div>
         {data}
       </div>
     );
@@ -77,7 +89,7 @@ const getState = (state) => {
     currentElementsOnPage: state.mainReducer.dataSpec.currentElementsOnPage,
     displayedData: state.mainReducer.slicedData.displayedData,
     ids: state.mainReducer.ids.fullIds,
-    headerHeight: state.mainReducer.sizesSVG.slider.height,
+    headerHeight: state.mainReducer.sizes.sizesSVG.slider.height,
   };
 };
 
