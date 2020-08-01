@@ -2,10 +2,16 @@ import d3TimeFormatLocale from "../../../../../auxFunctions/d3TimeFormatLocale.j
 import moment from "moment";
 
 // выбираем период
-export default (d, period, duration = 6) => {
+export default (d, period, duration) => {
   switch (period) {
     case "month":
-      return d3TimeFormatLocale.format("%B")(d);
+      if (duration) {
+        return `${d3TimeFormatLocale.format("%d")(d)}-${d3TimeFormatLocale.format("%d")(
+          moment.utc(d).add(duration - 1, "day")
+        )}`;
+      } else {
+        return d3TimeFormatLocale.format("%B")(d);
+      }
     case "shortMonth":
       return d3TimeFormatLocale.format("%b")(d);
     case "week":

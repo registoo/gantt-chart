@@ -10,7 +10,12 @@ import drawTicksCallback from "./auxData/ganttTopScale/drawTicks.js";
 const GanttTopScale = (props) => {
   const pixelsInOneDay = getPixelsInOneDay(props.widthSVG, props.xScale);
   const xAxis = d3.axisTop().scale(props.xScale);
-  const period = pixelsInOneDay > convertLength("1ch") * 2.5 ? "day" : "week";
+  const period =
+    pixelsInOneDay * 7 < convertLength("5ch")
+      ? "month"
+      : pixelsInOneDay > convertLength("1ch") * 2.5
+      ? "day"
+      : "week";
   const addSomething = useCallback(
     (node) => {
       if (node !== null) {
@@ -18,17 +23,31 @@ const GanttTopScale = (props) => {
         const counts = {};
 
         currentNode
-          .call(drawTicksValues(period, xAxis, counts, pixelsInOneDay))
-
+          .call(drawTicksValues(period, xAxis, counts, pixelsInOneDay, "lowerScale"))
           .call((g) => {
-            tickOffset(g, counts, pixelsInOneDay, period);
+            tickOffset(g, counts, pixelsInOneDay, period, "lowerScale");
           });
       }
     },
     [period, pixelsInOneDay, xAxis]
   );
-
-  const drawTicks = drawTicksCallback(props, period === "week" ? d3.utcWeek : d3.utcDay, xAxis);
+  let drawTicks;
+  switch (period) {
+    case "month": {
+      drawTicks = drawTicksCallback(props, d3.utcMonth, xAxis);
+      break;
+    }
+    case "week": {
+      drawTicks = drawTicksCallback(props, d3.utcWeek, xAxis);
+      break;
+    }
+    case "day": {
+      drawTicks = drawTicksCallback(props, d3.utcDay, xAxis);
+      break;
+    }
+    default:
+      break;
+  }
 
   return (
     <svg width="100%" height={props.ganttTopScaleHeight} id="ganttTopScale">

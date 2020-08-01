@@ -2,7 +2,7 @@ import moment from "moment";
 import months from "./monthes.js";
 import positionX from "./getPositionX.js";
 
-export default (g, counts, pixelsInOneDay, period) => {
+export default (g, counts, pixelsInOneDay, period, scaleLvl) => {
   g.selectAll(".tick text")
     .attr("font-size", "0.6rem")
     .attr("x", (a, i, arr) => {
@@ -10,6 +10,14 @@ export default (g, counts, pixelsInOneDay, period) => {
       const drawn = arr[i].innerHTML.length > 0;
       switch (period) {
         case "month":
+          if (scaleLvl === "lowerScale") {
+            if (drawn) {
+              const elem = counts[+moment.utc(a).valueOf()]
+                ? counts[+moment.utc(a).valueOf()]
+                : counts[+moment.utc(+Object.keys(counts)[0]).valueOf()];
+              return positionX(period, pixelsInOneDay, elem.count);
+            }
+          }
           if (drawn) {
             let result;
             const currentMonthNumber = months[arr[i].innerHTML];
@@ -25,7 +33,6 @@ export default (g, counts, pixelsInOneDay, period) => {
           }
           return 0;
         case "week":
-          //   Object.keys(counts).map((dateInMS) => console.log(d3.utcWeek(+dateInMS)));
           if (drawn) {
             const elem = counts[+moment.utc(a).valueOf()]
               ? counts[+moment.utc(a).valueOf()]

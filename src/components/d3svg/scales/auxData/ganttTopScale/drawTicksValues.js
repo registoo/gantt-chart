@@ -1,10 +1,10 @@
 import * as d3 from "d3";
 import moment from "moment";
-import convertLength from "to-px";
 import setTimeFormat from "./setTimeFormat.js";
+import wordBreaks from "./wordBreaks.js";
 
 // period - "month" || "week" || "day"
-export default (period, xAxis, counts, pixelsInOneDay) =>
+export default (period, xAxis, counts, pixelsInOneDay, scaleLvl) =>
   xAxis
     .ticks(d3.utcDay)
     .tickFormat((d, i0, arr) => {
@@ -30,23 +30,35 @@ export default (period, xAxis, counts, pixelsInOneDay) =>
       }
       const dateInMS = moment.utc(d).startOf(period).valueOf();
 
-      // проверка на влезание слова
-      const wordBreaks = (d, period) =>
-        pixelsInOneDay * counts[dateInMS].count >
-        convertLength(`${setTimeFormat(d, period).length}ch`);
-
       if (counts[dateInMS].startPosition === i0) {
         switch (period) {
           case "month": {
             // проверка, влезает ли полное наименование периода
-            if (wordBreaks(d, period)) return setTimeFormat(d, period);
-            // проверка, влезает ли краткое наименование месяца
-            else if (wordBreaks(d, "shortMonth")) return setTimeFormat(d, "shortMonth");
-            else return null;
+            if (scaleLvl === "lowerScale") {
+              // при шкалировании нижней полоски до уровня месяца
+              if (wordBreaks(d, period, pixelsInOneDay, counts[dateInMS].count)) {
+                return setTimeFormat(d, period, counts[dateInMS].count);
+              }
+              return null;
+            } else if (
+              wordBreaks(d, period, pixelsInOneDay, counts[dateInMS].count) &&
+              counts[dateInMS].count > 2
+            ) {
+              // проверка верхней шкалы на полный месяц, сделана проверка count>2 т.к. шкала +1ms
+              return setTimeFormat(d, period);
+            }
+            // проверка верхней шкалы на сокращенное название месяца
+            else if (
+              wordBreaks(d, "shortMonth", pixelsInOneDay, counts[dateInMS].count) &&
+              counts[dateInMS].count > 2
+            ) {
+              return setTimeFormat(d, "shortMonth");
+            } else return null;
           }
           case "week": {
             // проверка, влезает ли полное наименование периода
-            if (wordBreaks(d, period)) return setTimeFormat(d, period, counts[dateInMS].count);
+            if (wordBreaks(d, period, pixelsInOneDay, counts[dateInMS].count))
+              return setTimeFormat(d, period, counts[dateInMS].count);
             break;
           }
           case "day": {
