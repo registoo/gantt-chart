@@ -48,6 +48,7 @@ export default function (props) {
     .on("end", function () {
       brushEnded();
     });
+
   g.call(drawScales.xAxis)
     .call(brush)
     .call(brush.move, selectedDates)

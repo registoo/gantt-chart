@@ -1,7 +1,6 @@
 import React from "react";
 import { Container } from "@material-ui/core";
 import D3svg from "./components/d3svg";
-import WorksList from "./components/worksList";
 import MainResizer from "./components/mainResizer/index.js";
 import Slider from "./components/d3svg/slider";
 import Accordion from "./components/accordion.js";

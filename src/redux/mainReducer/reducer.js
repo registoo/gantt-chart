@@ -25,7 +25,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         },
         scales: { ...state.scales, ...setXScaleWidth },
       };
-      console.log("SET_SVG_WIDTH", result);
+      // console.log("SET_SVG_WIDTH", result);
       return result;
     }
     case "SET_RESIZER_TYPE": {
@@ -37,7 +37,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         },
       };
 
-      console.log("SET_RESIZER_TYPE", result);
+      // console.log("SET_RESIZER_TYPE", result);
       return result;
     }
     case "CHANGE_SVG_RANGE": {
@@ -46,7 +46,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
-      console.log("CHANGE_SVG_RANGE", result);
+      // console.log("CHANGE_SVG_RANGE", result);
       return result;
     }
 
@@ -82,7 +82,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           wheeled,
         },
       };
-      console.log("ACCORDION_DATA", result);
+      // console.log("ACCORDION_DATA", result);
       return result;
     }
 
@@ -106,7 +106,7 @@ export default function testReducer(state = defaultState(fullData), action) {
           dataRange: action.dataRange,
         },
       };
-      console.log("WHEEL_DATA", result);
+      // console.log("WHEEL_DATA", result);
       return result;
     }
 
@@ -119,7 +119,7 @@ export default function testReducer(state = defaultState(fullData), action) {
       result = {
         ...newState,
       };
-      console.log("LVL_4_BRUSH_SELECTED", action);
+      // console.log("LVL_4_BRUSH_SELECTED", action);
       return result;
     }
 
@@ -163,7 +163,7 @@ export default function testReducer(state = defaultState(fullData), action) {
         serializedFilters,
         state,
       });
-      console.log("SERIALIZE_FILTERS", result);
+      // console.log("SERIALIZE_FILTERS", result);
       return result;
     }
 

@@ -28,7 +28,7 @@ const DrawAxisX = (props) => {
         // });
         // .call((g) => {
         //   g.selectAll(".tick:not(:last-of-type) line, :not(:first-of-type) line").attr(
-        //     "stroke-width",
+        //     "strokeWidth",
         //     "5"
         //   );
         // })
