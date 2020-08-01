@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Accordion from "@material-ui/core/Accordion";
@@ -166,12 +166,14 @@ function DetailedAccordion(props) {
   return (
     <div
       style={{
-        marginTop: props.headerHeight,
         flexGrow: 1,
         minWidth: 0,
         overflowX: "scroll",
       }}
     >
+      <div style={{ height: props.ganttTopScaleHeight * 2, backgroundColor: "yellow" }}>
+        заглушка
+      </div>
       {props.accordionExpanded
         ? elem(props.displayedData[0])
         : props.displayedData.map((el, i) => elem(el, i))}
@@ -190,7 +192,7 @@ const getState = (state) => {
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
     serializedFilters: state.mainReducer.dataSpec.filters.serializedFilters,
     sizesSVG: state.mainReducer.sizes.sizesSVG,
-    headerHeight: state.mainReducer.sizes.sizesSVG.slider.height,
+    ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.height,
     selectedData: state.mainReducer.slicedData.selectedData,
   };
 };
