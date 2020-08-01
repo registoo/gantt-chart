@@ -6,13 +6,19 @@ import * as serviceWorker from "./auxFunctions/serviceWorker";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
+import { Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 ReactDOM.render(
-  <CssBaseline>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </CssBaseline>,
+  <Router history={history}>
+    <CssBaseline>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </CssBaseline>
+  </Router>,
   document.getElementById("root")
 );
 

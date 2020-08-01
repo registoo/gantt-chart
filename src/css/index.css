@@ -9,6 +9,27 @@ body {
   height: 100vh;
 }
 
+.AppContainer {
+  display: grid !important;
+  grid-template-areas:
+    "a a"
+    "b c";
+  grid-template-columns: min-content 1fr;
+}
+
+.AppTopMenu {
+  grid-area: a;
+}
+
+.AppNavigationBar {
+  grid-area: b;
+}
+
+.AppResizeContainer {
+  grid-area: c;
+  height: 96vh;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
