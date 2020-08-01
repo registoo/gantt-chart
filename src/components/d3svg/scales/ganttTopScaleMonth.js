@@ -1,52 +1,30 @@
 import * as d3 from "d3";
 import { connect } from "react-redux";
 import React, { useCallback, Fragment } from "react";
-import moment from "moment";
-import months from "./auxData/ganttTopScale/monthes.js";
-import addTicksCallback from "./auxData/ganttTopScale/addTicks.js";
-import drawTicks from "./auxData/ganttTopScale/drawTicksValues.js";
+import drawTicksCallback from "./auxData/ganttTopScale/drawTicks.js";
+import drawTicksValues from "./auxData/ganttTopScale/drawTicksValues.js";
 import getPixelsInOneDay from "../../../auxFunctions/getPixelsInOneDay.js";
-import getMultiDraw from "./auxData/ganttTopScale/multiDraw.js";
+import tickOffset from "./auxData/ganttTopScale/tickOffset.js";
 
 const GanttTopScale = (props) => {
   const pixelsInOneDay = getPixelsInOneDay(props.widthSVG, props.xScale);
   const xAxis = d3.axisTop().scale(props.xScale);
-  const multiDraw = getMultiDraw(pixelsInOneDay);
   const addTicksText = useCallback(
     (node) => {
       if (node !== null) {
         const currentNode = d3.select(node);
-
+        const period = "month";
         const counts = {};
-        currentNode.call(drawTicks("month", xAxis, counts, pixelsInOneDay, multiDraw)).call((g) => {
-          g.selectAll(".tick text")
-            .attr("font-size", "0.6rem")
-            .attr("x", (a, i, arr) => {
-              // проверям нарисован ли тик и берём его innerHTML (название месяца, например "Июль" или "июн")
-              if (arr[i].innerHTML.length > 0) {
-                let result;
-                const currentMonthNumber = months[arr[i].innerHTML];
-                // пробегаем по counts, берём длину показываемого месяца и расчитываем чтоб по центру рисовалось
-                Object.keys(counts).map((dateInMS) => {
-                  const monthNumberInCounts = +moment.utc(+dateInMS).format("M");
-                  if (currentMonthNumber === monthNumberInCounts) {
-                    result = multiDraw.positionX(counts[dateInMS].count);
-                  }
-                  return null;
-                });
-                return result;
-              }
-              return 0;
-            })
-            // отступ наименования тика от границы шкалы
-            .attr("y", -4);
+
+        currentNode.call(drawTicksValues(period, xAxis, counts, pixelsInOneDay)).call((g) => {
+          tickOffset(g, counts, pixelsInOneDay, period);
         });
       }
     },
-    [xAxis, pixelsInOneDay, multiDraw]
+    [xAxis, pixelsInOneDay]
   );
 
-  const addTicks = addTicksCallback(props, d3.utcMonth, xAxis);
+  const drawTicks = drawTicksCallback(props, d3.utcMonth, xAxis);
 
   return (
     <Fragment>
@@ -59,7 +37,7 @@ const GanttTopScale = (props) => {
         ></g>
         <g
           width={props.widthSVG}
-          ref={addTicks}
+          ref={drawTicks}
           transform={`translate(0,${props.ganttTopScaleHeight - 1})`}
         ></g>
       </svg>
