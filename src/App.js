@@ -8,6 +8,7 @@ import TopMenu from "./components/TopMenu";
 import NavigationBar from "./components/NavigationBar";
 import Dashboards from "./components/WorkingPlace/Dashboards";
 import { Switch, Route, withRouter } from "react-router-dom";
+import WorkListSVG from "./components/workListSVG.js";
 
 function App(props) {
   const { history } = props;
@@ -29,7 +30,8 @@ function App(props) {
           <Route history={history} path="/gantt">
             <Slider />
             <MainResizer>
-              <Accordion />
+              <WorkListSVG />
+              {/* <Accordion /> */}
               <D3svg />
             </MainResizer>
           </Route>
