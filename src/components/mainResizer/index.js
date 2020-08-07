@@ -14,7 +14,6 @@ function Component(props) {
   // по дефолту меняется размер второго ребёка
   const [otherELem, resizeElem] = props.children;
   const polzynokTotalWIdth = props.polzynok.width + props.polzynok.margin.left;
-  let blockWidth = false;
   return (
     <div
       ref={parentDiv}
@@ -32,18 +31,12 @@ function Component(props) {
             const parentWidth = parentDiv.current.offsetWidth;
             const parentWidthWithTrash = parentWidth - polzynokTotalWIdth;
             const resizableElemWidth = props.widthSVG - ui.deltaX;
-            console.log(
-              resizableElemWidth + props.separatorWidth >= parentWidthWithTrash,
-              resizableElemWidth + props.separatorWidth,
-              parentWidthWithTrash
-            );
             // если посчитанная ширина меньше или равно минимально разрешённой ширине
             if (resizableElemWidth <= props.minWidth) {
               props.setWidth({ svgWidth: props.minWidth, parentWidth });
             }
             // если посчитанная ширина больше или равно ширины родителя
             else if (resizableElemWidth + props.separatorWidth >= parentWidthWithTrash) {
-              blockWidth = true;
               props.setWidth({
                 svgWidth: parentWidthWithTrash - props.separatorWidth,
                 parentWidth,
@@ -52,7 +45,6 @@ function Component(props) {
             }
             // просто изменение ширины
             else {
-              blockWidth = false;
               props.setWidth({ svgWidth: resizableElemWidth, parentWidth });
             }
           }}
