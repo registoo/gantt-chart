@@ -6,4 +6,5 @@ export default (hierarchyData, soughtElem) => {
     total.length === 0 && total.push(sought);
     total.findIndex((e) => e === sought) < 0 && total.push(sought);
   });
+  return total;
 };

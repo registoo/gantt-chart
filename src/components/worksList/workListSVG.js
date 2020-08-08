@@ -5,20 +5,7 @@ import drawLine from "./drawLine.js";
 const F = (props) => {
   const columns = props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
   const addData = () => {
-    const nodes = props.hierarchyFullData.children;
-    const totalSPO = [];
-    props.hierarchyFullData.each((e) => {
-      if (e.data.name === "root") return;
-      const spo = e.data.data.SPO ? e.data.data.SPO.formattedText : null;
-      totalSPO.length === 0 && totalSPO.push(spo);
-      const a = totalSPO.findIndex(
-        (e) => e === spo
-        // if (e === spo) totalSPO.push(spo);
-        // e !== spo && totalSPO.push(spo);
-      );
-      a < 0 && totalSPO.push(spo);
-    });
-    console.log(totalSPO);
+    const nodes = props.displayedData;
     const n = nodes.map((d, i) => {
       return drawLine(d, i, props.yScale, columns);
     });
