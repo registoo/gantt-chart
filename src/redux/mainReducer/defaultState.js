@@ -3,10 +3,11 @@ import changeScaleX from "./auxDefaultState/scaleX.js";
 import changeScaleY from "./auxDefaultState/scaleY.js";
 import columnsData from "../../data/columns.js";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
-import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
+import deleteDuplicates from "../../auxFunctions/hierarchy/deleteDuplicates.js";
 import * as d3 from "d3";
 
 export default (fullData) => {
+  const hierarchyFullData = d3.hierarchy({ name: "root", children: fullData });
   const maxElementsOnPage = 12;
   const startDataForDataRange = 0;
   const displayedData = fullData.slice(
@@ -47,7 +48,7 @@ export default (fullData) => {
   const selectedData = fullData;
   const selectedIds = fullIds;
   const namesOfColumns = columnsData.outer;
-  const listOfSPO = deleteDuplicates(fullData, "el.data.SPO.formattedText");
+  const listOfSPO = deleteDuplicates(hierarchyFullData, "SPO");
   const dataSpec = {
     dataRange: { start: startDataForDataRange, finish: startDataForDataRange + maxElementsOnPage },
     currentElementsOnPage: maxElementsOnPage,
@@ -69,7 +70,7 @@ export default (fullData) => {
   };
   const result = {
     fullData,
-    hierarchyFullData: d3.hierarchy({ name: "root", children: fullData }),
+    hierarchyFullData,
     slicedData: { displayedData, selectedData },
     sizes,
     ids: { fullIds, displayedIds, selectedIds },
