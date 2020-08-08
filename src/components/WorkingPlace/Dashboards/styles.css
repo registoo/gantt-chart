@@ -1,0 +1,21 @@
+/* text {
+    font: 10px sans-serif;
+  }
+  
+  rect.background {
+    fill: white;
+  }
+  
+  .axis {
+    shape-rendering: crispEdges;
+  }
+  
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+  } */
+
+text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
