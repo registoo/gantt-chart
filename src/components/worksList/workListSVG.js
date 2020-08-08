@@ -1,16 +1,11 @@
 import React from "react";
-import * as d3 from "d3";
 import { connect } from "react-redux";
 import drawLine from "./drawLine.js";
 
 const F = (props) => {
   const columns = props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
   const addData = () => {
-    let i = 0;
-    const root = d3.hierarchy(props.displayedDataRoot).eachBefore((d) => {
-      return (d.index = i++);
-    });
-    const nodes = root.children;
+    const nodes = props.hierarchyFullData.children;
     const n = nodes.map((d, i) => {
       return drawLine(d, i, props.yScale, columns);
     });
@@ -42,10 +37,7 @@ const F = (props) => {
 
 const getState = (state) => {
   return {
-    displayedDataRoot: {
-      name: "displayedData",
-      children: state.mainReducer.slicedData.displayedData,
-    },
+    hierarchyFullData: state.mainReducer.hierarchyFullData,
     displayedData: state.mainReducer.slicedData.displayedData,
     ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.height,
     yScale: state.mainReducer.scales.yScale,

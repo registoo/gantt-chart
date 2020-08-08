@@ -4,6 +4,7 @@ import changeScaleY from "./auxDefaultState/scaleY.js";
 import columnsData from "../../data/columns.js";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
 import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
+import * as d3 from "d3";
 
 export default (fullData) => {
   const maxElementsOnPage = 12;
@@ -68,6 +69,7 @@ export default (fullData) => {
   };
   const result = {
     fullData,
+    hierarchyFullData: d3.hierarchy({ name: "root", children: fullData }),
     slicedData: { displayedData, selectedData },
     sizes,
     ids: { fullIds, displayedIds, selectedIds },

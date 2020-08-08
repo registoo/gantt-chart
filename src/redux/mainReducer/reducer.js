@@ -180,6 +180,7 @@ export default function testReducer(state = defaultState(fullData), action) {
     }
 
     default:
+      console.log(state);
       return state;
   }
 }

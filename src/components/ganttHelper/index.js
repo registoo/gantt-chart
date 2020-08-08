@@ -21,7 +21,6 @@ function F(props) {
   };
   const optionsArr = props.namesOfColumns.map((el) => el[Object.keys(el)[0]]);
   const filteredOptions0 = props.filteredColumns.map((el) => el[Object.keys(el)[0]]);
-  console.log(optionsArr, filteredOptions0);
   const filteredOptions1 = optionsArr.length === filteredOptions0.length ? [] : filteredOptions0;
   return (
     <div
@@ -64,7 +63,6 @@ function F(props) {
 }
 
 const getState = (state) => {
-  console.log(state.mainReducer);
   return {
     width: state.mainReducer.sizes.sizesLeftMenu.width,
     margin: state.mainReducer.sizes.sizesLeftMenu.margin,
