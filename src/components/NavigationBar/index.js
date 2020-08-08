@@ -8,6 +8,7 @@ import Box from "@material-ui/core/Box";
 import FilterNoneIcon from "@material-ui/icons/FilterNone";
 import SearchIcon from "@material-ui/icons/Search";
 import LeftMenu from "../leftMenu";
+import GanttHelper from "../ganttHelper";
 import "./styles.css";
 
 function TabPanel(props) {
@@ -111,7 +112,7 @@ export default function NavigationBar() {
         />
       </Tabs>
       <TabPanel className="TabPanel" value={value} index={0} toggle={isOpen}>
-        Text
+        <GanttHelper />
       </TabPanel>
       <TabPanel className="TabPanel" value={value} index={1} toggle={isOpen}>
         <LeftMenu />

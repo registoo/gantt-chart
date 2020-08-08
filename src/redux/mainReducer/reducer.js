@@ -167,7 +167,20 @@ export default function testReducer(state = defaultState(fullData), action) {
       return result;
     }
 
+    case "SELECT_COLUMNS": {
+      result = {
+        ...state,
+        dataSpec: {
+          ...state.dataSpec,
+          filters: { ...state.dataSpec.filters, filteredColumns: action.columns },
+        },
+      };
+      // console.log("SELECT_COLUMNS", action);
+      return result;
+    }
+
     default:
+      console.log(state);
       return state;
   }
 }

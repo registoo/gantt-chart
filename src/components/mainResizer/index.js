@@ -6,7 +6,7 @@ import { DraggableCore } from "react-draggable";
 import { withResizeDetector } from "react-resize-detector";
 import Polzynok from "../../components/polzynok";
 
-function CustomComponent(props) {
+function Component(props) {
   const parentDiv = useRef(null);
   useEffect(() => {
     props.setWidth({ svgWidth: props.widthSVG, parentWidth: parentDiv.current.offsetWidth });
@@ -41,6 +41,7 @@ function CustomComponent(props) {
                 svgWidth: parentWidthWithTrash - props.separatorWidth,
                 parentWidth,
               });
+              return;
             }
             // просто изменение ширины
             else {
@@ -67,4 +68,4 @@ const getState = (state) => {
   };
 };
 
-export default connect(getState, { setWidth })(withResizeDetector(CustomComponent));
+export default connect(getState, { setWidth })(withResizeDetector(Component));

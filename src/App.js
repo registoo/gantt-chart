@@ -3,11 +3,12 @@ import { Container } from "@material-ui/core";
 import D3svg from "./components/d3svg";
 import MainResizer from "./components/mainResizer/index.js";
 import Slider from "./components/d3svg/slider";
-import Accordion from "./components/accordion.js";
+// import Accordion from "./components/accordion.js";
 import TopMenu from "./components/TopMenu";
 import NavigationBar from "./components/NavigationBar";
 import Dashboards from "./components/WorkingPlace/Dashboards";
 import { Switch, Route, withRouter } from "react-router-dom";
+import WorkListSVG from "./components/worksList/workListSVG.js";
 
 function App(props) {
   const { history } = props;
@@ -29,7 +30,8 @@ function App(props) {
           <Route history={history} path="/gantt">
             <Slider />
             <MainResizer>
-              <Accordion />
+              <WorkListSVG />
+              {/* <Accordion /> */}
               <D3svg />
             </MainResizer>
           </Route>

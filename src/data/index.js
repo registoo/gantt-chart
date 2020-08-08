@@ -3,8 +3,10 @@ import dataWorker from "./dataWorker.js";
 import rowHasError from "../auxFunctions/rowHasError";
 import moment from "moment";
 import * as d3 from "d3";
-import columns from "./columns.js";
+import columnsData from "./columns.js";
 import setChildren from "./setChildren.js";
+
+const columns = columnsData.inner;
 
 // Обозначение столбов с данными
 const nameCell = "A";
