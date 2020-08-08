@@ -1,7 +1,7 @@
 import rowHasError from "../../auxFunctions/rowHasError";
 import changeScaleX from "./auxDefaultState/scaleX.js";
 import changeScaleY from "./auxDefaultState/scaleY.js";
-import columns from "../../data/columns.js";
+import columnsData from "../../data/columns.js";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
 import deleteDuplicates from "../../auxFunctions/deleteDuplicates.js";
 
@@ -45,12 +45,7 @@ export default (fullData) => {
 
   const selectedData = fullData;
   const selectedIds = fullIds;
-  // колоки данных workList
-  const columnsName = () => {
-    const col = { ...columns };
-    delete col.colIsError;
-    return col;
-  };
+  const namesOfColumns = columnsData.outer;
   const listOfSPO = deleteDuplicates(fullData, "el.data.SPO.formattedText");
   const dataSpec = {
     dataRange: { start: startDataForDataRange, finish: startDataForDataRange + maxElementsOnPage },
@@ -68,13 +63,13 @@ export default (fullData) => {
       SPOFilter: { listOfSPOForSearcherInput: listOfSPO, pickedSPO: [] },
       serializedFilters: [],
       percentageFilter: { range: { from: 0, to: 100 }, selectedPercentageFilter: undefined },
+      filteredColumns: [],
     },
   };
   const result = {
     fullData,
     slicedData: { displayedData, selectedData },
     sizes,
-    workList: { columnsName: { ...columnsName() } },
     ids: { fullIds, displayedIds, selectedIds },
     dataSpec,
     scales: {
@@ -90,7 +85,7 @@ export default (fullData) => {
       }),
       changeScales: { changeScaleX, changeScaleY },
     },
-    someData: { listOfSPO },
+    someData: { listOfSPO, namesOfColumns: namesOfColumns },
   };
 
   return result;

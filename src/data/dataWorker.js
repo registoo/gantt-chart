@@ -1,5 +1,7 @@
 import moment from "moment";
-import columns from "./columns.js";
+import columnsData from "./columns.js";
+
+const columns = columnsData.inner;
 
 export default (currentKey, acc, data, el, rowNumber) => {
   // расписываем типы данных Excel

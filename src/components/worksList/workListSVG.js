@@ -4,14 +4,15 @@ import { connect } from "react-redux";
 import drawLine from "./drawLine.js";
 
 const F = (props) => {
-  const addText = (props) => {
+  const columns = props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
+  const addData = () => {
     let i = 0;
     const root = d3.hierarchy(props.displayedDataRoot).eachBefore((d) => {
       return (d.index = i++);
     });
     const nodes = root.children;
     const n = nodes.map((d, i) => {
-      return drawLine(d, i, props.yScale);
+      return drawLine(d, i, props.yScale, columns);
     });
     return n;
   };
@@ -29,12 +30,11 @@ const F = (props) => {
     >
       <svg
         style={{
-          width: "100%",
+          width: columns.length * 125,
           height: props.SVGHeight,
-          minWidth: 500,
         }}
       >
-        <g>{addText(props)}</g>
+        <g>{addData()}</g>
       </svg>
     </div>
   );
@@ -50,6 +50,8 @@ const getState = (state) => {
     ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.height,
     yScale: state.mainReducer.scales.yScale,
     SVGHeight: state.mainReducer.sizes.sizesSVG.height,
+    filteredColumns: state.mainReducer.dataSpec.filters.filteredColumns,
+    namesOfColumns: state.mainReducer.someData.namesOfColumns,
   };
 };
 

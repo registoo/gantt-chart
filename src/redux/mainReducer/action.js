@@ -44,3 +44,9 @@ export const lvl4BrushSelected = (data) => {
     element: data.currentParentElement,
   };
 };
+export const selectColumns = (data) => {
+  return {
+    type: "SELECT_COLUMNS",
+    columns: data,
+  };
+};
