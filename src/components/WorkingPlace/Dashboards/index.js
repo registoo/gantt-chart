@@ -1,43 +1,41 @@
 import React, { useCallback } from "react";
 import * as d3 from "d3";
 import { connect } from "react-redux";
-import fullData from "../../../data";
 import "./styles.css";
 
-const url = "https://raw.githubusercontent.com/AndreyGrek/json/master/test.json";
+const DrawBarChart = (props) => {
+  const data = { id: "test", children: props.filteredData };
 
-const DrawBarChart = () => {
-  const svg = useCallback((node) => {
-    if (node !== null) {
-      const format = d3.format(",d");
-      const width = 932;
-      const radius = width / 6;
+  const svg = useCallback(
+    (node) => {
+      if (node !== null) {
+        const format = d3.format(",d");
+        const width = 932;
+        const radius = width / 6;
 
-      const arc = d3
-        .arc()
-        .startAngle((d) => d.x0)
-        .endAngle((d) => d.x1)
-        .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
-        .padRadius(radius * 1.5)
-        .innerRadius((d) => d.y0 * radius)
-        .outerRadius((d) => Math.max(d.y0 * radius, d.y1 * radius - 1));
+        const arc = d3
+          .arc()
+          .startAngle((d) => d.x0)
+          .endAngle((d) => d.x1)
+          .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
+          .padRadius(radius * 1.5)
+          .innerRadius((d) => d.y0 * radius)
+          .outerRadius((d) => Math.max(d.y0 * radius, d.y1 * radius - 1));
 
-      const partition = (data) => {
-        const root = d3
-          .hierarchy(data)
-          .sum((d) => d.size)
-          .sort((a, b) => b.value - a.value);
-        return d3.partition().size([2 * Math.PI, root.height + 1])(root);
-      };
-      
-      d3.json(url).then((data) => {
-        console.log(data);
+        const partition = (values) => {
+          const root = d3
+            .hierarchy(values)
+            .sum((d) => d.dengi)
+            .sort((a, b) => b.value - a.value);
+          return d3.partition().size([2 * Math.PI, root.height + 1])(root);
+        };
+
         const root = partition(data);
         const color = d3
           .scaleOrdinal()
           .range(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
 
-        root.each((d) => d.current = d);
+        root.each((d) => (d.current = d));
 
         const svg = d3
           .select("#partitionSVG")
@@ -45,6 +43,8 @@ const DrawBarChart = () => {
           .style("height", "auto")
           .style("max-height", "100%")
           .style("font", "10px sans-serif");
+
+        svg.selectAll("*").remove();
 
         const g = svg.append("g").attr("transform", `translate(${width / 2},${width / 2})`);
 
@@ -57,7 +57,7 @@ const DrawBarChart = () => {
             while (d.depth > 1) {
               d = d.parent;
             }
-            return color(d.data.name);
+            return color(d.data.id);
           })
           .attr("fill-opacity", (d) => (arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0))
           .attr("d", (d) => arc(d.current));
@@ -71,7 +71,7 @@ const DrawBarChart = () => {
           (d) =>
             `${d
               .ancestors()
-              .map((d) => d.data.name)
+              .map((d) => d.data.id)
               .reverse()
               .join("/")}\n${format(d.value)}`
         );
@@ -87,7 +87,7 @@ const DrawBarChart = () => {
           .attr("dy", "0.35em")
           .attr("fill-opacity", (d) => +labelVisible(d.current))
           .attr("transform", (d) => labelTransform(d.current))
-          .text((d) => d.data.name);
+          .text((d) => d.data.id);
 
         const parent = g
           .append("circle")
@@ -149,24 +149,17 @@ const DrawBarChart = () => {
           const y = ((d.y0 + d.y1) / 2) * radius;
           return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
         }
-      });
-    }
-  }, []);
+      }
+    },
+    [data]
+  );
   return <svg id="partitionSVG" ref={svg} width="932" height="932" viewBox="0 0 932 932"></svg>;
 };
 
-const Dashboards = (props) => {
-  // const data = fullData.map((item) => parseInt(item.data.percentComplete.formattedText));
-  // const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  // const average = parseFloat((data.reduce(reducer) / data.length).toFixed(2));
-
-  return (
-      <DrawBarChart />
-  );
-};
-
 const getState = (state) => {
-  return {};
+  return {
+    filteredData: state.mainReducer.slicedData.selectedData,
+  };
 };
 
-export default connect(getState)(Dashboards);
+export default connect(getState)(DrawBarChart);
