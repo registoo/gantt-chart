@@ -4,19 +4,19 @@ export default (obj) => {
   const selectedData =
     obj.selectedData.length > 0
       ? obj.selectedData.filter((e) =>
-          e.data.isError
+          e.data.data.isError
             ? false
-            : e.data.percentComplete.formattedText >= from &&
-              e.data.percentComplete.formattedText <= to
+            : e.data.data.percentComplete.formattedText >= from &&
+              e.data.data.percentComplete.formattedText <= to
         )
-      : obj.fullData.filter((e) =>
-          e.data.isError
+      : obj.hierarchyFullData.children.filter((e) =>
+          e.data.data.isError
             ? false
-            : e.data.percentComplete.formattedText >= from &&
-              e.data.percentComplete.formattedText <= to
+            : e.data.data.percentComplete.formattedText >= from &&
+              e.data.data.percentComplete.formattedText <= to
         );
 
-  const selectedIds = selectedData.map((d) => d.data.jobName.formattedText);
+  const selectedIds = selectedData.map((d) => d.data.data.jobName.formattedText);
 
   return {
     ...obj,

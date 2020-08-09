@@ -3,19 +3,17 @@ import changeScaleX from "./auxDefaultState/scaleX.js";
 import changeScaleY from "./auxDefaultState/scaleY.js";
 import columnsData from "../../data/columns.js";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
-import deleteDuplicates from "../../auxFunctions/hierarchy/deleteDuplicates.js";
-import * as d3 from "d3";
+import { deleteDuplicates } from "../../auxFunctions/hierarchy";
 
-export default (fullData) => {
-  const hierarchyFullData = d3.hierarchy({ name: "root", children: fullData });
+export default (hierarchyFullData) => {
   const maxElementsOnPage = 12;
   const startDataForDataRange = 0;
-  const displayedData = fullData.slice(
+  const hierarchyDisplayedData = hierarchyFullData.children.slice(
     startDataForDataRange,
     startDataForDataRange + maxElementsOnPage
   );
   const stringHeight = 35;
-  const heightSVG = displayedData.length * (stringHeight * 1.25);
+  const heightSVG = hierarchyDisplayedData.length * (stringHeight * 1.25);
   const marginSVG = {
     top: 0,
     right: 1,
@@ -39,16 +37,21 @@ export default (fullData) => {
     sizesLeftMenu: { width: 400, margin: { right: 10, top: 10 } },
   };
 
-  const displayedIds = displayedData.map((d) =>
-    rowHasError(d.data) ? d.data.isError.formattedText : d.id
+  const hierarchyDisplayedIds = hierarchyDisplayedData.map((d) =>
+    rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
   );
 
-  const fullIds = fullData.map((d) => (rowHasError(d.data) ? d.data.isError.formattedText : d.id));
+  const hierarchyFullIds = hierarchyFullData.children.map((d) =>
+    rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
+  );
 
-  const selectedData = fullData;
-  const selectedIds = fullIds;
+  const hierarchySelectedData = hierarchyFullData.children;
+  const hierarchySelectedIds = hierarchyFullIds;
+
   const namesOfColumns = columnsData.outer;
+
   const listOfSPO = deleteDuplicates(hierarchyFullData, "SPO");
+
   const dataSpec = {
     dataRange: { start: startDataForDataRange, finish: startDataForDataRange + maxElementsOnPage },
     currentElementsOnPage: maxElementsOnPage,
@@ -61,7 +64,7 @@ export default (fullData) => {
         acc[el] = false;
         return acc;
       }, {}),
-      worksFilter: { listOfWorksForSearcherInput: fullIds, pickedWorksIds: [] },
+      worksFilter: { listOfWorksForSearcherInput: hierarchyFullIds, pickedWorksIds: [] },
       SPOFilter: { listOfSPOForSearcherInput: listOfSPO, pickedSPO: [] },
       serializedFilters: [],
       percentageFilter: { range: { from: 0, to: 100 }, selectedPercentageFilter: undefined },
@@ -69,22 +72,25 @@ export default (fullData) => {
     },
   };
   const result = {
-    fullData,
     hierarchyFullData,
-    slicedData: { displayedData, selectedData },
+    slicedData: { hierarchyDisplayedData, hierarchySelectedData },
     sizes,
-    ids: { fullIds, displayedIds, selectedIds },
+    ids: {
+      hierarchyDisplayedIds,
+      hierarchyFullIds,
+      hierarchySelectedIds,
+    },
     dataSpec,
     scales: {
       ...changeScaleY({
-        displayedIds,
+        hierarchyDisplayedIds,
         sizesSVG: sizes.sizesSVG,
       }),
       ...changeScaleX({
         sizesSVG: sizes.sizesSVG,
-        fullData,
-        displayedData,
-        selectedData,
+        hierarchyFullData,
+        hierarchyDisplayedData,
+        hierarchySelectedData,
       }),
       changeScales: { changeScaleX, changeScaleY },
     },

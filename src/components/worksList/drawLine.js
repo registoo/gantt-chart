@@ -3,7 +3,7 @@ import keyGenerator from "../../auxFunctions/keyGenerator";
 import rowHasError from "../../auxFunctions/rowHasError";
 
 export default (d, ind, yScale, columns) => {
-  const data = d.data;
+  const data = d.data.data;
   const columnsDataAtRow = columns.map((el, i) => {
     const key = Object.keys(el)[0];
     return rowHasError(data)

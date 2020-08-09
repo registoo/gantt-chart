@@ -5,7 +5,7 @@ import drawLine from "./drawLine.js";
 const F = (props) => {
   const columns = props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
   const addData = () => {
-    const nodes = props.displayedData;
+    const nodes = props.hierarchyDisplayedData;
     const n = nodes.map((d, i) => {
       return drawLine(d, i, props.yScale, columns);
     });
@@ -37,8 +37,7 @@ const F = (props) => {
 
 const getState = (state) => {
   return {
-    hierarchyFullData: state.mainReducer.hierarchyFullData,
-    displayedData: state.mainReducer.slicedData.displayedData,
+    hierarchyDisplayedData: state.mainReducer.slicedData.hierarchyDisplayedData,
     ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.height,
     yScale: state.mainReducer.scales.yScale,
     SVGHeight: state.mainReducer.sizes.sizesSVG.height,

@@ -1,5 +1,5 @@
 import { rowHasError } from "../../../auxFunctions";
-import deleteDuplicates from "../../../auxFunctions/deleteDuplicates.js";
+import { deleteDuplicates } from "../../../auxFunctions/hierarchy";
 import filters from "./filters";
 import typesOfFilters from "./typesOfFilters";
 
@@ -23,11 +23,13 @@ export const getListOfWorksForSearcherInput = (obj) => {
     return !(el.filterType === typesOfFilters.filterByWorks);
   });
   if (serializedFiltersWithoutWorkFilter.length === 0) {
-    return obj.fullData.map((d) => (rowHasError(d.data) ? d.data.isError.formattedText : d.id));
+    return obj.hierarchyFullData.children.map((d) =>
+      rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
+    );
   } else {
     return getData({
       serializedFilters: serializedFiltersWithoutWorkFilter,
-      fullData: obj.fullData,
+      hierarchyFullData: obj.hierarchyFullData,
     }).selectedIds;
   }
 };
@@ -42,8 +44,8 @@ export const getListOfSPOForSearcherInput = (obj) => {
   } else {
     const selectedData = getData({
       serializedFilters: serializedFiltersWithoutSPOFilter,
-      fullData: obj.fullData,
+      hierarchyFullData: obj.hierarchyFullData,
     }).selectedData;
-    return deleteDuplicates(selectedData, "el.data.SPO.formattedText");
+    return deleteDuplicates(selectedData, "el.data.SPO.formattedText", "arr");
   }
 };
