@@ -1,5 +1,4 @@
 export default (obj) => {
-  console.log("byWorks", obj);
   const selectedData =
     obj.selectedData.length > 0
       ? obj.selectedData.filter((e) =>
@@ -12,7 +11,6 @@ export default (obj) => {
             ? obj.attr.selectedIds.indexOf(e.data.data.isError.formattedText) >= 0
             : obj.attr.selectedIds.indexOf(e.data.id) >= 0
         );
-  console.log("selectedData", selectedData);
   return {
     ...obj,
     selectedData,

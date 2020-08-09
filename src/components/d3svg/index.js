@@ -73,7 +73,7 @@ function Gantt(props) {
     ) {
       return (
         <svg width="100%" height="100%" id="chart">
-          <text y="20" fontFamily="sans-serif" fontSize="20px" fill="red">
+          <text x="50" y="20" fontFamily="sans-serif" fontSize="20px" fill="red">
             Ничего не найдено
           </text>
         </svg>
