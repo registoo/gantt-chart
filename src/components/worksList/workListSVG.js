@@ -5,7 +5,7 @@ import drawLine from "./drawLine.js";
 const F = (props) => {
   const columns = props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
   const addData = () => {
-    const nodes = props.hierarchyFullData.children;
+    const nodes = props.displayedData;
     const n = nodes.map((d, i) => {
       return drawLine(d, i, props.yScale, columns);
     });

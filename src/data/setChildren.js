@@ -8,6 +8,6 @@ export default (el, value) => {
   delete newValue.finish;
   delete newValue.duration;
   return childrenInit.fill(null).map((e, i) => {
-    return { id: el + i, data: { ...newValue } };
+    return { id: el + i, data: { ...newValue }, dengi: getRandom(200000, 3000000) };
   });
 };
