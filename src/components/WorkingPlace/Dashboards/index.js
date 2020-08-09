@@ -25,7 +25,7 @@ const DrawBarChart = (props) => {
         const partition = (values) => {
           const root = d3
             .hierarchy(values)
-            .sum((d) => d.dengi)
+            .sum((d) => d.data && d.data.dengi)
             .sort((a, b) => b.value - a.value);
           return d3.partition().size([2 * Math.PI, root.height + 1])(root);
         };
@@ -57,7 +57,7 @@ const DrawBarChart = (props) => {
             while (d.depth > 1) {
               d = d.parent;
             }
-            return color(d.data.id);
+            return color(d.data.data.id);
           })
           .attr("fill-opacity", (d) => (arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0))
           .attr("d", (d) => arc(d.current));
@@ -71,7 +71,7 @@ const DrawBarChart = (props) => {
           (d) =>
             `${d
               .ancestors()
-              .map((d) => d.data.id)
+              .map((d) => d.data.data && d.data.data.id)
               .reverse()
               .join("/")}\n${format(d.value)}`
         );
@@ -87,7 +87,7 @@ const DrawBarChart = (props) => {
           .attr("dy", "0.35em")
           .attr("fill-opacity", (d) => +labelVisible(d.current))
           .attr("transform", (d) => labelTransform(d.current))
-          .text((d) => d.data.id);
+          .text((d) => d.data.data.id);
 
         const parent = g
           .append("circle")
@@ -158,7 +158,7 @@ const DrawBarChart = (props) => {
 
 const getState = (state) => {
   return {
-    filteredData: state.mainReducer.slicedData.selectedData,
+    filteredData: state.mainReducer.slicedData.hierarchySelectedData,
   };
 };
 
