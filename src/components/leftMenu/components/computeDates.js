@@ -3,27 +3,27 @@ import moment from "moment";
 import { rowHasError } from "../../../auxFunctions";
 
 export default function (props) {
-  const projectEarlyStart = d3.min(props.fullData, (d) => {
-    if (rowHasError(d.data)) return;
-    return d.data.start.dateInMillisecons;
+  const projectEarlyStart = d3.min(props.hierarchyFullData.children, (d) => {
+    if (rowHasError(d.data.data)) return;
+    return d.data.data.start.dateInMillisecons;
   });
-  const projectLateStart = d3.max(props.fullData, (d) => {
-    if (rowHasError(d.data)) return;
-    return d.data.start.dateInMillisecons;
+  const projectLateStart = d3.max(props.hierarchyFullData.children, (d) => {
+    if (rowHasError(d.data.data)) return;
+    return d.data.data.start.dateInMillisecons;
   });
   const projectEarlyFinish = moment
     .utc(
-      d3.min(props.fullData, (d) => {
-        if (rowHasError(d.data)) return;
-        return d.data.finish.dateInMillisecons;
+      d3.min(props.hierarchyFullData.children, (d) => {
+        if (rowHasError(d.data.data)) return;
+        return d.data.data.finish.dateInMillisecons;
       })
     )
     .startOf("day");
   const projectLateFinish = moment
     .utc(
-      d3.max(props.fullData, (d) => {
-        if (rowHasError(d.data)) return;
-        return d.data.finish.dateInMillisecons;
+      d3.max(props.hierarchyFullData.children, (d) => {
+        if (rowHasError(d.data.data)) return;
+        return d.data.data.finish.dateInMillisecons;
       })
     )
     .startOf("day");
@@ -35,33 +35,33 @@ export default function (props) {
   const projectLateFinishYYYYMMDD = moment.utc(projectLateFinish).format("YYYY-MM-DD");
   const selectedEarlyStartYYYYMMDD = moment
     .utc(
-      d3.min(props.selectedData, (d) => {
-        if (rowHasError(d.data)) return;
-        return d.data.start.dateInMillisecons;
+      d3.min(props.hierarchySelectedData, (d) => {
+        if (rowHasError(d.data.data)) return;
+        return d.data.data.start.dateInMillisecons;
       })
     )
     .format("YYYY-MM-DD");
   const selectedLateStartYYYYMMDD = moment
     .utc(
-      d3.max(props.selectedData, (d) => {
-        if (rowHasError(d.data)) return;
-        return d.data.start.dateInMillisecons;
+      d3.max(props.hierarchySelectedData, (d) => {
+        if (rowHasError(d.data.data)) return;
+        return d.data.data.start.dateInMillisecons;
       })
     )
     .format("YYYY-MM-DD");
   const selectedEarlyFinishYYYYMMDD = moment
     .utc(
-      d3.min(props.selectedData, (d) => {
-        if (rowHasError(d.data)) return;
-        return d.data.finish.dateInMillisecons;
+      d3.min(props.hierarchySelectedData, (d) => {
+        if (rowHasError(d.data.data)) return;
+        return d.data.data.finish.dateInMillisecons;
       })
     )
     .format("YYYY-MM-DD");
   const selectedLateFinishYYYYMMDD = moment
     .utc(
-      d3.max(props.selectedData, (d) => {
-        if (rowHasError(d.data)) return;
-        return d.data.finish.dateInMillisecons;
+      d3.max(props.hierarchySelectedData, (d) => {
+        if (rowHasError(d.data.data)) return;
+        return d.data.data.finish.dateInMillisecons;
       })
     )
     .format("YYYY-MM-DD");

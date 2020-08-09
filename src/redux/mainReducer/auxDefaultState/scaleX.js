@@ -7,25 +7,29 @@ export default function (state) {
     state.sizesSVG.width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
   const xScaleMinCoordinate = 0;
 
-  const displayedFinishMS0 = d3.max(state.displayedData, (d) => {
+  const displayedFinishMS0 = d3.max(state.hierarchyDisplayedData, (d0) => {
+    const d = d0.data;
     if (rowHasError(d.data)) return moment.utc().endOf("day");
     if (!d.data.finish) return;
     return moment.utc(d.data.finish.dateInMillisecons);
   });
 
-  const displayedStartMS0 = d3.min(state.displayedData, (d) => {
+  const displayedStartMS0 = d3.min(state.hierarchyDisplayedData, (d0) => {
+    const d = d0.data;
     if (rowHasError(d.data)) return moment.utc().endOf("day");
     if (!d.data.start) return;
     return moment.utc(d.data.start.dateInMillisecons);
   });
 
-  const projectStartMS0 = d3.min(state.fullData, (d) => {
+  const projectStartMS0 = d3.min(state.hierarchyFullData, (d0) => {
+    const d = d0.data;
     if (rowHasError(d.data)) return null;
     if (!d.data.start) return;
     return moment.utc(d.data.start.dateInMillisecons);
   });
 
-  const projectFinishMS0 = d3.max(state.fullData, (d) => {
+  const projectFinishMS0 = d3.max(state.hierarchyFullData, (d0) => {
+    const d = d0.data;
     if (rowHasError(d.data)) return null;
     if (!d.data.finish) return;
     return moment.utc(d.data.finish.dateInMillisecons);
@@ -41,20 +45,32 @@ export default function (state) {
   const projectStartMS = projectStartMS0 ? projectStartMS0.valueOf() : projectStartMS0;
 
   const selectedFinishMS = d3
-    .max(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
-      if (rowHasError(d.data)) return moment.utc().endOf("day");
-      if (!d.data.finish) return;
-      return moment.utc(d.data.finish.dateInMillisecons);
-    })
+    .max(
+      state.hierarchySelectedData.length > 0
+        ? state.hierarchySelectedData
+        : state.hierarchyFullData.children,
+      (d0) => {
+        const d = d0.data;
+        if (rowHasError(d.data)) return moment.utc().endOf("day");
+        if (!d.data.finish) return;
+        return moment.utc(d.data.finish.dateInMillisecons);
+      }
+    )
     .add(1, "ms")
     .valueOf();
 
   const selectedStartMS = d3
-    .min(state.selectedData.length > 0 ? state.selectedData : state.fullData, (d) => {
-      if (rowHasError(d.data)) return moment.utc().endOf("day");
-      if (!d.data.start) return;
-      return moment.utc(d.data.start.dateInMillisecons);
-    })
+    .min(
+      state.hierarchySelectedData.length > 0
+        ? state.hierarchySelectedData
+        : state.hierarchyFullData.children,
+      (d0) => {
+        const d = d0.data;
+        if (rowHasError(d.data)) return moment.utc().endOf("day");
+        if (!d.data.start) return;
+        return moment.utc(d.data.start.dateInMillisecons);
+      }
+    )
     .valueOf();
 
   const xScale = d3

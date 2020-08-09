@@ -23,8 +23,8 @@ function f(props) {
         label="Работы"
         icon={
           props.filterByWorks ? (
-            <Tooltip title={`выбрано работ: ${props.selectedIds.length}`}>
-              <Badge color="secondary" badgeContent={props.selectedIds.length}>
+            <Tooltip title={`выбрано работ: ${props.hierarchySelectedIds.length}`}>
+              <Badge color="secondary" badgeContent={props.hierarchySelectedIds.length}>
                 <StorageIcon />
               </Badge>
             </Tooltip>
@@ -85,7 +85,7 @@ const getState = (state) => {
     filterByStartDate: state.mainReducer.dataSpec.filters.filtersIds.filterByStartDate,
     filterByFinishDate: state.mainReducer.dataSpec.filters.filtersIds.filterByFinishDate,
     filterByPerformedDate: state.mainReducer.dataSpec.filters.filtersIds.filterByPerformedDate,
-    selectedIds: state.mainReducer.ids.selectedIds,
+    hierarchySelectedIds: state.mainReducer.ids.hierarchySelectedIds,
     filterPercentage: state.mainReducer.dataSpec.filters.filtersIds.filterPercentage,
     filterBySPO: state.mainReducer.dataSpec.filters.filtersIds.filterBySPO,
   };

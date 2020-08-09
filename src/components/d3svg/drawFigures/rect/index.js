@@ -17,7 +17,8 @@ const DrawRect = (props) => {
   let arrLvl4 = [];
   // если раскрыто, рисуем план только для верхней строчки, т.к. он - родитель
   if (props.accordionExpanded) {
-    arrMain = [...props.displayedData].map((d, index) => {
+    arrMain = [...props.hierarchyDisplayedData].map((d0, index) => {
+      const d = d0.data;
       if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
       if (index > 0) {
         // для работ графика 4 уровня
@@ -50,7 +51,8 @@ const DrawRect = (props) => {
   }
   // иначе рисуем базовый план для главной страницы
   else {
-    arrMain = [...props.displayedData].map((d) => {
+    arrMain = [...props.hierarchyDisplayedData].map((d0) => {
+      const d = d0.data;
       if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
       return (
         <rect
@@ -77,7 +79,7 @@ const getState = (state) => {
   return {
     xScale: state.mainReducer.scales.xScale,
     yScale: state.mainReducer.scales.yScale,
-    displayedData: state.mainReducer.slicedData.displayedData,
+    hierarchyDisplayedData: state.mainReducer.slicedData.hierarchyDisplayedData,
     marginSVG: state.mainReducer.sizes.sizesSVG.margin,
     lvl4: state.mainReducer.slicedData.lvl4,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,

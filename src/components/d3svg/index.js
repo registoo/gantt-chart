@@ -16,14 +16,14 @@ function Gantt(props) {
     const wDelta = e.wheelDelta < 0 ? "down" : "up";
     switch (wDelta) {
       case "down": {
-        if (state.finish + 1 > props.selectedIds.length) {
+        if (state.finish + 1 > props.hierarchySelectedIds.length) {
           return;
         }
         const finish = state.finish + 1;
         const start = finish - props.dataSpec.currentElementsOnPage;
-        const displayedData = props.selectedData.slice(start, finish);
+        const displayedData = props.hierarchySelectedData.slice(start, finish);
         const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data) ? d.data.isError.formattedText : d.id
+          rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
@@ -39,9 +39,9 @@ function Gantt(props) {
         }
         const start = state.start - 1;
         const finish = start + props.dataSpec.currentElementsOnPage;
-        const displayedData = props.selectedData.slice(start, finish);
+        const displayedData = props.hierarchySelectedData.slice(start, finish);
         const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data) ? d.data.isError.formattedText : d.id
+          rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
         );
         setState({ start: start, finish: finish });
         props.setWheeledData({
@@ -66,7 +66,11 @@ function Gantt(props) {
   });
   // окончание прокрутки колёсиким
   const data = () => {
-    if (props.selectedIds.length === 0 || !props.displayedStartMS || !props.displayedFinishMS) {
+    if (
+      props.hierarchySelectedIds.length === 0 ||
+      !props.displayedStartMS ||
+      !props.displayedFinishMS
+    ) {
       return (
         <svg width="100%" height="100%" id="chart">
           <text y="20" fontFamily="sans-serif" fontSize="20px" fill="red">
@@ -98,8 +102,8 @@ const getState = (state) => {
     heightSVG: state.mainReducer.sizes.sizesSVG.height,
     widthSVG: state.mainReducer.sizes.sizesSVG.width,
     dataSpec: state.mainReducer.dataSpec,
-    selectedIds: state.mainReducer.ids.selectedIds,
-    selectedData: state.mainReducer.slicedData.selectedData,
+    hierarchySelectedIds: state.mainReducer.ids.hierarchySelectedIds,
+    hierarchySelectedData: state.mainReducer.slicedData.hierarchySelectedData,
     displayedStartMS: state.mainReducer.scales.displayedStartMS,
     displayedFinishMS: state.mainReducer.scales.displayedFinishMS,
     sliderHeight: state.mainReducer.sizes.sizesSVG.slider.height,

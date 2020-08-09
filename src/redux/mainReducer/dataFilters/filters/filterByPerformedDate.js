@@ -2,11 +2,11 @@ import { rowHasError } from "../../../../auxFunctions";
 import moment from "moment";
 
 export default (obj) => {
-  const data = obj.selectedData.length > 0 ? obj.selectedData : obj.fullData;
+  const data = obj.selectedData.length > 0 ? obj.selectedData : obj.hierarchyFullData;
   const filteredData = data.filter((el) => {
-    if (rowHasError(el.data)) return false;
-    const workStart = el.data.start.dateInMillisecons;
-    const workFinish = moment.utc(el.data.finish.dateInMillisecons).startOf("day").valueOf();
+    if (rowHasError(el.data.data)) return false;
+    const workStart = el.data.data.start.dateInMillisecons;
+    const workFinish = moment.utc(el.data.data.finish.dateInMillisecons).startOf("day").valueOf();
     if (workStart >= obj.attr.earlyDate && workStart <= obj.attr.lateDate) {
       return true;
     } else if (workFinish <= obj.attr.lateDate && workFinish >= obj.attr.earlyDate) {
@@ -16,7 +16,7 @@ export default (obj) => {
     }
   });
   const filteredIds = filteredData.map((d) =>
-    rowHasError(d.data) ? d.data.isError.formattedText : d.id
+    rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
   );
   return {
     ...obj,

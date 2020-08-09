@@ -39,8 +39,8 @@ function DatePickers(props) {
 
 const getState = (state) => {
   return {
-    selectedData: state.mainReducer.slicedData.selectedData,
-    fullData: state.mainReducer.fullData,
+    hierarchySelectedData: state.mainReducer.slicedData.hierarchySelectedData,
+    hierarchyFullData: state.mainReducer.hierarchyFullData,
   };
 };
 export default connect(getState)(DatePickers);

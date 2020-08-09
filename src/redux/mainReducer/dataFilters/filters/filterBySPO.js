@@ -2,19 +2,17 @@ export default (obj) => {
   const selectedData =
     obj.selectedData.length > 0
       ? obj.selectedData.filter((e) => {
-          console.log("e", e);
-
-          return e.data.isError
+          return e.data.data.isError
             ? false
-            : obj.attr.selectedSPO.indexOf(e.data.SPO.formattedText) >= 0;
+            : obj.attr.selectedSPO.indexOf(e.data.data.SPO.formattedText) >= 0;
         })
-      : obj.fullData.filter((e) => {
-          return e.data.isError
+      : obj.hierarchyFullData.children.filter((e) => {
+          return e.data.data.isError
             ? false
-            : obj.attr.selectedSPO.indexOf(e.data.SPO.formattedText) >= 0;
+            : obj.attr.selectedSPO.indexOf(e.data.data.SPO.formattedText) >= 0;
         });
 
-  const selectedIds = selectedData.map((d) => d.data.jobName.formattedText);
+  const selectedIds = selectedData.map((d) => d.data.data.jobName.formattedText);
 
   return {
     ...obj,

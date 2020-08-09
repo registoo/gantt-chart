@@ -7,7 +7,8 @@ import { connect } from "react-redux";
 const DrawBrush = (props) => {
   const id = (d) => `Rabota ${d.id} brush`;
 
-  const arr = [...props.displayedData].map(function (d, index) {
+  const arr = [...props.hierarchyDisplayedData].map(function (d0, index) {
+    const d = d0.data;
     if (props.accordionExpanded && index === 0) return null;
     if (rowHasError(d.data)) return <g key={keyGenerator(d.id)}></g>;
 
@@ -66,7 +67,7 @@ const getState = (state) => {
   return {
     widthSVG: state.mainReducer.sizes.sizesSVG.width,
     marginSVG: state.mainReducer.sizes.sizesSVG.margin,
-    displayedData: state.mainReducer.slicedData.displayedData,
+    hierarchyDisplayedData: state.mainReducer.slicedData.hierarchyDisplayedData,
     yScale: state.mainReducer.scales.yScale,
     xScale: state.mainReducer.scales.xScale,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,

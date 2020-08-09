@@ -8,15 +8,15 @@ import {
 export default function ({ serializedFilters, state }) {
   // если есть применённые фильтры
   if (serializedFilters.length > 0) {
-    const filteredData = getData({ serializedFilters, fullData: state.fullData });
+    const filteredData = getData({ serializedFilters, hierarchyFullData: state.hierarchyFullData });
     const listOfWorksForSearcherInput = getListOfWorksForSearcherInput({
       serializedFilters,
-      fullData: state.fullData,
+      hierarchyFullData: state.hierarchyFullData,
       filteredData,
     });
     const listOfSPOForSearcherInput = getListOfSPOForSearcherInput({
       serializedFilters,
-      fullData: state.fullData,
+      hierarchyFullData: state.hierarchyFullData,
       filteredData,
       listOfSPO: state.someData.listOfSPO,
     });
@@ -49,11 +49,11 @@ export default function ({ serializedFilters, state }) {
       ...state,
       slicedData: {
         ...state.slicedData,
-        selectedData,
+        hierarchySelectedData: selectedData,
       },
       ids: {
         ...state.ids,
-        selectedIds,
+        hierarchySelectedIds: selectedIds,
       },
       dataSpec,
     };
@@ -69,22 +69,22 @@ export default function ({ serializedFilters, state }) {
       const wheeled = selectedIds.length > maxElementsOnPage;
       const heightSVG = currentElementsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
       const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
-      const displayedIds = selectedIds.slice(0, currentElementsOnPage);
-      const displayedData = selectedData.slice(0, currentElementsOnPage);
+      const hierarchyDisplayedIds = selectedIds.slice(0, currentElementsOnPage);
+      const hierarchyDisplayedData = selectedData.slice(0, currentElementsOnPage);
       const newScales = {
         ...state.scales.changeScales.changeScaleY({
-          displayedIds,
+          hierarchyDisplayedIds,
           sizesSVG,
         }),
         ...state.scales.changeScales.changeScaleX({
           sizesSVG,
-          selectedData,
-          fullData: state.fullData,
-          displayedData,
+          hierarchySelectedData: selectedData,
+          hierarchyFullData: state.hierarchyFullData,
+          hierarchyDisplayedData,
         }),
       };
-      result.slicedData = { ...result.slicedData, displayedData };
-      result.ids = { ...result.ids, displayedIds };
+      result.slicedData = { ...result.slicedData, hierarchyDisplayedData };
+      result.ids = { ...result.ids, hierarchyDisplayedIds };
       result.scales = { ...result.scales, ...newScales };
       result.sizes = { ...result.sizes, sizesSVG };
       result.dataSpec = { ...result.dataSpec, dataRange, currentElementsOnPage, wheeled };
@@ -93,5 +93,5 @@ export default function ({ serializedFilters, state }) {
     return result;
   }
   // сброс state при отсутствии фильтров
-  return defaultState(state.fullData);
+  return defaultState(state.hierarchyFullData);
 }

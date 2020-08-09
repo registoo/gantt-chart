@@ -1,8 +1,12 @@
 import fullData from "../../data";
 import defaultState from "./defaultState.js";
 import setFilters from "./dataFilters";
+import * as d3 from "d3";
 
-export default function testReducer(state = defaultState(fullData), action) {
+export default function testReducer(
+  state = defaultState(d3.hierarchy({ name: "root", children: fullData })),
+  action
+) {
   let result;
   switch (action.type) {
     case "SET_SVG_WIDTH": {
@@ -56,14 +60,14 @@ export default function testReducer(state = defaultState(fullData), action) {
       const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
       const newScales = {
         ...state.scales.changeScales.changeScaleY({
-          displayedIds: action.displayedIds,
+          hierarchyDisplayedIds: action.hierarchyDisplayedIds,
           sizesSVG,
         }),
         ...state.scales.changeScales.changeScaleX({
           sizesSVG,
-          selectedData: state.slicedData.selectedData,
-          fullData: state.fullData,
-          displayedData: action.displayedData,
+          hierarchySelectedData: state.slicedData.hierarchySelectedData,
+          hierarchyFullData: state.hierarchyFullData,
+          hierarchyDisplayedData: action.displayedData,
         }),
       };
       result = {
@@ -72,9 +76,9 @@ export default function testReducer(state = defaultState(fullData), action) {
         sizes: { ...state.sizes, sizesSVG },
         slicedData: {
           ...state.slicedData,
-          displayedData: action.displayedData,
+          hierarchyDisplayedData: action.displayedData,
         },
-        ids: { ...state.ids, displayedIds: action.displayedIds },
+        ids: { ...state.ids, hierarchyDisplayedIds: action.displayedIds },
         dataSpec: {
           ...state.dataSpec,
           dataRange: action.dataRange,
@@ -89,7 +93,7 @@ export default function testReducer(state = defaultState(fullData), action) {
     case "WHEEL_DATA": {
       const newScales = {
         ...state.scales.changeScales.changeScaleY({
-          displayedIds: action.displayedIds,
+          hierarchyDisplayedIds: action.displayedIds,
           sizesSVG: state.sizes.sizesSVG,
         }),
       };
@@ -98,9 +102,9 @@ export default function testReducer(state = defaultState(fullData), action) {
         scales: { ...state.scales, ...newScales },
         slicedData: {
           ...state.slicedData,
-          displayedData: action.displayedData,
+          hierarchyDisplayedData: action.displayedData,
         },
-        ids: { ...state.ids, displayedIds: action.displayedIds },
+        ids: { ...state.ids, hierarchyDisplayedIds: action.displayedIds },
         dataSpec: {
           ...state.dataSpec,
           dataRange: action.dataRange,
@@ -111,9 +115,10 @@ export default function testReducer(state = defaultState(fullData), action) {
     }
 
     case "LVL_4_BRUSH_SELECTED": {
-      const newFulldata = [...fullData];
-      fullData.find((el, i) =>
-        el.id === action.element.id ? (newFulldata[i] = action.element) : null
+      const hierarchyFullData = d3.hierarchy({ name: "root", children: fullData });
+      const newFulldata = hierarchyFullData;
+      hierarchyFullData.find((el, i) =>
+        el.data.id === action.element.id ? (newFulldata[i] = action.element) : null
       );
       const newState = defaultState(newFulldata);
       result = {
