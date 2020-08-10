@@ -3,6 +3,7 @@ import { rowHasError } from "../../../auxFunctions";
 import moment from "moment";
 
 export default function (state) {
+  if (state.hierarchyDisplayedData.length === 0) return;
   const xScaleMaxCoordinate =
     state.sizesSVG.width - state.sizesSVG.margin.left - state.sizesSVG.margin.right;
   const xScaleMinCoordinate = 0;
