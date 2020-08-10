@@ -30,7 +30,7 @@
 .top-menu__button {
   padding: 5px 6px;
   cursor: context-menu;
-  transition: ease-out 0.05s;
+  transition: ease-out 0.03s;
   position: relative;
   white-space: nowrap;
 }
@@ -55,7 +55,7 @@
   z-index: 1488;
   padding: 5px 0;
   visibility: hidden;
-  transition: ease-out 0.05s;
+  transition: ease-out 0.03s;
 }
 
 .top-menu-context__container a {
@@ -78,7 +78,7 @@
   grid-column-gap: 20px;
   white-space: nowrap;
   padding: 0 20px;
-  transition: ease-out 0.05s;
+  transition: ease-out 0.03s;
 }
 
 .top-menu-context:hover {
