@@ -1,9 +1,8 @@
 import DrawBrush from "./brush";
 import DrawRect from "./rect";
 import React, { Fragment, useState } from "react";
-import { connect } from "react-redux";
 
-function DrawFigures(props) {
+function DrawFigures() {
   const targetPlan = 0.075;
 
   // otherOnMainWork - это высота brush === 100% минус все дополнительрные рисования сверху
@@ -16,10 +15,4 @@ function DrawFigures(props) {
   );
 }
 
-const getState = (state) => {
-  return {
-    accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
-  };
-};
-
-export default connect(getState)(DrawFigures);
+export default DrawFigures;

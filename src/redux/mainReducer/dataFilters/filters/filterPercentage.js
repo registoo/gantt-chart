@@ -15,7 +15,6 @@ export default (obj) => {
             : e.data.data.percentComplete.formattedText >= from &&
               e.data.data.percentComplete.formattedText <= to
         );
-
   const selectedIds = selectedData.map((d) => d.data.data.jobName.formattedText);
 
   return {

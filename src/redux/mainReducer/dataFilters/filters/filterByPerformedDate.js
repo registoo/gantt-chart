@@ -2,7 +2,7 @@ import { rowHasError } from "../../../../auxFunctions";
 import moment from "moment";
 
 export default (obj) => {
-  const data = obj.selectedData.length > 0 ? obj.selectedData : obj.hierarchyFullData;
+  const data = obj.selectedData.length > 0 ? obj.selectedData : obj.hierarchyFullData.children;
   const filteredData = data.filter((el) => {
     if (rowHasError(el.data.data)) return false;
     const workStart = el.data.data.start.dateInMillisecons;
