@@ -9,7 +9,7 @@
   grid-template-columns: min-content min-content;
   background-color: #3c3c3c;
   position: relative;
-  z-index: 1488;
+  /* z-index: 1488; */
 }
 
 .logo {
