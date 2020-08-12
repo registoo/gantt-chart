@@ -16,6 +16,8 @@ const useStyles = makeStyles({
   topMenu__container: {
     "& *": {
       color: "#cccccc",
+      textDecoration: "none",
+      cursor: "context-menu",
     },
     width: "100%",
     height: "30px",
@@ -44,6 +46,27 @@ const useStyles = makeStyles({
     "&:hover": {
       backgroundColor: "#505050",
       transition: "ease-in 0.05s",
+    },
+  },
+  topMenuContext__container: {
+    "& *": {
+      color: "#cccccc",
+      textDecoration: "none",
+      cursor: "context-menu",
+    },
+    "& .MuiMenu-paper": {
+      backgroundColor: "#252526",
+      borderRadius: "0",
+    },
+    "& li": {
+      transition: "ease-out 0.05s",
+    },
+    "& li:hover": {
+      backgroundColor: "#094771",
+      transition: "ease-in 0.05s",
+    },
+    "& .MuiTouchRipple-root": {
+      display: "none",
     },
   },
 });
@@ -133,6 +156,7 @@ const TopMenu = (props) => {
       </div>
 
       <Menu
+        className={classes.topMenuContext__container}
         id="fade-menu"
         anchorEl={anchorEl}
         keepMounted
