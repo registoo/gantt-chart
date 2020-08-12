@@ -107,6 +107,7 @@ const resultData = IDAddedToObj();
 const arrayOfIds = d3.keys(resultData);
 const resultArray = arrayOfIds.map((el) => {
   const value = resultData[el];
+  value.rolledUp = true;
   return { id: el, data: value, children: setChildren(el, value) };
 });
 

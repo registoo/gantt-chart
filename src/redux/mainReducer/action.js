@@ -28,13 +28,12 @@ export const setFilter = (data) => {
   };
 };
 
-export const setAccordionData = (data) => {
+export const setRolledUp = (rolledUp, d, freezedData) => {
   return {
-    type: "ACCORDION_DATA",
-    displayedIds: data.displayedIds,
-    displayedData: data.displayedData,
-    dataRange: data.dataRange,
-    accordionExpanded: data.accordionExpanded,
+    type: "ROLL_UP",
+    rolledUp: rolledUp,
+    d,
+    freezedData,
   };
 };
 export const lvl4BrushSelected = (data) => {
