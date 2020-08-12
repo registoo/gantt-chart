@@ -4,6 +4,7 @@ import changeScaleY from "./auxDefaultState/scaleY.js";
 import columnsData from "../../data/columns.js";
 import typesOfFilters from "./dataFilters/typesOfFilters.js";
 import { deleteDuplicates } from "../../auxFunctions/hierarchy";
+import getHerarchyDisplayedIds from "./auxDefaultState/getHerarchyIds.js";
 
 export default (hierarchyFullData) => {
   const maxElementsOnPage = 12;
@@ -37,9 +38,7 @@ export default (hierarchyFullData) => {
     sizesLeftMenu: { width: 400, margin: { right: 10, top: 10 } },
   };
 
-  const hierarchyDisplayedIds = hierarchyDisplayedData.map((d) =>
-    rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
-  );
+  const hierarchyDisplayedIds = getHerarchyDisplayedIds(hierarchyDisplayedData);
 
   const hierarchyFullIds = hierarchyFullData.children.map((d) =>
     rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
@@ -94,7 +93,7 @@ export default (hierarchyFullData) => {
       }),
       changeScales: { changeScaleX, changeScaleY },
     },
-    someData: { listOfSPO, namesOfColumns: namesOfColumns },
+    someData: { listOfSPO, namesOfColumns: namesOfColumns, freezedData: {} },
   };
 
   return result;

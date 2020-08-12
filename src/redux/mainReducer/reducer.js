@@ -2,6 +2,7 @@ import fullData from "../../data";
 import defaultState from "./defaultState.js";
 import setFilters from "./dataFilters";
 import * as d3 from "d3";
+import getHerarchyDisplayedIds from "./auxDefaultState/getHerarchyIds";
 
 export default function testReducer(
   state = defaultState(d3.hierarchy({ name: "root", children: fullData })),
@@ -54,40 +55,65 @@ export default function testReducer(
       return result;
     }
 
-    case "ACCORDION_DATA": {
-      const wheeled = !action.accordionExpanded;
-      const heightSVG = action.displayedIds.length * (state.sizes.sizesSVG.stringHeight * 1.25);
-      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
-      const newScales = {
-        ...state.scales.changeScales.changeScaleY({
-          hierarchyDisplayedIds: action.hierarchyDisplayedIds,
-          sizesSVG,
-        }),
-        ...state.scales.changeScales.changeScaleX({
-          sizesSVG,
-          hierarchySelectedData: state.slicedData.hierarchySelectedData,
-          hierarchyFullData: state.hierarchyFullData,
-          hierarchyDisplayedData: action.displayedData,
-        }),
-      };
-      result = {
-        ...state,
-        scales: { ...state.scales, ...newScales },
-        sizes: { ...state.sizes, sizesSVG },
-        slicedData: {
-          ...state.slicedData,
-          hierarchyDisplayedData: action.displayedData,
-        },
-        ids: { ...state.ids, hierarchyDisplayedIds: action.displayedIds },
-        dataSpec: {
-          ...state.dataSpec,
-          dataRange: action.dataRange,
-          accordionExpanded: action.accordionExpanded,
-          wheeled,
-        },
-      };
-      // console.log("ACCORDION_DATA", result);
-      return result;
+    case "ROLL_UP": {
+      if (action.rolledUp) {
+        action.d.data.data.rolledUp = action.rolledUp;
+        result = { ...state.someData.previousState };
+        return result;
+      } else {
+        const nodeDepth = action.d.depth;
+        const hierarchySelectedData = [action.d];
+        action.d.data.data.rolledUp = action.rolledUp;
+        action.d.each((d) => {
+          if (d.depth === nodeDepth + 1) {
+            hierarchySelectedData.push(d);
+          }
+        });
+        const hierarchySelectedIds = getHerarchyDisplayedIds(hierarchySelectedData);
+        const hierarchyDisplayedData = hierarchySelectedData.slice(
+          0,
+          state.dataSpec.maxElementsOnPage
+        );
+        const hierarchyDisplayedIds = getHerarchyDisplayedIds(hierarchyDisplayedData);
+        const elemnsOnPage =
+          hierarchyDisplayedIds.length >= state.dataSpec.maxElementsOnPage
+            ? state.dataSpec.maxElementsOnPage
+            : hierarchyDisplayedIds.length;
+        const heightSVG = elemnsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
+        const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
+        const wheeled = elemnsOnPage <= state.dataSpec.maxElementsOnPage ? false : true;
+        const newScales = {
+          ...state.scales.changeScales.changeScaleY({
+            hierarchyDisplayedIds,
+            sizesSVG,
+          }),
+          ...state.scales.changeScales.changeScaleX({
+            sizesSVG,
+            hierarchySelectedData,
+            hierarchyFullData: state.hierarchyFullData,
+            hierarchyDisplayedData,
+          }),
+        };
+        result = {
+          ...state,
+          scales: { ...state.scales, ...newScales },
+          sizes: { ...state.sizes, sizesSVG },
+          slicedData: {
+            ...state.slicedData,
+            hierarchyDisplayedData,
+          },
+          dataSpec: {
+            ...state.dataSpec,
+            dataRange: { start: state.dataSpec.startDataForDataRange, finish: elemnsOnPage },
+            accordionExpanded: !action.rolledUp,
+            wheeled,
+          },
+          ids: { ...state.ids, hierarchyDisplayedIds },
+          someData: { ...state.someData, previousState: state },
+        };
+        console.log("ROLL_UP", result);
+        return result;
+      }
     }
 
     case "WHEEL_DATA": {
@@ -185,7 +211,7 @@ export default function testReducer(
     }
 
     default:
-      console.log(state);
+      console.log("state", state);
       return state;
   }
 }
