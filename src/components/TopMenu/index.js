@@ -4,27 +4,37 @@ import Box from "@material-ui/core/Box";
 import logo from "../../assets/images/logo.svg";
 import { Link } from "react-router-dom";
 
+// import Button from "@material-ui/core/Button";
+// import Menu from "@material-ui/core/Menu";
+// import MenuItem from "@material-ui/core/MenuItem";
+// import Fade from "@material-ui/core/Fade";
+// import { makeStyles } from "@material-ui/core/styles";
+
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
-import Fade from "@material-ui/core/Fade";
+import MenuList from "@material-ui/core/MenuList";
 import { makeStyles } from "@material-ui/core/styles";
 
 import "./styles.css";
 
 const useStyles = makeStyles({
   topMenu__container: {
-    "& *": {
-      color: "#cccccc",
-      textDecoration: "none",
-      cursor: "context-menu",
-    },
     width: "100%",
     height: "30px",
     display: "grid",
     gridTemplateColumns: "min-content min-content",
     backgroundColor: "#3c3c3c",
     position: "relative",
+  },
+  logo: {
+    height: "24px",
+    width: "24px",
+    userSelect: "none",
+    margin: "3px 6px",
   },
   topMenuButtons__container: {
     display: "grid",
@@ -34,6 +44,7 @@ const useStyles = makeStyles({
     userSelect: "none",
   },
   topMenu__button: {
+    color: "#cccccc",
     height: "100%",
     padding: "0px 6px",
     cursor: "context-menu",
@@ -42,47 +53,96 @@ const useStyles = makeStyles({
     whiteSpace: "nowrap",
     borderRadius: "0px",
     textTransform: "initial",
-    zIndex: "1488",
     "&:hover": {
       backgroundColor: "#505050",
       transition: "ease-in 0.05s",
     },
   },
   topMenuContext__container: {
-    "& *": {
-      color: "#cccccc",
-      textDecoration: "none",
-      cursor: "context-menu",
-    },
-    "& .MuiMenu-paper": {
+    zIndex: "1488",
+
+    "& .MuiPaper-root": {
       backgroundColor: "#252526",
       borderRadius: "0",
+      boxShadow:
+        "rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px",
+      transition: "opacity 0.05s ease-in !important",
+    },
+    "& a": {
+      textDecoration: "none",
     },
     "& li": {
       transition: "ease-out 0.05s",
-    },
-    "& li:hover": {
-      backgroundColor: "#094771",
-      transition: "ease-in 0.05s",
-    },
-    "& .MuiTouchRipple-root": {
-      display: "none",
+      padding: "0px 20px",
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gridColumnGap: "20px",
+      whiteSpace: "nowrap",
+      fontSize: "0.95rem",
+      color: "#cccccc",
+      cursor: "context-menu",
+
+      "&:hover": {
+        backgroundColor: "#094771",
+        transition: "ease-in 0.05s",
+      },
+      "& span:nth-child(2)": {
+        justifySelf: "end",
+      },
     },
   },
 });
 
 const TopMenu = (props) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
   };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  function test(a, b) {
+    console.log(a);
+    console.log(b);
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
+  // const classes = useStyles();
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+  // const open = Boolean(anchorEl);
+
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   return (
     // <Box className="top-menu__container" boxShadow={1}>
@@ -134,54 +194,126 @@ const TopMenu = (props) => {
     //     </div>
     //   </div>
     // </Box>
+
+    // <Box className={classes.topMenu__container} boxShadow={1}>
+    //   <img className={classes.logo} src={logo} alt="logotype" />
+    //   <div className={classes.topMenuButtons__container}>
+    //     <Button
+    //       className={classes.topMenu__button}
+    //       aria-controls="fade-menu"
+    //       aria-haspopup="true"
+    //       onClick={handleClick}
+    //     >
+    //       Файл
+    //     </Button>
+    //     <Button
+    //       className={classes.topMenu__button}
+    //       aria-controls="fade-menu"
+    //       aria-haspopup="true"
+    //       onClick={handleClick}
+    //     >
+    //       Рабочая область
+    //     </Button>
+    //   </div>
+
+    //   <Menu
+    //     className={classes.topMenuContext__container}
+    //     id="fade-menu"
+    //     anchorEl={anchorEl}
+    //     keepMounted
+    //     open={open}
+    //     onClose={handleClose}
+    //     TransitionComponent={Fade}
+    // elevation={0}
+    // getContentAnchorEl={null}
+    // anchorOrigin={{
+    //   vertical: "bottom",
+    //   horizontal: "left",
+    // }}
+    //     transformOrigin={{
+    //       vertical: "top",
+    //       horizontal: "left",
+    //     }}
+    //   >
+    //     <Link to="/gantt">
+    //       <MenuItem onClick={handleClose}>
+    //         <span>Гантт</span>
+    //         <span>Ctrl+W</span>
+    //       </MenuItem>
+    //     </Link>
+    //     <Link to="/consolidated">
+    //       <MenuItem onClick={handleClose}>
+    //         <span>Сводные</span>
+    //         <span>Ctrl+E</span>
+    //       </MenuItem>
+    //     </Link>
+    //   </Menu>
+    // </Box>
+
     <Box className={classes.topMenu__container} boxShadow={1}>
-      <img className="logo" src={logo} alt="" />
+      <img className={classes.logo} src={logo} alt="logotype" />
       <div className={classes.topMenuButtons__container}>
         <Button
           className={classes.topMenu__button}
-          aria-controls="fade-menu"
+          ref={anchorRef}
+          aria-controls={open ? "menu-list-grow" : undefined}
           aria-haspopup="true"
-          onClick={handleClick}
+          onClick={handleToggle}
         >
           Файл
         </Button>
         <Button
           className={classes.topMenu__button}
-          aria-controls="fade-menu"
+          ref={anchorRef}
+          aria-controls={open ? "menu-list-grow" : undefined}
           aria-haspopup="true"
-          onClick={handleClick}
+          onClick={handleToggle}
         >
-          Рабочая область
+          Выборка
         </Button>
       </div>
 
-      <Menu
+      <Popper
         className={classes.topMenuContext__container}
-        id="fade-menu"
-        anchorEl={anchorEl}
-        keepMounted
         open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
         elevation={0}
         getContentAnchorEl={null}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left",
         }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
       >
-        <Link to="/gantt">
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-        </Link>
-        <Link to="/consolidated">
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-        </Link>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{ anchorOrigin: placement === "bottom" ? "left top" : "left bottom" }}
+            onClick={() => test(TransitionProps, placement)}
+          >
+            <Paper elevation={4}>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                  <Link to="/gantt">
+                    <MenuItem onClick={handleClose}>
+                      <span onClick={() => test(TransitionProps, placement)}>Гантт</span>
+                      <span>Ctrl+W</span>
+                    </MenuItem>
+                  </Link>
+                  <Link to="/consolidated">
+                    <MenuItem onClick={handleClose}>
+                      <span>Сводные</span>
+                      <span>Ctrl+E</span>
+                    </MenuItem>
+                  </Link>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </Box>
   );
 };
