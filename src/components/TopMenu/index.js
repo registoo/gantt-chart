@@ -66,7 +66,7 @@ const useStyles = makeStyles({
       borderRadius: "0",
       boxShadow:
         "rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px",
-      transition: "opacity 0.05s ease-in !important",
+      transition: "ease-in 0s !important",
     },
     "& a": {
       textDecoration: "none",
@@ -96,10 +96,16 @@ const useStyles = makeStyles({
 const TopMenu = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const anchorRef2 = React.useRef(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleToggle2 = () => {
+    setOpen2((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event) => {
@@ -110,6 +116,14 @@ const TopMenu = (props) => {
     setOpen(false);
   };
 
+  const handleClose2 = (event) => {
+    if (anchorRef2.current && anchorRef2.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen2(false);
+  };
+
   function handleListKeyDown(event) {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -117,9 +131,11 @@ const TopMenu = (props) => {
     }
   }
 
-  function test(a, b) {
-    console.log(a);
-    console.log(b);
+  function handleListKeyDown2(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen2(false);
+    }
   }
 
   // return focus to the button when we transitioned from !open -> open
@@ -131,6 +147,15 @@ const TopMenu = (props) => {
 
     prevOpen.current = open;
   }, [open]);
+
+  const prevOpen2 = React.useRef(open2);
+  React.useEffect(() => {
+    if (prevOpen2.current === true && open2 === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen2.current = open2;
+  }, [open2]);
 
   // const classes = useStyles();
   // const [anchorEl, setAnchorEl] = React.useState(null);
@@ -264,15 +289,14 @@ const TopMenu = (props) => {
         </Button>
         <Button
           className={classes.topMenu__button}
-          ref={anchorRef}
-          aria-controls={open ? "menu-list-grow" : undefined}
+          ref={anchorRef2}
+          aria-controls={open2 ? "menu-list-grow2" : undefined}
           aria-haspopup="true"
-          onClick={handleToggle}
+          onClick={handleToggle2}
         >
           Выборка
         </Button>
       </div>
-
       <Popper
         className={classes.topMenuContext__container}
         open={open}
@@ -280,39 +304,49 @@ const TopMenu = (props) => {
         role={undefined}
         transition
         disablePortal
-        elevation={0}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
+        placement="bottom-start"
       >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{ anchorOrigin: placement === "bottom" ? "left top" : "left bottom" }}
-            onClick={() => test(TransitionProps, placement)}
-          >
-            <Paper elevation={4}>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  <Link to="/gantt">
-                    <MenuItem onClick={handleClose}>
-                      <span onClick={() => test(TransitionProps, placement)}>Гантт</span>
-                      <span>Ctrl+W</span>
-                    </MenuItem>
-                  </Link>
-                  <Link to="/consolidated">
-                    <MenuItem onClick={handleClose}>
-                      <span>Сводные</span>
-                      <span>Ctrl+E</span>
-                    </MenuItem>
-                  </Link>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
+        <Paper>
+          <ClickAwayListener onClickAway={handleClose}>
+            <MenuList autoFocusItem={open} id={`menu-list-grow`} onKeyDown={handleListKeyDown}>
+              <Link to="/">
+                <MenuItem onClick={handleClose}>
+                  <span>Main</span>
+                  <span>Ctrl+W</span>
+                </MenuItem>
+              </Link>
+            </MenuList>
+          </ClickAwayListener>
+        </Paper>
+      </Popper>
+
+      <Popper
+        className={classes.topMenuContext__container}
+        open={open2}
+        anchorEl={anchorRef2.current}
+        role={undefined}
+        transition
+        disablePortal
+        placement="bottom-start"
+      >
+        <Paper>
+          <ClickAwayListener onClickAway={handleClose2}>
+            <MenuList autoFocusItem={open2} id={`menu-list-grow2`} onKeyDown={handleListKeyDown2}>
+              <Link to="/gantt">
+                <MenuItem onClick={handleClose2}>
+                  <span>Гантт</span>
+                  <span>Ctrl+W</span>
+                </MenuItem>
+              </Link>
+              <Link to="/consolidated">
+                <MenuItem onClick={handleClose2}>
+                  <span>Сводные</span>
+                  <span>Ctrl+E</span>
+                </MenuItem>
+              </Link>
+            </MenuList>
+          </ClickAwayListener>
+        </Paper>
       </Popper>
     </Box>
   );
