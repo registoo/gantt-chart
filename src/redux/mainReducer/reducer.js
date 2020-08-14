@@ -4,7 +4,7 @@ import setFilters from "./dataFilters";
 import * as d3 from "d3";
 import getHerarchyDisplayedIds from "./auxDefaultState/getHerarchyIds";
 
-export default function testReducer(
+export default function mainReducer(
   state = defaultState(d3.hierarchy({ name: "root", children: fullData })),
   action
 ) {
