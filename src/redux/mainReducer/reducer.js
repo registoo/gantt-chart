@@ -111,7 +111,7 @@ export default function mainReducer(
           ids: { ...state.ids, hierarchyDisplayedIds },
           someData: { ...state.someData, previousState: state },
         };
-        console.log("ROLL_UP", result);
+        // console.log("ROLL_UP", result);
         return result;
       }
     }
@@ -211,7 +211,7 @@ export default function mainReducer(
     }
 
     default:
-      console.log("state", state);
+      // console.log("state", state);
       return state;
   }
 }

@@ -6,7 +6,7 @@ import typesOfFilters from "./dataFilters/typesOfFilters.js";
 import { deleteDuplicates } from "../../auxFunctions/hierarchy";
 import getHerarchyDisplayedIds from "./auxDefaultState/getHerarchyIds.js";
 
-export default (hierarchyFullData) => {
+export default (hierarchyFullData0) => {
   const maxElementsOnPage = 12;
   const startDataForDataRange = 0;
   const hierarchyDisplayedData = hierarchyFullData.children.slice(
