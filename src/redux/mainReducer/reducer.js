@@ -69,7 +69,6 @@ export default function mainReducer(
             hierarchySelectedData.push(d);
           }
         });
-        const hierarchySelectedIds = getHerarchyDisplayedIds(hierarchySelectedData);
         const hierarchyDisplayedData = hierarchySelectedData.slice(
           0,
           state.dataSpec.maxElementsOnPage
