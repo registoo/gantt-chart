@@ -43,7 +43,6 @@ const F = (props) => {
 };
 
 const getState = (state) => {
-  console.log("!", state);
   return {
     hierarchyDisplayedData: state.mainReducer.slicedData.hierarchyDisplayedData,
     hierarchyDisplayedIds: state.mainReducer.ids.hierarchyDisplayedIds,

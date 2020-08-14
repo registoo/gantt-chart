@@ -14,7 +14,7 @@ export default (hierarchyFullData) => {
     startDataForDataRange + maxElementsOnPage
   );
   const stringHeight = 35;
-  const heightSVG = hierarchyDisplayedData.length * (stringHeight * 1.25);
+  const heightSVG = hierarchyDisplayedData.length * (stringHeight * 1);
   const marginSVG = {
     top: 0,
     right: 1,

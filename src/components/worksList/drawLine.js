@@ -10,15 +10,16 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => 
   const rolledUp = data.rolledUp;
   const columnsDataAtRow = columns.map((el, i) => {
     const key = Object.keys(el)[0];
-    return rowHasError(data)
+    const result = rowHasError(data)
       ? i === 0
         ? data.isError.formattedText
         : null
       : data[key]
-      ? data[key].formattedText
+      ? data[key].cellType
         ? data[key].formattedText
         : data[key]
       : data[key];
+    return result;
   });
 
   const div = () => {

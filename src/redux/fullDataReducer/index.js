@@ -7,7 +7,11 @@ export default function fullDataReducer(
 ) {
   let result;
   switch (action.type) {
+    case "DATA_INITIALIZED": {
+      break;
+    }
     default:
-      return state;
+      result = state;
+      return result;
   }
 }
