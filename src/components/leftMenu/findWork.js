@@ -17,8 +17,10 @@ const FindWork = (props) => {
 };
 const getState = (state) => {
   return {
-    options: state.mainReducer.dataSpec.filters.worksFilter.listOfWorksForSearcherInput,
-    value: state.mainReducer.dataSpec.filters.worksFilter.pickedWorksIds,
+    options: state.mainReducer.filters.worksFilter.listOfWorksForSearcherInput,
+    value: state.mainReducer.filters.worksFilter.pickedWorksIds,
+    hierarchyFullData: state.fullDataReducer.fullData,
+    hierarchyFullIds: state.fullDataReducer.fullIds,
   };
 };
 export default connect(getState, { setFilter })(FindWork);

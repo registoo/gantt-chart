@@ -8,9 +8,11 @@ import Polzynok from "../../components/polzynok";
 
 function Component(props) {
   const parentDiv = useRef(null);
+  const widthSVG = props.widthSVG;
+  const setWidth = props.setWidth;
   useEffect(() => {
-    props.setWidth({ svgWidth: props.widthSVG, parentWidth: parentDiv.current.offsetWidth });
-  });
+    setWidth({ svgWidth: widthSVG, parentWidth: parentDiv.current.offsetWidth });
+  }, [widthSVG, setWidth]);
   // по дефолту меняется размер второго ребёка
   const [otherELem, resizeElem] = props.children;
   const polzynokTotalWIdth = props.polzynok.width + props.polzynok.margin.left;
@@ -27,10 +29,10 @@ function Component(props) {
       <div style={{ display: "flex", direction: "row" }}>
         <DraggableCore
           onDrag={function (e, ui) {
-            if (!props.widthSVG) return;
+            if (!widthSVG) return;
             const parentWidth = parentDiv.current.offsetWidth;
             const parentWidthWithTrash = parentWidth - polzynokTotalWIdth;
-            const resizableElemWidth = props.widthSVG - ui.deltaX;
+            const resizableElemWidth = widthSVG - ui.deltaX;
             // если посчитанная ширина меньше или равно минимально разрешённой ширине
             if (resizableElemWidth <= props.minWidth) {
               props.setWidth({ svgWidth: props.minWidth, parentWidth });

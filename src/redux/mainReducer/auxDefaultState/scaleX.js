@@ -22,14 +22,14 @@ export default function (state) {
     return moment.utc(d.data.start.dateInMillisecons);
   });
 
-  const projectStartMS0 = d3.min(state.hierarchyFullData, (d0) => {
+  const projectStartMS0 = d3.min(state.hierarchyFullData.children, (d0) => {
     const d = d0.data;
     if (rowHasError(d.data)) return null;
     if (!d.data.start) return;
     return moment.utc(d.data.start.dateInMillisecons);
   });
 
-  const projectFinishMS0 = d3.max(state.hierarchyFullData, (d0) => {
+  const projectFinishMS0 = d3.max(state.hierarchyFullData.children, (d0) => {
     const d = d0.data;
     if (rowHasError(d.data)) return null;
     if (!d.data.finish) return;

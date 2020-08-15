@@ -2,14 +2,16 @@ import fullData from "../../data";
 import defaultState from "./defaultState.js";
 import setFilters from "./dataFilters";
 import * as d3 from "d3";
-import getHerarchyDisplayedIds from "./auxDefaultState/getHerarchyIds";
+import getHerarchyDisplayedIds from "./auxDefaultState/getHierarchyIds";
 
-export default function mainReducer(
-  state = defaultState(d3.hierarchy({ name: "root", children: fullData })),
-  action
-) {
+export default function mainReducer(state = defaultState(), action) {
   let result;
   switch (action.type) {
+    case "INITIALIZE_STATE": {
+      result = defaultState(action.hierarchyFullData, action.hierarchyFullIds);
+      console.log("INITIALIZE_STATE", result);
+      return result;
+    }
     case "SET_SVG_WIDTH": {
       const setXScaleWidth = state.scales.aux.setWidthOfHorizontalScale({
         widthSVG: action.svgWidth,
@@ -30,19 +32,7 @@ export default function mainReducer(
         },
         scales: { ...state.scales, ...setXScaleWidth },
       };
-      // console.log("SET_SVG_WIDTH", result);
-      return result;
-    }
-    case "SET_RESIZER_TYPE": {
-      result = {
-        ...state,
-        sizes: {
-          ...state.sizes,
-          sizesSVG: { ...state.sizes.sizesSVG },
-        },
-      };
-
-      // console.log("SET_RESIZER_TYPE", result);
+      console.log("SET_SVG_WIDTH", result);
       return result;
     }
     case "CHANGE_SVG_RANGE": {
@@ -51,7 +41,7 @@ export default function mainReducer(
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
-      // console.log("CHANGE_SVG_RANGE", result);
+      console.log("CHANGE_SVG_RANGE", result);
       return result;
     }
 
@@ -69,7 +59,6 @@ export default function mainReducer(
             hierarchySelectedData.push(d);
           }
         });
-        const hierarchySelectedIds = getHerarchyDisplayedIds(hierarchySelectedData);
         const hierarchyDisplayedData = hierarchySelectedData.slice(
           0,
           state.dataSpec.maxElementsOnPage
@@ -136,7 +125,7 @@ export default function mainReducer(
           dataRange: action.dataRange,
         },
       };
-      // console.log("WHEEL_DATA", result);
+      console.log("WHEEL_DATA", result);
       return result;
     }
 
@@ -150,15 +139,15 @@ export default function mainReducer(
       result = {
         ...newState,
       };
-      // console.log("LVL_4_BRUSH_SELECTED", action);
+      console.log("LVL_4_BRUSH_SELECTED", action);
       return result;
     }
 
     case "SERIALIZE_FILTERS": {
       // serializedFilters массив фильтров, с добавлением фильтров по порядку
-      let serializedFilters = state.dataSpec.filters.serializedFilters;
+      let serializedFilters = state.filters.serializedFilters;
       // filtersIds - объект фильтров со значениями true/false для поиска активных фильтров
-      let filtersIds = state.dataSpec.filters.filtersIds;
+      let filtersIds = state.filters.filtersIds;
       // сбрасывается ли фильтр
       filtersIds[action.filterType] = action.attr.reset ? false : true;
       // если фильтр не снимается
@@ -190,28 +179,27 @@ export default function mainReducer(
         });
         if (index >= 0) serializedFilters.splice(index, 1);
       }
-      result = setFilters({
+      result = setFilters(
         serializedFilters,
         state,
-      });
-      // console.log("SERIALIZE_FILTERS", result);
+        action.hierarchyFullData,
+        action.hierarchyFullIds
+      );
+      console.log("SERIALIZE_FILTERS", result);
       return result;
     }
 
     case "SELECT_COLUMNS": {
       result = {
         ...state,
-        dataSpec: {
-          ...state.dataSpec,
-          filters: { ...state.dataSpec.filters, filteredColumns: action.columns },
-        },
+        filters: { ...state.filters, filteredColumns: action.columns },
       };
-      // console.log("SELECT_COLUMNS", action);
+      console.log("SELECT_COLUMNS", result);
       return result;
     }
 
     default:
-      console.log("state", state);
+      // console.log("state", state);
       return state;
   }
 }

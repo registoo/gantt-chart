@@ -25,6 +25,8 @@ export const setFilter = (data) => {
     type: "SERIALIZE_FILTERS",
     attr: data.attr,
     filterType: data.filterType,
+    hierarchyFullData: data.hierarchyFullData,
+    hierarchyFullIds: data.hierarchyFullIds,
   };
 };
 
@@ -47,5 +49,12 @@ export const selectColumns = (data) => {
   return {
     type: "SELECT_COLUMNS",
     columns: data,
+  };
+};
+export const initializeState = (hierarchyFullData, hierarchyFullIds) => {
+  return {
+    type: "INITIALIZE_STATE",
+    hierarchyFullData,
+    hierarchyFullIds,
   };
 };

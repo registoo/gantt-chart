@@ -3,7 +3,6 @@ import { Container } from "@material-ui/core";
 import D3svg from "./components/d3svg";
 import MainResizer from "./components/mainResizer/index.js";
 import Slider from "./components/d3svg/slider";
-// import Accordion from "./components/accordion.js";
 import TopMenu from "./components/TopMenu";
 import NavigationBar from "./components/NavigationBar";
 import Dashboards from "./components/WorkingPlace/Dashboards";
@@ -31,7 +30,6 @@ function App(props) {
             <Slider />
             <MainResizer>
               <WorkListSVG />
-              {/* <Accordion /> */}
               <D3svg />
             </MainResizer>
           </Route>

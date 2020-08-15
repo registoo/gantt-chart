@@ -1,8 +1,9 @@
 import fullData from "../../data";
 import * as d3 from "d3";
+import defaultState from "./defaultState.js";
 
 export default function fullDataReducer(
-  state = d3.hierarchy({ name: "root", children: fullData }),
+  state = defaultState(d3.hierarchy({ name: "root", children: fullData })),
   action
 ) {
   let result;
