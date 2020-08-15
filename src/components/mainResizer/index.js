@@ -20,7 +20,7 @@ function Component(props) {
   return (
     <ReactResizeDetector
       handleWidth
-      onResize={(w) => props.setWidth({ svgWidth: props.minWidth, parentWidth: w })}
+      onResize={(w) => props.setWidth({ svgWidth: widthSVG, parentWidth: w })}
     >
       <div
         ref={parentDiv}
