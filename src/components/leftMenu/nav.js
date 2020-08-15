@@ -81,13 +81,13 @@ function f(props) {
 
 const getState = (state) => {
   return {
-    filterByWorks: state.mainReducer.dataSpec.filters.filtersIds.filterByWorks,
-    filterByStartDate: state.mainReducer.dataSpec.filters.filtersIds.filterByStartDate,
-    filterByFinishDate: state.mainReducer.dataSpec.filters.filtersIds.filterByFinishDate,
-    filterByPerformedDate: state.mainReducer.dataSpec.filters.filtersIds.filterByPerformedDate,
+    filterByWorks: state.mainReducer.filters.filtersIds.filterByWorks,
+    filterByStartDate: state.mainReducer.filters.filtersIds.filterByStartDate,
+    filterByFinishDate: state.mainReducer.filters.filtersIds.filterByFinishDate,
+    filterByPerformedDate: state.mainReducer.filters.filtersIds.filterByPerformedDate,
     hierarchySelectedIds: state.mainReducer.ids.hierarchySelectedIds,
-    filterPercentage: state.mainReducer.dataSpec.filters.filtersIds.filterPercentage,
-    filterBySPO: state.mainReducer.dataSpec.filters.filtersIds.filterBySPO,
+    filterPercentage: state.mainReducer.filters.filtersIds.filterPercentage,
+    filterBySPO: state.mainReducer.filters.filtersIds.filterBySPO,
   };
 };
 

@@ -98,6 +98,8 @@ export default function Virtualize(props) {
           props.setFilter({
             filterType: props.filterType,
             attr: { selectedIds: arr },
+            hierarchyFullData: props.hierarchyFullData,
+            hierarchyFullIds: props.hierarchyFullIds,
           });
           break;
         }
@@ -105,6 +107,8 @@ export default function Virtualize(props) {
           props.setFilter({
             filterType: props.filterType,
             attr: { selectedSPO: arr },
+            hierarchyFullData: props.hierarchyFullData,
+            hierarchyFullIds: props.hierarchyFullIds,
           });
           break;
         }
@@ -116,6 +120,8 @@ export default function Virtualize(props) {
       props.setFilter({
         filterType: props.filterType,
         attr: { reset: true },
+        hierarchyFullData: props.hierarchyFullData,
+        hierarchyFullIds: props.hierarchyFullIds,
       });
     }
     return;

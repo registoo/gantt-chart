@@ -1,22 +1,22 @@
-import defaultState from "../../../redux/mainReducer/defaultState.js";
 import {
   getData,
   getListOfWorksForSearcherInput,
   getListOfSPOForSearcherInput,
 } from "./auxFunctions.js";
+import clearData from "../auxDefaultState/clearData.js";
 
-export default function ({ serializedFilters, state }) {
+export default function (serializedFilters, state, hierarchyFullData, hierarchyFullIds) {
   // если есть применённые фильтры
   if (serializedFilters.length > 0) {
-    const filteredData = getData({ serializedFilters, hierarchyFullData: state.hierarchyFullData });
+    const filteredData = getData({ serializedFilters, hierarchyFullData });
     const listOfWorksForSearcherInput = getListOfWorksForSearcherInput({
       serializedFilters,
-      hierarchyFullData: state.hierarchyFullData,
+      hierarchyFullData,
       filteredData,
     });
     const listOfSPOForSearcherInput = getListOfSPOForSearcherInput({
       serializedFilters,
-      hierarchyFullData: state.hierarchyFullData,
+      hierarchyFullData,
       filteredData,
       listOfSPO: state.someData.listOfSPO,
     });
@@ -24,24 +24,21 @@ export default function ({ serializedFilters, state }) {
     const selectedData = filteredData.selectedData;
     const selectedIds = filteredData.selectedIds;
 
-    const dataSpec = {
-      ...state.dataSpec,
-      filters: {
-        ...state.dataSpec.filters,
-        worksFilter: {
-          listOfWorksForSearcherInput,
-          pickedWorksIds: filteredData.pickedWorksIds ? filteredData.pickedWorksIds : [],
-        },
-        SPOFilter: {
-          listOfSPOForSearcherInput,
-          pickedSPO: filteredData.pickedSPO ? filteredData.pickedSPO : [],
-        },
-        percentageFilter: {
-          range: filteredData.percentageSelected
-            ? filteredData.percentageSelected
-            : { from: 0, to: 100 },
-          selectedPercentageFilter: filteredData.selectedPercentageFilter,
-        },
+    const filters = {
+      ...state.filters,
+      worksFilter: {
+        listOfWorksForSearcherInput,
+        pickedWorksIds: filteredData.pickedWorksIds ? filteredData.pickedWorksIds : [],
+      },
+      SPOFilter: {
+        listOfSPOForSearcherInput,
+        pickedSPO: filteredData.pickedSPO ? filteredData.pickedSPO : [],
+      },
+      percentageFilter: {
+        range: filteredData.percentageSelected
+          ? filteredData.percentageSelected
+          : { from: 0, to: 100 },
+        selectedPercentageFilter: filteredData.selectedPercentageFilter,
       },
     };
 
@@ -55,7 +52,7 @@ export default function ({ serializedFilters, state }) {
         ...state.ids,
         hierarchySelectedIds: selectedIds,
       },
-      dataSpec,
+      filters,
     };
 
     // если не открыт Г4У
@@ -79,7 +76,7 @@ export default function ({ serializedFilters, state }) {
         ...state.scales.changeScales.changeScaleX({
           sizesSVG,
           hierarchySelectedData: selectedData,
-          hierarchyFullData: state.hierarchyFullData,
+          hierarchyFullData,
           hierarchyDisplayedData,
         }),
       };
@@ -93,5 +90,5 @@ export default function ({ serializedFilters, state }) {
     return result;
   }
   // сброс state при отсутствии фильтров
-  return defaultState(state.hierarchyFullData);
+  return clearData(state, hierarchyFullData, hierarchyFullIds, false);
 }

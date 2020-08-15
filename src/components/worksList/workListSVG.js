@@ -49,7 +49,7 @@ const getState = (state) => {
     ganttTopScaleHeight: state.mainReducer.sizes.sizesSVG.ganttTopScale.height,
     yScale: state.mainReducer.scales.yScale,
     SVGHeight: state.mainReducer.sizes.sizesSVG.height,
-    filteredColumns: state.mainReducer.dataSpec.filters.filteredColumns,
+    filteredColumns: state.mainReducer.filters.filteredColumns,
     namesOfColumns: state.mainReducer.someData.namesOfColumns,
     dataRange: state.mainReducer.dataSpec.dataRange,
   };

@@ -10,6 +10,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import LeftMenu from "../leftMenu";
 import GanttHelper from "../ganttHelper";
 import "./styles.css";
+import { connect } from "react-redux";
+import { setWidth } from "../../redux/mainReducer/action";
 
 function TabPanel(props) {
   const { children, value, index, toggle, ...other } = props;
@@ -23,7 +25,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && toggle && (
-        <Box p={3}>
+        <Box p={3} style={{ padding: 0 }}>
           <Typography component="div">{children}</Typography>
         </Box>
       )}
@@ -74,14 +76,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavigationBar() {
+function NavigationBar(props) {
   const [value, setValue] = React.useState(0);
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   const classes = useStyles(isOpen);
 
   const handleChange = (event, newValue) => {
-    setIsOpen(value === newValue ? !isOpen : true);
+    const currentValue = value === newValue ? !isOpen : true;
+    setIsOpen(currentValue);
     setValue(newValue);
+    const leftMenuWidth = props.sizesLeftMenuWidth + props.sizesLeftMenuMarginRight * 2;
+    props.setWidth({
+      svgWidth: props.sizesSVGWidth,
+      parentWidth: currentValue
+        ? newValue !== value
+          ? props.mainResizerWidth
+          : props.mainResizerWidth - leftMenuWidth
+        : props.mainResizerWidth + leftMenuWidth,
+    });
   };
 
   return (
@@ -120,3 +132,14 @@ export default function NavigationBar() {
     </div>
   );
 }
+
+const getState = (state) => {
+  return {
+    sizesSVGWidth: state.mainReducer.sizes.sizesSVG.width,
+    sizesLeftMenuMarginRight: state.mainReducer.sizes.sizesLeftMenu.margin.right,
+    sizesLeftMenuWidth: state.mainReducer.sizes.sizesLeftMenu.width,
+    mainResizerWidth: state.mainReducer.sizes.mainResizer.width,
+  };
+};
+
+export default connect(getState, { setWidth })(NavigationBar);

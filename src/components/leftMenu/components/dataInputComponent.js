@@ -84,6 +84,8 @@ function SearchFinishes(props) {
               props.setFilter({
                 attr: { reset: true },
                 filterType,
+                hierarchyFullData: props.hierarchyFullData,
+                hierarchyFullIds: props.hierarchyFullIds,
               });
             }}
           >
@@ -184,6 +186,8 @@ function SearchFinishes(props) {
               lateDate: state.lateDate,
             },
             filterType: filterType,
+            hierarchyFullData: props.hierarchyFullData,
+            hierarchyFullIds: props.hierarchyFullIds,
           });
         }}
       ></ButtonBadge>
@@ -191,4 +195,11 @@ function SearchFinishes(props) {
   );
 }
 
-export default connect(null, { setFilter })(SearchFinishes);
+const getState = (state) => {
+  return {
+    hierarchyFullData: state.fullDataReducer.fullData,
+    hierarchyFullIds: state.fullDataReducer.fullIds,
+  };
+};
+
+export default connect(getState, { setFilter })(SearchFinishes);

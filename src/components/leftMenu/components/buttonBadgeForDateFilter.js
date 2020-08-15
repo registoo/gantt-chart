@@ -53,8 +53,8 @@ const calendarBadge = (props) => {
 
 const getState = (state) => {
   return {
-    filtersIds: state.mainReducer.dataSpec.filters.filtersIds,
-    serializedFilters: state.mainReducer.dataSpec.filters.serializedFilters,
+    filtersIds: state.mainReducer.filters.filtersIds,
+    serializedFilters: state.mainReducer.filters.serializedFilters,
   };
 };
 export default connect(getState)(calendarBadge);

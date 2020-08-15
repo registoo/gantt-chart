@@ -31,6 +31,8 @@ function F(props) {
         width: props.width,
         minWidth: props.width,
         marginRight: props.margin.right,
+        marginLeft: props.margin.right,
+        marginTop: props.margin.top,
       }}
     >
       <Autocomplete
@@ -67,7 +69,7 @@ const getState = (state) => {
     width: state.mainReducer.sizes.sizesLeftMenu.width,
     margin: state.mainReducer.sizes.sizesLeftMenu.margin,
     namesOfColumns: state.mainReducer.someData.namesOfColumns,
-    filteredColumns: state.mainReducer.dataSpec.filters.filteredColumns,
+    filteredColumns: state.mainReducer.filters.filteredColumns,
   };
 };
 

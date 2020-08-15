@@ -95,6 +95,8 @@ const Func = (props) => {
                   props.setFilter({
                     attr: { reset: true },
                     filterType,
+                    hierarchyFullData: props.hierarchyFullData,
+                    hierarchyFullIds: props.hierarchyFullIds,
                   });
                 }}
               >
@@ -153,6 +155,8 @@ const Func = (props) => {
               props.setFilter({
                 attr: { from: state.one, to: state.one, optionsType: "oneFilter" },
                 filterType,
+                hierarchyFullData: props.hierarchyFullData,
+                hierarchyFullIds: props.hierarchyFullIds,
               });
             }}
           >
@@ -177,6 +181,8 @@ const Func = (props) => {
                   props.setFilter({
                     attr: { reset: true },
                     filterType,
+                    hierarchyFullData: props.hierarchyFullData,
+                    hierarchyFullIds: props.hierarchyFullIds,
                   });
                 }}
               >
@@ -264,6 +270,8 @@ const Func = (props) => {
                 return props.setFilter({
                   attr: { reset: true, optionsType: "twoFilters" },
                   filterType,
+                  hierarchyFullData: props.hierarchyFullData,
+                  hierarchyFullIds: props.hierarchyFullIds,
                 });
               } else if (
                 !state.from &&
@@ -279,6 +287,8 @@ const Func = (props) => {
                 return props.setFilter({
                   attr: { from: 0, to: state.to, optionsType: "twoFilters" },
                   filterType,
+                  hierarchyFullData: props.hierarchyFullData,
+                  hierarchyFullIds: props.hierarchyFullIds,
                 });
               } else if (!state.to && typeof state.to !== "number") {
                 // если не введён параметр to
@@ -286,11 +296,15 @@ const Func = (props) => {
                 return props.setFilter({
                   attr: { from: state.from, to: 100, optionsType: "twoFilters" },
                   filterType,
+                  hierarchyFullData: props.hierarchyFullData,
+                  hierarchyFullIds: props.hierarchyFullIds,
                 });
               }
               props.setFilter({
                 attr: { from: state.from, to: state.to, optionsType: "twoFilters" },
                 filterType,
+                hierarchyFullData: props.hierarchyFullData,
+                hierarchyFullIds: props.hierarchyFullIds,
               });
             }}
           >
@@ -309,10 +323,11 @@ const Func = (props) => {
 
 const getState = (state) => {
   return {
-    filterPercentage: state.mainReducer.dataSpec.filters.filtersIds.filterPercentage,
-    rangeOfPercentageFilter: state.mainReducer.dataSpec.filters.percentageFilter.range,
-    selectedPercentageFilter:
-      state.mainReducer.dataSpec.filters.percentageFilter.selectedPercentageFilter,
+    filterPercentage: state.mainReducer.filters.filtersIds.filterPercentage,
+    rangeOfPercentageFilter: state.mainReducer.filters.percentageFilter.range,
+    selectedPercentageFilter: state.mainReducer.filters.percentageFilter.selectedPercentageFilter,
+    hierarchyFullData: state.fullDataReducer.fullData,
+    hierarchyFullIds: state.fullDataReducer.fullIds,
   };
 };
 

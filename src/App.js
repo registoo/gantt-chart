@@ -30,7 +30,6 @@ function App(props) {
             <Slider />
             <MainResizer>
               <WorkListSVG />
-              {/* <Accordion /> */}
               <D3svg />
             </MainResizer>
           </Route>

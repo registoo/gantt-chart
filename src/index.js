@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./css/index.css";
-import App from "./App";
+import InitState from "./InitState";
 import * as serviceWorker from "./auxFunctions/serviceWorker";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Provider } from "react-redux";
@@ -15,7 +15,7 @@ ReactDOM.render(
   <BrowserRouter history={history}>
     <CssBaseline>
       <Provider store={store}>
-        <App />
+        <InitState />
       </Provider>
     </CssBaseline>
   </BrowserRouter>,
