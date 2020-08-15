@@ -51,7 +51,7 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData, hie
           x={0}
           y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
           height={yScale.bandwidth()}
-          width={30}
+          width={24}
           stroke={"red"}
           fill={"yellow"}
         >
@@ -59,7 +59,7 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData, hie
         </foreignObject>
         <rect
           key={keyGenerator()}
-          x={30 + i * 125}
+          x={24 + i * 125}
           y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
           height={yScale.bandwidth()}
           width={100}
@@ -67,7 +67,7 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData, hie
           fillOpacity={"0"}
         ></rect>
         <foreignObject
-          x={30 + i * 125}
+          x={24 + i * 125}
           y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
           height={yScale.bandwidth()}
           width={100}
