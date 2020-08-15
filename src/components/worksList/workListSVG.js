@@ -14,7 +14,16 @@ const F = (props) => {
   const addData = (boxWidth) => {
     const nodes = props.hierarchyDisplayedData;
     const n = nodes.map((d, i) => {
-      return drawLine(d, i, props.yScale, columns, boxWidth, props.setRolledUp, freezedData);
+      return drawLine(
+        d,
+        i,
+        props.yScale,
+        columns,
+        boxWidth,
+        props.setRolledUp,
+        freezedData,
+        props.hierarchyFullData
+      );
     });
     return n;
   };
@@ -52,6 +61,7 @@ const getState = (state) => {
     filteredColumns: state.mainReducer.filters.filteredColumns,
     namesOfColumns: state.mainReducer.someData.namesOfColumns,
     dataRange: state.mainReducer.dataSpec.dataRange,
+    hierarchyFullData: state.fullDataReducer.fullData,
   };
 };
 

@@ -30,12 +30,13 @@ export const setFilter = (data) => {
   };
 };
 
-export const setRolledUp = (rolledUp, d, freezedData) => {
+export const setRolledUp = (rolledUp, d, freezedData, hierarchyFullData) => {
   return {
     type: "ROLL_UP",
     rolledUp: rolledUp,
     d,
     freezedData,
+    hierarchyFullData,
   };
 };
 export const lvl4BrushSelected = (data) => {

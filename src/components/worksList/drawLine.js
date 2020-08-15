@@ -5,7 +5,7 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import IconButton from "@material-ui/core/IconButton";
 
-export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => {
+export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData, hierarchyFullData) => {
   const data = d.data.data;
   const rolledUp = data.rolledUp;
   const columnsDataAtRow = columns.map((el, i) => {
@@ -23,11 +23,12 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => 
   });
 
   const div = () => {
+    // не рисуем треугольники у ошибок и вложенностей больше 2
     if (d.depth > 1 || rowHasError(data)) return null;
     return (
       <div
         onClick={() => {
-          setRolledUp(!rolledUp, d, freezedData);
+          setRolledUp(!rolledUp, d, freezedData, hierarchyFullData);
         }}
       >
         {rolledUp ? (
@@ -70,8 +71,6 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => 
           y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
           height={yScale.bandwidth()}
           width={100}
-          stroke={"red"}
-          fillOpacity={"0"}
         >
           <div>{col}</div>
         </foreignObject>

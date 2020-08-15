@@ -79,7 +79,7 @@ export default function mainReducer(state = defaultState(), action) {
           ...state.scales.changeScales.changeScaleX({
             sizesSVG,
             hierarchySelectedData,
-            hierarchyFullData: state.hierarchyFullData,
+            hierarchyFullData: action.hierarchyFullData,
             hierarchyDisplayedData,
           }),
         };
