@@ -68,7 +68,7 @@ export default function mainReducer(state = defaultState(), action) {
           hierarchyDisplayedIds.length >= state.dataSpec.maxElementsOnPage
             ? state.dataSpec.maxElementsOnPage
             : hierarchyDisplayedIds.length;
-        const heightSVG = elemnsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
+        const heightSVG = elemnsOnPage * state.sizes.sizesSVG.stringHeight;
         const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
         const wheeled = elemnsOnPage <= state.dataSpec.maxElementsOnPage ? false : true;
         const newScales = {

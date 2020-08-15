@@ -7,7 +7,7 @@ const columns = {
   colNameEng: { inner: "nameEng", outer: "Наименование работы ENG" },
   colIsError: { inner: "isError", outer: "Название КС" },
   colSPO: { inner: "SPO", outer: "СПО" },
-  colPercentComplete: { inner: "percentComplete", outer: "% выполнения ФО" },
+  colPercentComplete: { inner: "percentComplete", outer: "% ФО" },
 };
 
 const innerNames = Object.keys(columns).reduce((acc, el) => {
