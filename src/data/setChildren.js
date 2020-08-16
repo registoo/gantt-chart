@@ -12,6 +12,7 @@ export default (el, value) => {
       id: el + i,
       data: {
         ...newValue,
+        lvl4Dates: [],
         percentComplete: { cellType: "number", formattedText: getRandom(0, 100) },
       },
       dengi: getRandom(200000, 3000000),

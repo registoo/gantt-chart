@@ -14,6 +14,8 @@ import DashboardsPanel from "../WorkingPlace";
 import "./styles.css";
 import { connect } from "react-redux";
 import { setWidth } from "../../redux/mainReducer/action";
+import PlanningWorks from "../planningWorks";
+import AirlineSeatReclineNormalIcon from "@material-ui/icons/AirlineSeatReclineNormal";
 import { useLocation } from "react-router-dom";
 
 function TabPanel(props) {
@@ -125,11 +127,17 @@ function NavigationBar(props) {
           {...a11yProps(1)}
           className={classes.tab}
         />
+        <Tab
+          icon={<AirlineSeatReclineNormalIcon />}
+          title="Фильтры (Ctrl+Shift+F)"
+          {...a11yProps(2)}
+          className={classes.tab}
+        />
         {useLocation().pathname.match("/consolidated") && (
           <Tab
             icon={<DashboardIcon />}
             title="Дашборды (Ctrl+Shift+F)"
-            {...a11yProps(2)}
+            {...a11yProps(3)}
             className={classes.tab}
           />
         )}
@@ -139,6 +147,9 @@ function NavigationBar(props) {
       </TabPanel>
       <TabPanel className="TabPanel" value={value} index={1} toggle={isOpen}>
         <LeftMenu />
+      </TabPanel>
+      <TabPanel className="TabPanel" value={value} index={2} toggle={isOpen}>
+        <PlanningWorks />
       </TabPanel>
       {useLocation().pathname.match("/consolidated") && (
         <TabPanel

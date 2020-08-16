@@ -2,51 +2,56 @@ import React from "react";
 import { connect } from "react-redux";
 import drawLine from "./drawLine.js";
 import { setRolledUp } from "../../redux/mainReducer/action.js";
+import drawHead from "./drawHead.js";
+import arithmeticColumnsSpacing from "./arithmeticColumnsSpacing.js";
 
 const F = (props) => {
-  const columns = props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
-  const boxWidth = columns.length * 125;
+  const columns0 =
+    props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
+  const { columns, boxWidth } = arithmeticColumnsSpacing(columns0);
   const freezedData = {
     dataRange: props.dataRange,
     hierarchyDisplayedData: props.hierarchyDisplayedData,
     hierarchyDisplayedIds: props.hierarchyDisplayedIds,
   };
-  const addData = (boxWidth) => {
+  const addData = () => {
     const nodes = props.hierarchyDisplayedData;
-    const n = nodes.map((d, i) => {
+    return nodes.map((d, i) => {
       return drawLine(
         d,
         i,
         props.yScale,
         columns,
-        boxWidth,
         props.setRolledUp,
         freezedData,
         props.hierarchyFullData
       );
     });
-    return n;
   };
   return (
     <div
       style={{
-        marginTop: props.ganttTopScaleHeight * 2,
-        overflowX: "scroll",
-        overflowY: "hidden",
         flexGrow: 1,
         flexShrink: 1,
         minWidth: 0,
         width: 0,
       }}
     >
-      <svg
+      <div
         style={{
-          width: boxWidth,
-          height: props.SVGHeight,
+          display: "flex",
+          flexDirection: "column",
+          overflowX: "scroll",
+          overflowY: "hidden",
         }}
       >
-        <g>{addData(boxWidth)}</g>
-      </svg>
+        <svg width={boxWidth} height={props.ganttTopScaleHeight * 2}>
+          <g>{drawHead(columns, props.ganttTopScaleHeight * 2 * 0.9)}</g>
+        </svg>
+        <svg width={boxWidth} height={props.SVGHeight}>
+          <g>{addData()}</g>
+        </svg>
+      </div>
     </div>
   );
 };

@@ -7,6 +7,8 @@ export default (hierarchyFullData, hierarchyFullIds) => {
   const startDataForDataRange = 0;
   const stringHeight = 35;
   const dataSpec = {
+    lvl4scheduleEdit: false,
+    lvl4ConfirmEnter: false,
     dataRange: {
       start: startDataForDataRange,
       finish: startDataForDataRange + maxElementsOnPage,
