@@ -1,10 +1,21 @@
 import * as d3 from "d3";
 import { brushed, brushEnd } from "./events.js";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { keyGenerator, rowHasError } from "../../../../auxFunctions/index.js";
 import { connect } from "react-redux";
+import { lvl4ConfirmEnter } from "../../../../redux/mainReducer/action.js";
 
 const DrawBrush = (props) => {
+  useEffect(() => {
+    const listener = (e) => {
+      if (e && e.keyCode === 13 && props.lvl4scheduleEdit && props.accordionExpanded) {
+        props.lvl4ConfirmEnter();
+      }
+    };
+    document.body.addEventListener("keydown", listener);
+    return () => document.body.removeEventListener("keydown", listener);
+  });
+
   const id = (d) => `Rabota ${d.id} brush`;
 
   const arr = [...props.hierarchyDisplayedData].map(function (d0, index) {
@@ -34,7 +45,7 @@ const DrawBrush = (props) => {
             .brushX()
             .extent(brushCoordinate)
             .on("brush", function () {
-              brushed({
+              return brushed({
                 node,
                 xScale: props.xScale,
                 currentChildren: d,
@@ -50,7 +61,7 @@ const DrawBrush = (props) => {
           d3.select(node).call(brush);
         }
       }, []);
-      return <g id={id(d)} ref={addBrush}></g>;
+      return <g id={id(d)} ref={props.lvl4scheduleEdit ? addBrush : null}></g>;
     };
 
     return <G key={keyGenerator(d.id)}></G>;
@@ -71,7 +82,8 @@ const getState = (state) => {
     yScale: state.mainReducer.scales.yScale,
     xScale: state.mainReducer.scales.xScale,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
+    lvl4scheduleEdit: state.mainReducer.dataSpec.lvl4scheduleEdit,
   };
 };
 
-export default connect(getState)(DrawBrush);
+export default connect(getState, { lvl4ConfirmEnter })(DrawBrush);

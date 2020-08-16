@@ -43,6 +43,7 @@ export default function mainReducer(state = defaultState(), action) {
       if (action.rolledUp) {
         action.d.data.data.rolledUp = action.rolledUp;
         result = { ...state.someData.previousState };
+        result.dataSpec = { ...result.dataSpec, lvl4scheduleEdit: false };
         return result;
       } else {
         const nodeDepth = action.d.depth;
@@ -126,6 +127,24 @@ export default function mainReducer(state = defaultState(), action) {
         ...newState,
       };
       console.log("LVL_4_BRUSH_SELECTED", action);
+      return result;
+    }
+
+    case "LVL_4_EDITING": {
+      result = {
+        ...state,
+        dataSpec: { ...state.dataSpec, lvl4scheduleEdit: action.checked },
+      };
+      console.log("LVL_4_EDITING", result);
+      return result;
+    }
+
+    case "LVL_4_CONFIRM_ENTER": {
+      result = {
+        ...state,
+        dataSpec: { ...state.dataSpec, lvl4ConfirmEnter: !state.dataSpec.lvl4ConfirmEnter },
+      };
+      console.log("LVL_4_CONFIRM_ENTER", result);
       return result;
     }
 

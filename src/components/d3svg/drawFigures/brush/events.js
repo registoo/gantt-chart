@@ -31,26 +31,59 @@ export function brushed({ node, xScale, currentChildren, lvl4BrushSelected }) {
       dateInMillisecons: d1[1],
       formattedText: moment.utc(d1[1]).format("MM/DD/YY"),
     };
-    currentChildren.data.start = start;
-    currentChildren.data.finish = finish;
-
-    const millisecondsToDate = (ms) => moment.utc(ms);
-    currentChildren.data.duration =
-      moment
-        .duration(
-          millisecondsToDate(finish.dateInMillisecons).diff(
-            millisecondsToDate(start.dateInMillisecons)
-          )
-        )
-        .get("d") + 1;
-
+    const lvl4Dates = currentChildren.data.lvl4Dates;
+    if (lvl4Dates.length === 0) {
+      lvl4Dates.push({ start, finish });
+    } else if (true) {
+      const q = lvl4Dates.findIndex((el) => {
+        const startOld = el.start.dateInMillisecons;
+        const startNew = start.dateInMillisecons;
+        const finishOld = el.finish.dateInMillisecons;
+        const finishNew = finish.dateInMillisecons;
+        if (startOld === startNew && finishOld === finishNew) {
+          console.log("FALSE");
+          return false;
+        } else {
+          console.log("TRUE");
+          console.log(startOld === startNew, startOld, startNew, finishOld, finishNew);
+          return true;
+        }
+      });
+      console.log("очерёдность?", q, q < 0);
+      const result1 = lvl4Dates.map((el) => {
+        const startOld = el.start.dateInMillisecons;
+        const startNew = start.dateInMillisecons;
+        const finishOld = el.finish.dateInMillisecons;
+        const finishNew = finish.dateInMillisecons;
+        if (startOld === startNew && finishOld >= finishNew) {
+          console.log(1);
+          return el;
+        } else if (startOld === startNew && finishOld < finishNew) {
+          console.log(2);
+          return { start, finish };
+        } else if (startOld > startNew && finishOld === finishNew) {
+          console.log(3);
+          return { start, finish };
+        } else if (startOld < startNew && finishOld === finishNew) {
+          console.log(4);
+          return el;
+        } else if (startOld < startNew && finishOld < finishNew) {
+          console.log(5);
+          return [{ start, finish }, el];
+        } else if (startOld > startNew && finishOld > finishNew) {
+          console.log(6);
+          return [{ start, finish }, el];
+        } else {
+          console.log(7);
+          return { start, finish };
+        }
+      });
+      currentChildren.data.lvl4Dates = result1.flat(Infinity);
+    }
     currentChildren.data.percentComplete = 0;
   }
 }
 export const brushEnd = ({ currentChildren, lvl4BrushSelected }) => {
   if (lvl4BrushSelected && !d3.event.selection) {
-    delete currentChildren.data.start;
-    delete currentChildren.data.finish;
-    delete currentChildren.data.duration;
   }
 };

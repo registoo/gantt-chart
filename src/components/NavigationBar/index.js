@@ -12,6 +12,8 @@ import GanttHelper from "../ganttHelper";
 import "./styles.css";
 import { connect } from "react-redux";
 import { setWidth } from "../../redux/mainReducer/action";
+import PlanningWorks from "../planningWorks";
+import AirlineSeatReclineNormalIcon from "@material-ui/icons/AirlineSeatReclineNormal";
 
 function TabPanel(props) {
   const { children, value, index, toggle, ...other } = props;
@@ -122,12 +124,21 @@ function NavigationBar(props) {
           {...a11yProps(1)}
           className={classes.tab}
         />
+        <Tab
+          icon={<AirlineSeatReclineNormalIcon />}
+          title="Фильтры (Ctrl+Shift+F)"
+          {...a11yProps(2)}
+          className={classes.tab}
+        />
       </Tabs>
       <TabPanel className="TabPanel" value={value} index={0} toggle={isOpen}>
         <GanttHelper />
       </TabPanel>
       <TabPanel className="TabPanel" value={value} index={1} toggle={isOpen}>
         <LeftMenu />
+      </TabPanel>
+      <TabPanel className="TabPanel" value={value} index={2} toggle={isOpen}>
+        <PlanningWorks />
       </TabPanel>
     </div>
   );
