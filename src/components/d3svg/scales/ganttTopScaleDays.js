@@ -50,7 +50,7 @@ const GanttTopScale = (props) => {
   }
 
   return (
-    <svg width="100%" height={props.ganttTopScaleHeight} id="ganttTopScale">
+    <svg width="100%" height={props.ganttTopScaleHeight} id="ganttTopScaleDays">
       <g
         width={props.widthSVG}
         ref={addSomething}

@@ -28,7 +28,7 @@ const GanttTopScale = (props) => {
 
   return (
     <Fragment>
-      <svg width="100%" height={props.ganttTopScaleHeight} id="ganttTopScale">
+      <svg width="100%" height={props.ganttTopScaleHeight} id="ganttTopScaleMonth">
         <line x1="0" y1="0" x2={props.widthSVG} y2="0" stroke="black" strokeWidth="2" />
         <g
           width={props.widthSVG}
