@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { connect } from "react-redux";
 import "./styles.css";
 
-const DrawBarChart = (props) => {
+const SunChart = (props) => {
   const data = { id: "test", children: props.filteredData };
 
   const svg = useCallback(
@@ -162,4 +162,4 @@ const getState = (state) => {
   };
 };
 
-export default connect(getState)(DrawBarChart);
+export default connect(getState)(SunChart);
