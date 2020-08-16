@@ -1,0 +1,15 @@
+.MuiTabs-indicator {
+  background-color: #ffffff !important;
+}
+
+.MuiTab-root {
+  min-width: 48px !important;
+  width: 48px !important;
+}
+
+.TabPanel {
+  min-width: 0;
+  max-width: 442px;
+  overflow: hidden;
+  /* background-color: #252526; */
+}

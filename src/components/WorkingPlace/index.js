@@ -5,16 +5,13 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import FilterNoneIcon from "@material-ui/icons/FilterNone";
-import SearchIcon from "@material-ui/icons/Search";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import LeftMenu from "../leftMenu";
-import GanttHelper from "../ganttHelper";
-import DashboardsPanel from "../WorkingPlace";
+import AdjustIcon from "@material-ui/icons/Adjust";
+import AssessmentIcon from "@material-ui/icons/Assessment";
 import "./styles.css";
 import { connect } from "react-redux";
 import { setWidth } from "../../redux/mainReducer/action";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, toggle, ...other } = props;
@@ -58,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     width: "fit-content",
   },
   tabs: {
-    backgroundColor: "#333333",
+    backgroundColor: "#333333db",
   },
   tab: {
     "& svg ": {
@@ -70,16 +67,19 @@ const useStyles = makeStyles((theme) => ({
       transition: "ease-in 0.05s",
     },
     "&.Mui-selected svg": {
-      color: (isOpen) => (isOpen ? "#ffffff" : "#858585"),
+      color: "#ffffff",
     },
   },
   indicator: {
     left: "0px",
-    display: (isOpen) => (isOpen ? "inline-block" : "none"),
+    display: "inline-block",
   },
 }));
 
-function NavigationBar(props) {
+function DashboardsPanel(props) {
+  if (useLocation().pathname.match("/consolidated")) {
+    console.log(true);
+  }
   const [value, setValue] = React.useState(0);
   const [isOpen, setIsOpen] = React.useState(false);
   const classes = useStyles(isOpen);
@@ -114,43 +114,22 @@ function NavigationBar(props) {
         }}
       >
         <Tab
-          icon={<FilterNoneIcon />}
-          title="Навигатор по ганту (Ctrl+Shift+W)"
+          icon={<AdjustIcon />}
+          title="Солнечная диаграмма (Ctrl+1)"
           {...a11yProps(0)}
           className={classes.tab}
+          component={Link}
+          to={"/consolidated/sun-chart"}
         />
         <Tab
-          icon={<SearchIcon />}
-          title="Фильтры (Ctrl+Shift+F)"
+          icon={<AssessmentIcon />}
+          title="Столбчатая диаграмма (Ctrl+2)"
           {...a11yProps(1)}
           className={classes.tab}
+          component={Link}
+          to={"/consolidated/bar-chart"}
         />
-        {useLocation().pathname.match("/consolidated") && (
-          <Tab
-            icon={<DashboardIcon />}
-            title="Дашборды (Ctrl+Shift+F)"
-            {...a11yProps(2)}
-            className={classes.tab}
-          />
-        )}
       </Tabs>
-      <TabPanel className="TabPanel" value={value} index={0} toggle={isOpen}>
-        <GanttHelper />
-      </TabPanel>
-      <TabPanel className="TabPanel" value={value} index={1} toggle={isOpen}>
-        <LeftMenu />
-      </TabPanel>
-      {useLocation().pathname.match("/consolidated") && (
-        <TabPanel
-          className="TabPanel"
-          style={{ backgroundColor: "#333333db" }}
-          value={value}
-          index={2}
-          toggle={isOpen}
-        >
-          <DashboardsPanel />
-        </TabPanel>
-      )}
     </div>
   );
 }
@@ -164,4 +143,4 @@ const getState = (state) => {
   };
 };
 
-export default connect(getState, { setWidth })(NavigationBar);
+export default connect(getState, { setWidth })(DashboardsPanel);
