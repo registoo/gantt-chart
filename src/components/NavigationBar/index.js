@@ -156,7 +156,7 @@ function NavigationBar(props) {
           className="TabPanel"
           style={{ backgroundColor: "#333333db" }}
           value={value}
-          index={2}
+          index={3}
           toggle={isOpen}
         >
           <DashboardsPanel />
