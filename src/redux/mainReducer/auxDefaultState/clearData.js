@@ -5,20 +5,22 @@ import changeScaleY from "./scaleY.js";
 import getSizes from "./sizes.js";
 
 const clearData = (state, hierarchyFullData, hierarchyFullIds, initial) => {
-  state.dataSpec.dataRange = {
-    start: state.dataSpec.startDataForDataRange,
-    finish: state.dataSpec.startDataForDataRange + state.dataSpec.maxElementsOnPage,
+  const newDataSpec = { ...state.dataSpec };
+  newDataSpec.dataRange = {
+    start: newDataSpec.startDataForDataRange,
+    finish: newDataSpec.startDataForDataRange + newDataSpec.maxElementsOnPage,
   };
+  newDataSpec.currentElementsOnPage = newDataSpec.maxElementsOnPage;
   const hierarchyDisplayedData = hierarchyFullData.children.slice(
-    state.dataSpec.startDataForDataRange,
-    state.dataSpec.startDataForDataRange + state.dataSpec.maxElementsOnPage
+    newDataSpec.startDataForDataRange,
+    newDataSpec.startDataForDataRange + newDataSpec.maxElementsOnPage
   );
-  const heightSVG = hierarchyDisplayedData.length * (state.dataSpec.stringHeight * 1);
-  const sizes = getSizes(heightSVG, state.dataSpec.stringHeight, initial, state);
+  const heightSVG = hierarchyDisplayedData.length * (newDataSpec.stringHeight * 1);
+  const sizes = getSizes(heightSVG, newDataSpec.stringHeight, initial, state);
   const hierarchyDisplayedIds = getHierarchyDisplayedIds(hierarchyDisplayedData);
   const hierarchySelectedData = hierarchyFullData.children;
   const hierarchySelectedIds = hierarchyFullIds;
-  state.dataSpec.wheeled = hierarchySelectedIds.length > state.dataSpec.maxElementsOnPage;
+  newDataSpec.wheeled = hierarchySelectedIds.length > newDataSpec.maxElementsOnPage;
   const filters = {
     clearFilters: clearData,
     filtersIds: Object.keys(typesOfFilters).reduce((acc, el) => {
@@ -39,7 +41,7 @@ const clearData = (state, hierarchyFullData, hierarchyFullIds, initial) => {
       hierarchySelectedIds,
     },
     filters,
-    dataSpec: state.dataSpec,
+    dataSpec: newDataSpec,
     scales: {
       ...changeScaleY({
         hierarchyDisplayedIds,

@@ -22,6 +22,5 @@ export default (columns, heihgt) => {
       </g>
     );
   });
-  console.log("a", a);
   return a;
 };
