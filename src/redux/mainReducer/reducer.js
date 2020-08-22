@@ -43,7 +43,6 @@ export default function mainReducer(state = defaultState(), action) {
       if (action.rolledUp) {
         action.d.data.data.rolledUp = action.rolledUp;
         result = { ...state.someData.previousState };
-        result.dataSpec = { ...result.dataSpec, lvl4scheduleEdit: false };
         return result;
       } else {
         const nodeDepth = action.d.depth;
