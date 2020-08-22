@@ -4,7 +4,8 @@ import setTimeFormat from "./setTimeFormat.js";
 import wordBreaks from "./wordBreaks.js";
 
 // period - "month" || "week" || "day"
-export default (period, xAxis, counts, pixelsInOneDay, scaleLvl) =>
+export default (period, xAxis, counts, pixelsInOneDay, scaleLvl) => {
+  const tickSize = period === "month" ? 0 : 2;
   xAxis
     .ticks(d3.utcDay)
     .tickFormat((d, i0, arr) => {
@@ -38,8 +39,9 @@ export default (period, xAxis, counts, pixelsInOneDay, scaleLvl) =>
               // при шкалировании нижней полоски до уровня месяца
               if (wordBreaks(d, period, pixelsInOneDay, counts[dateInMS].count)) {
                 return setTimeFormat(d, period, counts[dateInMS].count);
+              } else {
+                return null;
               }
-              return null;
             } else if (
               wordBreaks(d, period, pixelsInOneDay, counts[dateInMS].count) &&
               counts[dateInMS].count > 2
@@ -53,7 +55,9 @@ export default (period, xAxis, counts, pixelsInOneDay, scaleLvl) =>
               counts[dateInMS].count > 2
             ) {
               return setTimeFormat(d, "shortMonth");
-            } else return null;
+            } else {
+              return null;
+            }
           }
           case "week": {
             // проверка, влезает ли полное наименование периода
@@ -64,9 +68,12 @@ export default (period, xAxis, counts, pixelsInOneDay, scaleLvl) =>
           case "day": {
             return setTimeFormat(d, period);
           }
-          default:
+          default: {
             return null;
+          }
         }
       }
     })
-    .tickSize(0);
+    .tickSize(tickSize);
+  return xAxis;
+};

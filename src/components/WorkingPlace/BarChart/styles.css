@@ -1,0 +1,29 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar-chart__box {
+  width: max-content;
+  transform: translateX(-50%);
+  left: 50%;
+  position: relative;
+}
+
+.color-title__box {
+  text-align: center;
+}
+
+.color-title {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1em;
+}
+
+.color-title__square {
+  width: 15px;
+  height: 15px;
+  margin-right: 0.5em;
+}

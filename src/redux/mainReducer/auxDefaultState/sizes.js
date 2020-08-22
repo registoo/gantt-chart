@@ -18,7 +18,7 @@ export default (heightSVG, stringHeight, initial, state) => {
       left: 0,
     },
     stringHeight,
-    slider: { height: 20 },
+    slider: { height: 30 },
   };
 
   return {

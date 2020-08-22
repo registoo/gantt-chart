@@ -48,6 +48,13 @@ const DrawRect = (props) => {
         ></rect>
       );
     });
+    arrLvl4 = [...props.hierarchyDisplayedData].map((d0, index) => {
+      const d = d0.data;
+      if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
+      if (index > 0) {
+        console.log(d.data.lvl4Dates);
+      }
+    });
   }
   // иначе рисуем базовый план для главной страницы
   else {
@@ -83,6 +90,8 @@ const getState = (state) => {
     marginSVG: state.mainReducer.sizes.sizesSVG.margin,
     lvl4: state.mainReducer.slicedData.lvl4,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
+    lvl4scheduleEdit: state.mainReducer.dataSpec.lvl4scheduleEdit,
+    lvl4ConfirmEnter: state.mainReducer.dataSpec.lvl4ConfirmEnter,
   };
 };
 

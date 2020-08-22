@@ -8,13 +8,15 @@ const DrawAxisY = (props) => {
       if (node !== null) {
         const currentNode = d3.select(node);
         currentNode.call(props.yAxis.ticks(props.hierarchyDisplayedIds.length));
+        currentNode.call(props.yAxis.ticks((d) => null));
         currentNode.call(props.yAxis.tickSizeOuter(0));
-        currentNode.call((g) =>
-          g
-            .selectAll(".tick:not(:first-of-type) line")
-            .attr("stroke-opacity", 0.5)
-            .attr("stroke-dasharray", "2,2")
-        );
+        // currentNode.call((g) =>
+        //   g
+        //     .selectAll(".tick:not(:first-of-type) line")
+        //     .attr("stroke-opacity", 0.5)
+        //     .attr("stroke-dasharray", "2,2")
+        // );
+        currentNode.call((g) => g.selectAll(".tick").attr("display", "none"));
       }
     },
     [props]

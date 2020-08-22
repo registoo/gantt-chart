@@ -13,28 +13,22 @@ export default function mainReducer(state = defaultState(), action) {
       return result;
     }
     case "SET_SVG_WIDTH": {
-      const setXScaleWidth = state.scales.aux.setWidthOfHorizontalScale({
+      const newState = { ...state };
+      const setXScaleWidth = newState.scales.aux.setWidthOfHorizontalScale({
         widthSVG: action.svgWidth,
-        marginSVG: state.sizes.sizesSVG.margin,
-        displayedStartMS: state.scales.displayedStartMS,
-        displayedFinishMS: state.scales.displayedFinishMS,
-        xScaleMinCoordinate: state.scales.xScaleMinCoordinate,
+        marginSVG: newState.sizes.sizesSVG.margin,
+        displayedStartMS: newState.scales.displayedStartMS,
+        displayedFinishMS: newState.scales.displayedFinishMS,
+        xScaleMinCoordinate: newState.scales.xScaleMinCoordinate,
       });
-      result = {
-        ...state,
-        sizes: {
-          ...state.sizes,
-          mainResizer: { ...state.sizes.mainResizer, width: action.parentWidth },
-          sizesSVG: {
-            ...state.sizes.sizesSVG,
-            width: action.svgWidth,
-          },
-        },
-        scales: { ...state.scales, ...setXScaleWidth },
-      };
-      console.log("SET_SVG_WIDTH", result);
-      return result;
+      newState.sizes.mainResizer.width = action.parentWidth;
+      newState.sizes.sizesSVG.width = action.svgWidth;
+      newState.scales = { ...state.scales, ...setXScaleWidth };
+
+      console.log("SET_SVG_WIDTH", newState);
+      return newState;
     }
+
     case "CHANGE_SVG_RANGE": {
       const setXScaleRange = state.scales.aux.setXRange(action.start, action.finish, state);
       result = {
@@ -68,7 +62,7 @@ export default function mainReducer(state = defaultState(), action) {
           hierarchyDisplayedIds.length >= state.dataSpec.maxElementsOnPage
             ? state.dataSpec.maxElementsOnPage
             : hierarchyDisplayedIds.length;
-        const heightSVG = elemnsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
+        const heightSVG = elemnsOnPage * state.sizes.sizesSVG.stringHeight;
         const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
         const wheeled = elemnsOnPage <= state.dataSpec.maxElementsOnPage ? false : true;
         const newScales = {
@@ -79,7 +73,7 @@ export default function mainReducer(state = defaultState(), action) {
           ...state.scales.changeScales.changeScaleX({
             sizesSVG,
             hierarchySelectedData,
-            hierarchyFullData: state.hierarchyFullData,
+            hierarchyFullData: action.hierarchyFullData,
             hierarchyDisplayedData,
           }),
         };
@@ -106,27 +100,19 @@ export default function mainReducer(state = defaultState(), action) {
     }
 
     case "WHEEL_DATA": {
+      const newState = { ...state };
       const newScales = {
-        ...state.scales.changeScales.changeScaleY({
+        ...newState.scales.changeScales.changeScaleY({
           hierarchyDisplayedIds: action.displayedIds,
-          sizesSVG: state.sizes.sizesSVG,
+          sizesSVG: newState.sizes.sizesSVG,
         }),
       };
-      result = {
-        ...state,
-        scales: { ...state.scales, ...newScales },
-        slicedData: {
-          ...state.slicedData,
-          hierarchyDisplayedData: action.displayedData,
-        },
-        ids: { ...state.ids, hierarchyDisplayedIds: action.displayedIds },
-        dataSpec: {
-          ...state.dataSpec,
-          dataRange: action.dataRange,
-        },
-      };
-      console.log("WHEEL_DATA", result);
-      return result;
+      newState.slicedData.hierarchyDisplayedData = action.displayedData;
+      newState.scales = { ...newState.scales, ...newScales };
+      newState.ids.hierarchyDisplayedIds = action.displayedIds;
+      newState.dataSpec.dataRange = action.dataRange;
+      console.log("WHEEL_DATA", newState);
+      return newState;
     }
 
     case "LVL_4_BRUSH_SELECTED": {
@@ -140,6 +126,24 @@ export default function mainReducer(state = defaultState(), action) {
         ...newState,
       };
       console.log("LVL_4_BRUSH_SELECTED", action);
+      return result;
+    }
+
+    case "LVL_4_EDITING": {
+      result = {
+        ...state,
+        dataSpec: { ...state.dataSpec, lvl4scheduleEdit: action.checked },
+      };
+      console.log("LVL_4_EDITING", result);
+      return result;
+    }
+
+    case "LVL_4_CONFIRM_ENTER": {
+      result = {
+        ...state,
+        dataSpec: { ...state.dataSpec, lvl4ConfirmEnter: !state.dataSpec.lvl4ConfirmEnter },
+      };
+      console.log("LVL_4_CONFIRM_ENTER", result);
       return result;
     }
 

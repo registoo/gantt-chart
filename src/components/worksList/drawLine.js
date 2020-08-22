@@ -5,12 +5,13 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import IconButton from "@material-ui/core/IconButton";
 
-export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => {
+export default (d, ind, yScale, columns, setRolledUp, freezedData, hierarchyFullData) => {
   const data = d.data.data;
   const rolledUp = data.rolledUp;
   const columnsDataAtRow = columns.map((el, i) => {
-    const key = Object.keys(el)[0];
-    const result = rowHasError(data)
+    const key = el.key;
+    const result = {};
+    result.d = rowHasError(data)
       ? i === 0
         ? data.isError.formattedText
         : null
@@ -19,15 +20,19 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => 
         ? data[key].formattedText
         : data[key]
       : data[key];
+    result.width = el.width;
+    result.leftMargin = el.leftMargin;
+    result.fontSize = el.fontSize;
     return result;
   });
 
   const div = () => {
+    // не рисуем треугольники у ошибок и вложенностей больше 2
     if (d.depth > 1 || rowHasError(data)) return null;
     return (
       <div
         onClick={() => {
-          setRolledUp(!rolledUp, d, freezedData);
+          setRolledUp(!rolledUp, d, freezedData, hierarchyFullData);
         }}
       >
         {rolledUp ? (
@@ -50,7 +55,7 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => 
           x={0}
           y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
           height={yScale.bandwidth()}
-          width={30}
+          width={24}
           stroke={"red"}
           fill={"yellow"}
         >
@@ -58,22 +63,20 @@ export default (d, ind, yScale, columns, boxWidth, setRolledUp, freezedData) => 
         </foreignObject>
         <rect
           key={keyGenerator()}
-          x={30 + i * 125}
+          x={col.leftMargin}
           y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
           height={yScale.bandwidth()}
-          width={100}
+          width={col.width}
           stroke={"red"}
           fillOpacity={"0"}
         ></rect>
         <foreignObject
-          x={30 + i * 125}
+          x={col.leftMargin}
           y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
           height={yScale.bandwidth()}
-          width={100}
-          stroke={"red"}
-          fillOpacity={"0"}
+          width={col.width}
         >
-          <div>{col}</div>
+          <div style={{ fontSize: col.fontSize }}>{col.d}</div>
         </foreignObject>
       </g>
     );

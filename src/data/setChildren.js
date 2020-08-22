@@ -8,6 +8,14 @@ export default (el, value) => {
   delete newValue.finish;
   delete newValue.duration;
   return childrenInit.fill(null).map((e, i) => {
-    return { id: el + i, data: { ...newValue }, dengi: getRandom(200000, 3000000) };
+    return {
+      id: el + i,
+      data: {
+        ...newValue,
+        lvl4Dates: [],
+        percentComplete: { cellType: "number", formattedText: getRandom(0, 100) },
+      },
+      dengi: getRandom(200000, 3000000),
+    };
   });
 };

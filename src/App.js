@@ -6,6 +6,7 @@ import Slider from "./components/d3svg/slider";
 import TopMenu from "./components/TopMenu";
 import NavigationBar from "./components/NavigationBar";
 import Dashboards from "./components/WorkingPlace/Dashboards";
+import BarChart from "./components/WorkingPlace/BarChart";
 import { Switch, Route, withRouter } from "react-router-dom";
 import WorkListSVG from "./components/worksList/workListSVG.js";
 
@@ -34,7 +35,12 @@ function App(props) {
             </MainResizer>
           </Route>
           <Route history={history} path="/consolidated">
-            <Dashboards />
+            <Route history={history} path="/consolidated/sun-chart">
+              <Dashboards />
+            </Route>
+            <Route history={history} path="/consolidated/bar-chart">
+              <BarChart />
+            </Route>
           </Route>
         </Switch>
       </div>
