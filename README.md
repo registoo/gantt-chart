@@ -1,1 +1,1 @@
-Eto zakrityi project
+Eto privatnyi project
