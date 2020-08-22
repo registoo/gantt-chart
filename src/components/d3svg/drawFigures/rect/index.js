@@ -91,7 +91,6 @@ const getState = (state) => {
     lvl4: state.mainReducer.slicedData.lvl4,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
     lvl4scheduleEdit: state.mainReducer.dataSpec.lvl4scheduleEdit,
-    lvl4ConfirmEnter: state.mainReducer.dataSpec.lvl4ConfirmEnter,
   };
 };
 

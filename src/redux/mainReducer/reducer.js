@@ -141,7 +141,6 @@ export default function mainReducer(state = defaultState(), action) {
     case "LVL_4_CONFIRM_ENTER": {
       result = {
         ...state,
-        dataSpec: { ...state.dataSpec, lvl4ConfirmEnter: !state.dataSpec.lvl4ConfirmEnter },
       };
       console.log("LVL_4_CONFIRM_ENTER", result);
       return result;

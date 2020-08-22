@@ -4,6 +4,7 @@ export default (el, value) => {
   const childrenInit = [];
   childrenInit.length = getRandom(1, 12);
   const newValue = { ...value };
+  const lvl4Dates = [];
   delete newValue.start;
   delete newValue.finish;
   delete newValue.duration;
@@ -12,7 +13,7 @@ export default (el, value) => {
       id: el + i,
       data: {
         ...newValue,
-        lvl4Dates: [],
+        lvl4Dates,
         percentComplete: { cellType: "number", formattedText: getRandom(0, 100) },
       },
       dengi: getRandom(200000, 3000000),
