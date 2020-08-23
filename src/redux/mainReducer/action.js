@@ -30,22 +30,23 @@ export const setFilter = (data) => {
   };
 };
 
-export const setRolledUp = (rolledUp, d, freezedData, hierarchyFullData) => {
+export const setAccordionExpanded = (accordionExpanded, d, freezedData, hierarchyFullData) => {
   return {
     type: "ROLL_UP",
-    rolledUp: rolledUp,
+    accordionExpanded: accordionExpanded,
     d,
     freezedData,
     hierarchyFullData,
   };
 };
-// export const lvl4BrushSelected = (data) => {
-//   return {
-//     type: "LVL_4_BRUSH_SELECTED",
-//     date: data.date,
-//     element: data.currentParentElement,
-//   };
-// };
+
+export const lvl4BrushSelected = (data) => {
+  return {
+    type: "LVL_4_BRUSH_SELECTED",
+    date: data.date,
+    element: data.currentParentElement,
+  };
+};
 
 export const lvl4Editing = (checked) => {
   return {

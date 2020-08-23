@@ -49,13 +49,13 @@ const DrawBrush = (props) => {
                 node,
                 xScale: props.xScale,
                 currentChildren: d,
-                lvl4BrushSelected: props.accordionExpanded ? true : false,
+                accordionExpanded: props.accordionExpanded ? true : false,
               });
             })
             .on("end", function () {
               brushEnd({
                 currentChildren: d,
-                lvl4BrushSelected: props.accordionExpanded ? true : false,
+                accordionExpanded: props.accordionExpanded ? true : false,
               });
             });
           d3.select(node).call(brush);

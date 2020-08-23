@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import drawLine from "./drawLine.js";
-import { setRolledUp } from "../../redux/mainReducer/action.js";
+import { setAccordionExpanded } from "../../redux/mainReducer/action.js";
 import drawHead from "./drawHead.js";
 import arithmeticColumnsSpacing from "./arithmeticColumnsSpacing.js";
 
@@ -22,9 +22,10 @@ const F = (props) => {
         i,
         props.yScale,
         columns,
-        props.setRolledUp,
+        props.setAccordionExpanded,
         freezedData,
-        props.hierarchyFullData
+        props.hierarchyFullData,
+        props.accordionExpanded
       );
     });
   };
@@ -67,7 +68,8 @@ const getState = (state) => {
     namesOfColumns: state.mainReducer.someData.namesOfColumns,
     dataRange: state.mainReducer.dataSpec.dataRange,
     hierarchyFullData: state.fullDataReducer.fullData,
+    accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
   };
 };
 
-export default connect(getState, { setRolledUp })(F);
+export default connect(getState, { setAccordionExpanded })(F);

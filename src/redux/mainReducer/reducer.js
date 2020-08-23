@@ -40,14 +40,12 @@ export default function mainReducer(state = defaultState(), action) {
     }
 
     case "ROLL_UP": {
-      if (action.rolledUp) {
-        action.d.data.data.rolledUp = action.rolledUp;
+      if (action.accordionExpanded) {
         result = { ...state.someData.previousState };
         return result;
       } else {
         const nodeDepth = action.d.depth;
         const hierarchySelectedData = [action.d];
-        action.d.data.data.rolledUp = action.rolledUp;
         action.d.each((d) => {
           if (d.depth === nodeDepth + 1) {
             hierarchySelectedData.push(d);
@@ -88,7 +86,7 @@ export default function mainReducer(state = defaultState(), action) {
           dataSpec: {
             ...state.dataSpec,
             dataRange: { start: state.dataSpec.startDataForDataRange, finish: elemnsOnPage },
-            accordionExpanded: !action.rolledUp,
+            accordionExpanded: !action.accordionExpanded,
             wheeled,
           },
           ids: { ...state.ids, hierarchyDisplayedIds },

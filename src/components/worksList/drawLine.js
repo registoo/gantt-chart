@@ -5,9 +5,17 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import IconButton from "@material-ui/core/IconButton";
 
-export default (d, ind, yScale, columns, setRolledUp, freezedData, hierarchyFullData) => {
+export default (
+  d,
+  ind,
+  yScale,
+  columns,
+  setAccordionExpanded,
+  freezedData,
+  hierarchyFullData,
+  accordionExpanded
+) => {
   const data = d.data.data;
-  const rolledUp = data.rolledUp;
   const columnsDataAtRow = columns.map((el, i) => {
     const key = el.key;
     const result = {};
@@ -32,10 +40,10 @@ export default (d, ind, yScale, columns, setRolledUp, freezedData, hierarchyFull
     return (
       <div
         onClick={() => {
-          setRolledUp(!rolledUp, d, freezedData, hierarchyFullData);
+          setAccordionExpanded(accordionExpanded, d, freezedData, hierarchyFullData);
         }}
       >
-        {rolledUp ? (
+        {!accordionExpanded ? (
           <IconButton size="small">
             <ArrowRightIcon fontSize="inherit" />
           </IconButton>

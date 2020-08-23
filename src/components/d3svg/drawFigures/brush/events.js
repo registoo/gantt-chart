@@ -5,7 +5,7 @@ export const brushStart = (node, xScale) => {
   console.log("brushStart", d3.event.sourceEvent.type, node, xScale());
 };
 
-export function brushed({ node, xScale, currentChildren, lvl4BrushSelected }) {
+export function brushed({ node, xScale, currentChildren, accordionExpanded }) {
   if (d3.event.sourceEvent.type === "brush") return;
   const d0 = d3.event.selection.map(xScale.invert),
     d1 = d0.map(d3.utcDay.round);
@@ -20,41 +20,36 @@ export function brushed({ node, xScale, currentChildren, lvl4BrushSelected }) {
 
   d3.select(node).call(d3.event.target.move, d1.map(xScale));
   // магия рисования прямоугольничков поверх брашей
-  if (lvl4BrushSelected) {
+  if (accordionExpanded) {
     const start = {
       cellType: "date",
       dateInMillisecons: d1[0],
       formattedText: moment.utc(d1[0]).format("MM/DD/YY"),
     };
-    const finish = {
-      cellType: "date",
-      dateInMillisecons: d1[1],
-      formattedText: moment.utc(d1[1]).format("MM/DD/YY"),
-    };
-    const lvl4Dates = currentChildren.data.lvl4Dates;
-    const findCurrentElemInARow = lvl4Dates.find((el) => {
-      const startOld = el.start.dateInMillisecons;
-      const startNew = start.dateInMillisecons;
-      const finishOld = el.finish.dateInMillisecons;
-      const finishNew = finish.dateInMillisecons;
-      if (startOld === startNew && finishOld === finishNew) {
-        return true;
-      } else {
-        return false;
+    const s = +moment.utc(d1[0]).format("x");
+    const f = +moment.utc(d1[1]).format("x");
+    function getDates(startDate0, stopDate0) {
+      const dateArray = [];
+      let currentDate = moment.utc(startDate0);
+      const stopDate = moment.utc(stopDate0);
+      while (currentDate <= stopDate) {
+        const obj = {
+          [currentDate.format("MM/DD/YY")]: {
+            cellType: "date",
+            startDateInMillisecons: +currentDate.startOf("d").format("x"),
+            finishDateInMillisecons: +currentDate.endOf("d").format("x"),
+            formattedText: currentDate.format("MM/DD/YY"),
+          },
+        };
+        dateArray.push(obj);
+        currentDate = moment.utc(currentDate).add(1, "d");
       }
-    });
-    if (lvl4Dates.length === 0) {
-      lvl4Dates.push({ start, finish });
-    } else if (!findCurrentElemInARow) {
-      console.log("очерёдность?", findCurrentElemInARow);
-      lvl4Dates.push({ start, finish });
-      const result1 = lvl4Dates.filter((e, i, arr) => arr.indexOf(e) === i);
-      currentChildren.data.lvl4Dates = result1;
+      return dateArray;
     }
-    currentChildren.data.percentComplete = 0;
+    currentChildren.data.brushedData = getDates(s, f);
   }
 }
-export const brushEnd = ({ currentChildren, lvl4BrushSelected }) => {
-  if (lvl4BrushSelected && !d3.event.selection) {
+export const brushEnd = ({ currentChildren, accordionExpanded }) => {
+  if (accordionExpanded && !d3.event.selection) {
   }
 };
