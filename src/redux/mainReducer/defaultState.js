@@ -20,7 +20,7 @@ export default (hierarchyFullData, hierarchyFullIds) => {
     stringHeight,
   };
   const namesOfColumns = columnsData.outer;
-  const someData = { namesOfColumns: namesOfColumns, freezedData: {} };
+  const someData = { namesOfColumns: namesOfColumns };
 
   let result;
 

@@ -40,61 +40,61 @@ export default function mainReducer(state = defaultState(), action) {
     }
 
     case "ROLL_UP": {
+      // если раскрыто, то принимаем родительский элемент как селектед для рисования шкал и пр. локального
+      let hierarchySelectedData;
       if (action.accordionExpanded) {
-        result = { ...state.someData.previousState };
-        return result;
+        hierarchySelectedData = state.slicedData.hierarchySelectedData;
       } else {
+        hierarchySelectedData = [action.d];
         const nodeDepth = action.d.depth;
-        const hierarchySelectedData = [action.d];
         action.d.each((d) => {
           if (d.depth === nodeDepth + 1) {
             hierarchySelectedData.push(d);
           }
         });
-        const hierarchyDisplayedData = hierarchySelectedData.slice(
-          0,
-          state.dataSpec.maxElementsOnPage
-        );
-        const hierarchyDisplayedIds = getHerarchyDisplayedIds(hierarchyDisplayedData);
-        const elemnsOnPage =
-          hierarchyDisplayedIds.length >= state.dataSpec.maxElementsOnPage
-            ? state.dataSpec.maxElementsOnPage
-            : hierarchyDisplayedIds.length;
-        const heightSVG = elemnsOnPage * state.sizes.sizesSVG.stringHeight;
-        const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
-        const wheeled = elemnsOnPage <= state.dataSpec.maxElementsOnPage ? false : true;
-        const newScales = {
-          ...state.scales.changeScales.changeScaleY({
-            hierarchyDisplayedIds,
-            sizesSVG,
-          }),
-          ...state.scales.changeScales.changeScaleX({
-            sizesSVG,
-            hierarchySelectedData,
-            hierarchyFullData: action.hierarchyFullData,
-            hierarchyDisplayedData,
-          }),
-        };
-        result = {
-          ...state,
-          scales: { ...state.scales, ...newScales },
-          sizes: { ...state.sizes, sizesSVG },
-          slicedData: {
-            ...state.slicedData,
-            hierarchyDisplayedData,
-          },
-          dataSpec: {
-            ...state.dataSpec,
-            dataRange: { start: state.dataSpec.startDataForDataRange, finish: elemnsOnPage },
-            accordionExpanded: !action.accordionExpanded,
-            wheeled,
-          },
-          ids: { ...state.ids, hierarchyDisplayedIds },
-          someData: { ...state.someData, previousState: state },
-        };
-        console.log("ROLL_UP", result);
-        return result;
       }
+      const hierarchyDisplayedData = hierarchySelectedData.slice(
+        0,
+        state.dataSpec.maxElementsOnPage
+      );
+      const hierarchyDisplayedIds = getHerarchyDisplayedIds(hierarchyDisplayedData);
+      const elemnsOnPage =
+        hierarchyDisplayedIds.length >= state.dataSpec.maxElementsOnPage
+          ? state.dataSpec.maxElementsOnPage
+          : hierarchyDisplayedIds.length;
+      const heightSVG = elemnsOnPage * state.sizes.sizesSVG.stringHeight;
+      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
+      const wheeled = elemnsOnPage <= state.dataSpec.maxElementsOnPage ? false : true;
+      const newScales = {
+        ...state.scales.changeScales.changeScaleY({
+          hierarchyDisplayedIds,
+          sizesSVG,
+        }),
+        ...state.scales.changeScales.changeScaleX({
+          sizesSVG,
+          hierarchySelectedData: hierarchySelectedData,
+          hierarchyFullData: action.hierarchyFullData,
+          hierarchyDisplayedData,
+        }),
+      };
+      result = {
+        ...state,
+        scales: { ...state.scales, ...newScales },
+        sizes: { ...state.sizes, sizesSVG },
+        slicedData: {
+          ...state.slicedData,
+          hierarchyDisplayedData,
+        },
+        dataSpec: {
+          ...state.dataSpec,
+          dataRange: { start: state.dataSpec.startDataForDataRange, finish: elemnsOnPage },
+          accordionExpanded: !action.accordionExpanded,
+          wheeled,
+        },
+        ids: { ...state.ids, hierarchyDisplayedIds },
+      };
+      console.log("ROLL_UP", result);
+      return result;
     }
 
     case "WHEEL_DATA": {
