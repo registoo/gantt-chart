@@ -7,6 +7,7 @@ export default (hierarchyFullData, hierarchyFullIds) => {
   const startDataForDataRange = 0;
   const stringHeight = 35;
   const dataSpec = {
+    // переключатель в режим корректировки Г4У
     lvl4scheduleEdit: false,
     dataRange: {
       start: startDataForDataRange,
@@ -16,6 +17,7 @@ export default (hierarchyFullData, hierarchyFullIds) => {
     startDataForDataRange,
     maxElementsOnPage,
     wheeled: true,
+    // зашли в работу?
     accordionExpanded: false,
     stringHeight,
   };

@@ -54,9 +54,10 @@ export const lvl4Editing = (checked) => {
     checked: checked,
   };
 };
-export const lvl4ConfirmEnter = () => {
+export const lvl4ConfirmEnter = (parent) => {
   return {
     type: "LVL_4_CONFIRM_ENTER",
+    parent,
   };
 };
 

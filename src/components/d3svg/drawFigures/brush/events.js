@@ -6,7 +6,10 @@ export const brushStart = (node, xScale) => {
 };
 
 export function brushed({ node, xScale, currentChildren, accordionExpanded }) {
-  if (d3.event.sourceEvent.type === "brush") return;
+  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") {
+    return;
+  }
+  if (!d3.event.selection) return;
   const d0 = d3.event.selection.map(xScale.invert),
     d1 = d0.map(d3.utcDay.round);
   // If empty when rounded, use floor instead.
@@ -21,11 +24,6 @@ export function brushed({ node, xScale, currentChildren, accordionExpanded }) {
   d3.select(node).call(d3.event.target.move, d1.map(xScale));
   // магия рисования прямоугольничков поверх брашей
   if (accordionExpanded) {
-    const start = {
-      cellType: "date",
-      dateInMillisecons: d1[0],
-      formattedText: moment.utc(d1[0]).format("MM/DD/YY"),
-    };
     const s = +moment.utc(d1[0]).format("x");
     const f = +moment.utc(d1[1]).format("x");
     function getDates(startDate0, stopDate0) {
@@ -46,10 +44,12 @@ export function brushed({ node, xScale, currentChildren, accordionExpanded }) {
       }
       return dateArray;
     }
-    currentChildren.data.brushedData = getDates(s, f);
+    return getDates(s, f);
   }
 }
-export const brushEnd = ({ currentChildren, accordionExpanded }) => {
-  if (accordionExpanded && !d3.event.selection) {
+export const brushEnd = () => {
+  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return;
+  if (!d3.event.selection) {
+    return true;
   }
 };

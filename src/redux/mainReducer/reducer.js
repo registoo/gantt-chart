@@ -139,6 +139,10 @@ export default function mainReducer(state = defaultState(), action) {
     case "LVL_4_CONFIRM_ENTER": {
       result = {
         ...state,
+        slicedData: {
+          ...state.slicedData,
+          counter: state.slicedData.counter ? state.slicedData.counter + 1 : 1,
+        },
       };
       console.log("LVL_4_CONFIRM_ENTER", result);
       return result;

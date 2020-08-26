@@ -1,21 +1,11 @@
 import * as d3 from "d3";
 import { brushed, brushEnd } from "./events.js";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { keyGenerator, rowHasError } from "../../../../auxFunctions/index.js";
 import { connect } from "react-redux";
 import { lvl4ConfirmEnter } from "../../../../redux/mainReducer/action.js";
 
 const DrawBrush = (props) => {
-  useEffect(() => {
-    const listener = (e) => {
-      if (e && e.keyCode === 13 && props.lvl4scheduleEdit && props.accordionExpanded) {
-        props.lvl4ConfirmEnter();
-      }
-    };
-    document.body.addEventListener("keydown", listener);
-    return () => document.body.removeEventListener("keydown", listener);
-  });
-
   const id = (d) => `Rabota ${d.id} brush`;
 
   const arr = [...props.hierarchyDisplayedData].map(function (d0, index) {
@@ -39,24 +29,103 @@ const DrawBrush = (props) => {
       [x1, y1],
     ];
     const G = () => {
+      // mainRefData[0] - массив координат
+      // mainRefData[1] - d0 (иерархичный чилдрен)
+      const mainRefData = useRef(null);
+      // aux[0] - node, на которую сажается brush (для сброса brush)
+      // aux[0] - d3.event.target (для сброса brush)
+      const aux = useRef(null);
+      useEffect(() => {
+        const listener = (e) => {
+          if (
+            mainRefData.current &&
+            mainRefData.current[0] &&
+            e &&
+            e.keyCode === 13 &&
+            props.lvl4scheduleEdit &&
+            props.accordionExpanded
+          ) {
+            const brushedArr = mainRefData.current[0];
+            const currentChildren = mainRefData.current[1];
+            // добавляем в данные новые данные
+            if (currentChildren.data.data.brushedData.length === 0) {
+              currentChildren.data.data.brushedData = brushedArr;
+            } else {
+              currentChildren.data.data.brushedData = brushedArr.reduce((acc, el) => {
+                const curEl = Object.keys(el)[0];
+                const i = currentChildren.data.data.brushedData.findIndex(
+                  (el) => Object.keys(el)[0] === curEl
+                );
+                if (i === -1) {
+                  acc.push(el);
+                  return acc;
+                }
+                return acc;
+              }, currentChildren.data.data.brushedData);
+            }
+            const parent = currentChildren.ancestors()[1];
+            props.lvl4ConfirmEnter(parent);
+            if (aux && aux.current[0]) d3.select(aux.current[0]).call(aux.current[1].clear);
+          }
+        };
+        document.body.addEventListener("keydown", listener);
+        return () => document.body.removeEventListener("keydown", listener);
+      }, [mainRefData]);
+      useEffect(() => {
+        const listener = (e) => {
+          if (
+            mainRefData.current &&
+            mainRefData.current[0] &&
+            e &&
+            e.keyCode === 46 &&
+            props.lvl4scheduleEdit &&
+            props.accordionExpanded
+          ) {
+            const brushedArr = mainRefData.current[0];
+            const currentChildren = mainRefData.current[1];
+            // удаляем выбранные брашем данные
+            brushedArr.map((brushedEl) => {
+              currentChildren.data.data.brushedData = currentChildren.data.data.brushedData.reduce(
+                (acc, dataEl) => {
+                  const brushedElKey = Object.keys(brushedEl)[0];
+                  const dataElKey = Object.keys(dataEl)[0];
+                  if (brushedElKey === dataElKey) {
+                    return acc;
+                  } else {
+                    acc.push(dataEl);
+                    return acc;
+                  }
+                },
+                []
+              );
+            });
+            const parent = currentChildren.ancestors()[1];
+            props.lvl4ConfirmEnter(parent);
+            if (aux && aux.current[0]) d3.select(aux.current[0]).call(aux.current[1].clear);
+          }
+        };
+        document.body.addEventListener("keydown", listener);
+        return () => document.body.removeEventListener("keydown", listener);
+      }, [mainRefData]);
       const addBrush = useCallback((node) => {
         if (node !== null) {
           const brush = d3
             .brushX()
             .extent(brushCoordinate)
             .on("brush", function () {
-              return brushed({
+              const getBrushed = brushed({
                 node,
                 xScale: props.xScale,
                 currentChildren: d,
                 accordionExpanded: props.accordionExpanded ? true : false,
               });
+              mainRefData.current = [getBrushed, d0];
+              aux.current = [node, d3.event.target];
             })
             .on("end", function () {
-              brushEnd({
-                currentChildren: d,
-                accordionExpanded: props.accordionExpanded ? true : false,
-              });
+              if (brushEnd()) {
+                mainRefData.current = [null, d0];
+              }
             });
           d3.select(node).call(brush);
         }
