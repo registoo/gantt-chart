@@ -24,17 +24,30 @@ const DrawRect = (props) => {
         // если есть браш у работы, то рисуем прямоугольник
         if (d.data.brushedData.length > 0) {
           return d.data.brushedData.map((e) => {
-            const start = e[Object.keys(e)[0]].startDateInMillisecons;
-            const finish = e[Object.keys(e)[0]].finishDateInMillisecons;
+            const elemData = e[Object.keys(e)[0]];
+            const start = elemData.startDateInMillisecons;
+            const finish = elemData.finishDateInMillisecons;
             return (
-              <rect
-                key={keyGenerator(d.id)}
-                x={props.xScale(start)}
-                y={y(d.data, d.id)}
-                height={height(d.data, 1)}
-                width={props.xScale(finish) - props.xScale(start)}
-                id={id(d)}
-              ></rect>
+              <g key={keyGenerator(d.id)}>
+                <foreignObject
+                  key={keyGenerator(d.id)}
+                  x={props.xScale(start)}
+                  y={y(d.data, d.id)}
+                  height={height(d.data, 1)}
+                  width={props.xScale(finish) - props.xScale(start)}
+                  id={id(d)}
+                >
+                  <div>{elemData.data}</div>
+                </foreignObject>
+                <rect
+                  key={keyGenerator(d.id)}
+                  x={props.xScale(start)}
+                  y={y(d.data, d.id)}
+                  height={height(d.data, 1)}
+                  width={props.xScale(finish) - props.xScale(start)}
+                  id={id(d)}
+                ></rect>
+              </g>
             );
           });
         }

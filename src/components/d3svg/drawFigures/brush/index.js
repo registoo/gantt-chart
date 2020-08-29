@@ -35,78 +35,144 @@ const DrawBrush = (props) => {
       // aux[0] - node, на которую сажается brush (для сброса brush)
       // aux[0] - d3.event.target (для сброса brush)
       const aux = useRef(null);
+
+      // обработка нажатия enter и добавление данных
       useEffect(() => {
         const listener = (e) => {
           if (
             mainRefData.current &&
             mainRefData.current[0] &&
-            e &&
-            e.keyCode === 13 &&
             props.lvl4scheduleEdit &&
             props.accordionExpanded
-          ) {
-            const brushedArr = mainRefData.current[0];
-            const currentChildren = mainRefData.current[1];
-            // добавляем в данные новые данные
-            if (currentChildren.data.data.brushedData.length === 0) {
-              currentChildren.data.data.brushedData = brushedArr;
-            } else {
-              currentChildren.data.data.brushedData = brushedArr.reduce((acc, el) => {
-                const curEl = Object.keys(el)[0];
-                const i = currentChildren.data.data.brushedData.findIndex(
-                  (el) => Object.keys(el)[0] === curEl
-                );
-                if (i === -1) {
-                  acc.push(el);
-                  return acc;
+          )
+            switch (e.keyCode) {
+              // обработка нажатия Enter
+              case 13: {
+                const brushedArr = mainRefData.current[0];
+                const currentChildren = mainRefData.current[1];
+                // добавляем в данные новые данные
+                if (currentChildren.data.data.brushedData.length === 0) {
+                  currentChildren.data.data.brushedData = brushedArr;
+                } else {
+                  currentChildren.data.data.brushedData = brushedArr.reduce((acc, el) => {
+                    const curEl = Object.keys(el)[0];
+                    const i = currentChildren.data.data.brushedData.findIndex(
+                      (el) => Object.keys(el)[0] === curEl
+                    );
+                    if (i === -1) {
+                      acc.push(el);
+                      return acc;
+                    }
+                    return acc;
+                  }, currentChildren.data.data.brushedData);
                 }
-                return acc;
-              }, currentChildren.data.data.brushedData);
+                const parent = currentChildren.ancestors()[1];
+                props.lvl4ConfirmEnter(parent);
+                if (aux && aux.current[0]) d3.select(aux.current[0]).call(aux.current[1].clear);
+                break;
+              }
+              // обработка нажатия del и удаление данных
+              case 46: {
+                const brushedArr = mainRefData.current[0];
+                const currentChildren = mainRefData.current[1];
+                // удаляем выбранные брашем данные
+                brushedArr.map((brushedEl) => {
+                  currentChildren.data.data.brushedData = currentChildren.data.data.brushedData.reduce(
+                    (acc, dataEl) => {
+                      const brushedElKey = Object.keys(brushedEl)[0];
+                      const dataElKey = Object.keys(dataEl)[0];
+                      if (brushedElKey === dataElKey) {
+                        return acc;
+                      } else {
+                        acc.push(dataEl);
+                        return acc;
+                      }
+                    },
+                    []
+                  );
+                });
+                const parent = currentChildren.ancestors()[1];
+                props.lvl4ConfirmEnter(parent);
+                if (aux && aux.current[0]) d3.select(aux.current[0]).call(aux.current[1].clear);
+                break;
+              }
+              // обработка нажатия Escape
+              case 27: {
+                console.log("Escape", mainRefData.current[0]);
+                return;
+              }
+              // обработка нажатия Backspace
+              case 8: {
+                const brushedArr = mainRefData.current[0];
+                const currentChildren = mainRefData.current[1];
+                brushedArr.map((brushedEl) => {
+                  currentChildren.data.data.brushedData = currentChildren.data.data.brushedData.reduce(
+                    (acc, dataEl) => {
+                      const brushedElKey = Object.keys(brushedEl)[0];
+                      const dataElKey = Object.keys(dataEl)[0];
+                      if (brushedElKey === dataElKey) {
+                        // удаление крайнего правого символа
+                        dataEl[dataElKey].data = dataEl[dataElKey].data.slice(0, -1);
+                        acc.push(dataEl);
+                        return acc;
+                      } else {
+                        acc.push(dataEl);
+                        return acc;
+                      }
+                    },
+                    []
+                  );
+                });
+                const parent = currentChildren.ancestors()[1];
+                props.lvl4ConfirmEnter(parent);
+                break;
+              }
+              default:
+                break;
             }
-            const parent = currentChildren.ancestors()[1];
-            props.lvl4ConfirmEnter(parent);
-            if (aux && aux.current[0]) d3.select(aux.current[0]).call(aux.current[1].clear);
-          }
         };
         document.body.addEventListener("keydown", listener);
         return () => document.body.removeEventListener("keydown", listener);
       }, [mainRefData]);
+
+      // обработка нажатия цифры
       useEffect(() => {
         const listener = (e) => {
+          const key = Number(e.key);
+          if (isNaN(key) || e.key === null || e.key === " ") {
+            return;
+          }
           if (
             mainRefData.current &&
             mainRefData.current[0] &&
-            e &&
-            e.keyCode === 46 &&
             props.lvl4scheduleEdit &&
             props.accordionExpanded
           ) {
-            const brushedArr = mainRefData.current[0];
             const currentChildren = mainRefData.current[1];
-            // удаляем выбранные брашем данные
-            brushedArr.map((brushedEl) => {
-              currentChildren.data.data.brushedData = currentChildren.data.data.brushedData.reduce(
-                (acc, dataEl) => {
-                  const brushedElKey = Object.keys(brushedEl)[0];
+            mainRefData.current[0].map((brushedEl) => {
+              const brushedElKey = Object.keys(brushedEl)[0];
+              currentChildren.data.data.brushedData = currentChildren.data.data.brushedData.map(
+                (dataEl) => {
                   const dataElKey = Object.keys(dataEl)[0];
                   if (brushedElKey === dataElKey) {
-                    return acc;
-                  } else {
-                    acc.push(dataEl);
-                    return acc;
+                    // добавление цифры
+                    const numbers = dataEl[Object.keys(dataEl)[0]].data;
+                    dataEl[Object.keys(dataEl)[0]].data = numbers
+                      ? numbers + key.toString()
+                      : key.toString();
                   }
-                },
-                []
+                  return dataEl;
+                }
               );
             });
             const parent = currentChildren.ancestors()[1];
             props.lvl4ConfirmEnter(parent);
-            if (aux && aux.current[0]) d3.select(aux.current[0]).call(aux.current[1].clear);
           }
         };
         document.body.addEventListener("keydown", listener);
         return () => document.body.removeEventListener("keydown", listener);
       }, [mainRefData]);
+
       const addBrush = useCallback((node) => {
         if (node !== null) {
           const brush = d3
