@@ -90,6 +90,7 @@ const DrawBrush = (props) => {
                     },
                     []
                   );
+                  return brushedEl;
                 });
                 const parent = currentChildren.ancestors()[1];
                 props.lvl4ConfirmEnter(parent);
@@ -122,6 +123,7 @@ const DrawBrush = (props) => {
                     },
                     []
                   );
+                  return brushedEl;
                 });
                 const parent = currentChildren.ancestors()[1];
                 props.lvl4ConfirmEnter(parent);
@@ -164,6 +166,7 @@ const DrawBrush = (props) => {
                   return dataEl;
                 }
               );
+              return brushedEl;
             });
             const parent = currentChildren.ancestors()[1];
             props.lvl4ConfirmEnter(parent);

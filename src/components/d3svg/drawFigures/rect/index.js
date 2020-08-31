@@ -22,7 +22,7 @@ const DrawRect = (props) => {
       if (index > 0) {
         // для работ графика 4 уровня
         // если есть браш у работы, то рисуем прямоугольник
-        if (d.data.brushedData.length > 0) {
+        if (d.data.brushedData && d.data.brushedData.length > 0) {
           return d.data.brushedData.map((e) => {
             const elemData = e[Object.keys(e)[0]];
             const start = elemData.startDateInMillisecons;

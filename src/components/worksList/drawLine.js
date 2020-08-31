@@ -34,41 +34,41 @@ export default (
     return result;
   });
 
-  const div = () => {
+  const div = (i) => {
     // не рисуем треугольники у ошибок и вложенностей больше 2
-    if (d.depth > 1 || rowHasError(data)) return null;
+    if (d.depth > 1 || rowHasError(data) || i > 0) return null;
     return (
-      <div
-        onClick={() => {
-          setAccordionExpanded(accordionExpanded, d, freezedData, hierarchyFullData);
-        }}
+      <foreignObject
+        x={0}
+        y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
+        height={yScale.bandwidth()}
+        width={24}
+        stroke={"red"}
+        fill={"yellow"}
       >
-        {!accordionExpanded ? (
-          <IconButton size="small">
-            <ArrowRightIcon fontSize="inherit" />
-          </IconButton>
-        ) : (
-          <IconButton size="small">
-            <ArrowDropDownIcon fontSize="inherit" />
-          </IconButton>
-        )}
-      </div>
+        <div
+          onClick={() => {
+            setAccordionExpanded(accordionExpanded, d, freezedData, hierarchyFullData);
+          }}
+        >
+          {!accordionExpanded ? (
+            <IconButton size="small">
+              <ArrowRightIcon fontSize="inherit" />
+            </IconButton>
+          ) : (
+            <IconButton size="small">
+              <ArrowDropDownIcon fontSize="inherit" />
+            </IconButton>
+          )}
+        </div>
+      </foreignObject>
     );
   };
 
   const rowCol = columnsDataAtRow.map((col, i) => {
     return (
       <g key={keyGenerator()}>
-        <foreignObject
-          x={0}
-          y={Math.round(yScale.paddingOuter() * yScale.step() + yScale.step() * ind)}
-          height={yScale.bandwidth()}
-          width={24}
-          stroke={"red"}
-          fill={"yellow"}
-        >
-          {div()}
-        </foreignObject>
+        {div(i)}
         <rect
           key={keyGenerator()}
           x={col.leftMargin}

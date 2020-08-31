@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import { lvl4Editing } from "../../redux/mainReducer/action";
+import { lvl4Editing, lvl4ConfirmEnter } from "../../redux/mainReducer/action";
+import Button from "@material-ui/core/Button";
+import addWork from "./addWork.js";
 
 const F = (props) => {
   return (
@@ -33,6 +35,17 @@ const F = (props) => {
           />
         </FormGroup>
       </div>
+      <Button
+        variant="contained"
+        disabled={props.lvl4scheduleEdit && props.accordionExpanded ? false : true}
+        color="primary"
+        onClick={() => addWork(props.hierarchyDisplayedData, props.lvl4ConfirmEnter)}
+      >
+        Добавить работу
+      </Button>
+      <Button variant="contained" color="secondary" onClick={() => console.log(props.state)}>
+        Напечатать в консоль STATE
+      </Button>
     </div>
   );
 };
@@ -42,7 +55,10 @@ const getState = (state) => {
     width: state.mainReducer.sizes.sizesLeftMenu.width,
     margin: state.mainReducer.sizes.sizesLeftMenu.margin,
     lvl4scheduleEdit: state.mainReducer.dataSpec.lvl4scheduleEdit,
+    accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
+    hierarchyDisplayedData: state.mainReducer.slicedData.hierarchyDisplayedData,
+    state: state,
   };
 };
 
-export default connect(getState, { lvl4Editing })(F);
+export default connect(getState, { lvl4Editing, lvl4ConfirmEnter })(F);

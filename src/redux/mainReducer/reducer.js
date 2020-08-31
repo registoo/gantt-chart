@@ -9,7 +9,7 @@ export default function mainReducer(state = defaultState(), action) {
   switch (action.type) {
     case "INITIALIZE_STATE": {
       result = defaultState(action.hierarchyFullData, action.hierarchyFullIds);
-      console.log("INITIALIZE_STATE", result);
+      // console.log("INITIALIZE_STATE", result);
       return result;
     }
     case "SET_SVG_WIDTH": {
@@ -25,7 +25,7 @@ export default function mainReducer(state = defaultState(), action) {
       newState.sizes.sizesSVG.width = action.svgWidth;
       newState.scales = { ...state.scales, ...setXScaleWidth };
 
-      console.log("SET_SVG_WIDTH", newState);
+      // console.log("SET_SVG_WIDTH", newState);
       return newState;
     }
 
@@ -35,7 +35,7 @@ export default function mainReducer(state = defaultState(), action) {
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
-      console.log("CHANGE_SVG_RANGE", result);
+      // console.log("CHANGE_SVG_RANGE", result);
       return result;
     }
 
@@ -93,7 +93,7 @@ export default function mainReducer(state = defaultState(), action) {
         },
         ids: { ...state.ids, hierarchyDisplayedIds },
       };
-      console.log("ROLL_UP", result);
+      // console.log("ROLL_UP", result);
       return result;
     }
 
@@ -109,7 +109,7 @@ export default function mainReducer(state = defaultState(), action) {
       newState.scales = { ...newState.scales, ...newScales };
       newState.ids.hierarchyDisplayedIds = action.displayedIds;
       newState.dataSpec.dataRange = action.dataRange;
-      console.log("WHEEL_DATA", newState);
+      // console.log("WHEEL_DATA", newState);
       return newState;
     }
 
@@ -123,7 +123,7 @@ export default function mainReducer(state = defaultState(), action) {
       result = {
         ...newState,
       };
-      console.log("LVL_4_BRUSH_SELECTED", action);
+      // console.log("LVL_4_BRUSH_SELECTED", action);
       return result;
     }
 
@@ -132,7 +132,7 @@ export default function mainReducer(state = defaultState(), action) {
         ...state,
         dataSpec: { ...state.dataSpec, lvl4scheduleEdit: action.checked },
       };
-      console.log("LVL_4_EDITING", result);
+      // console.log("LVL_4_EDITING", result);
       return result;
     }
 
@@ -144,7 +144,7 @@ export default function mainReducer(state = defaultState(), action) {
           counter: state.slicedData.counter ? state.slicedData.counter + 1 : 1,
         },
       };
-      console.log("LVL_4_CONFIRM_ENTER", result);
+      // console.log("LVL_4_CONFIRM_ENTER", result);
       return result;
     }
 
@@ -190,7 +190,7 @@ export default function mainReducer(state = defaultState(), action) {
         action.hierarchyFullData,
         action.hierarchyFullIds
       );
-      console.log("SERIALIZE_FILTERS", result);
+      // console.log("SERIALIZE_FILTERS", result);
       return result;
     }
 
@@ -199,7 +199,7 @@ export default function mainReducer(state = defaultState(), action) {
         ...state,
         filters: { ...state.filters, filteredColumns: action.columns },
       };
-      console.log("SELECT_COLUMNS", result);
+      // console.log("SELECT_COLUMNS", result);
       return result;
     }
 
