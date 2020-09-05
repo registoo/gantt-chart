@@ -44,7 +44,8 @@ export function brushed({ node, xScale, currentChildren, accordionExpanded }) {
       }
       return dateArray;
     }
-    return getDates(s, f);
+    const q = getDates(s, f);
+    return q;
   }
 }
 export const brushEnd = () => {

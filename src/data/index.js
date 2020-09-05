@@ -107,7 +107,7 @@ const resultData = IDAddedToObj();
 const arrayOfIds = d3.keys(resultData);
 const resultArray = arrayOfIds.map((el) => {
   const value = resultData[el];
-  return { id: el, data: value, children: setChildren(el, value) };
+  return { id: el, projectData: value, children: setChildren(el, value) };
 });
 
 export default resultArray;

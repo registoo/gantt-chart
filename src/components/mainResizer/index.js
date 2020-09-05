@@ -19,8 +19,11 @@ function Component(props) {
   const polzynokTotalWIdth = props.polzynok.width + props.polzynok.margin.left;
   return (
     <ReactResizeDetector
-      handleWidth
-      onResize={(w) => props.setWidth({ svgWidth: widthSVG, parentWidth: w })}
+      handleWidth={true}
+      handleHeight={false}
+      onResize={(w) => {
+        props.setWidth({ svgWidth: widthSVG, parentWidth: w });
+      }}
     >
       <div
         ref={parentDiv}

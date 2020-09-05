@@ -66,7 +66,7 @@ export default function (serializedFilters, state, hierarchyFullData, hierarchyF
     const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
     const hierarchyDisplayedIds = selectedIds.slice(0, currentElementsOnPage);
     const hierarchyDisplayedData = selectedData.slice(0, currentElementsOnPage);
-    const accordionExpanded = false;
+    const accordionExpanded = { expanded: false };
     const newScales = {
       ...state.scales.changeScales.changeScaleY({
         hierarchyDisplayedIds,

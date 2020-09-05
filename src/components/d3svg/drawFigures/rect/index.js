@@ -15,7 +15,7 @@ const DrawRect = (props) => {
 
   let arrMain = [];
   // если раскрыто, рисуем план только для верхней строчки, т.к. он - родитель
-  if (props.accordionExpanded) {
+  if (props.accordionExpanded.expanded) {
     arrMain = [...props.hierarchyDisplayedData].map((d0, index) => {
       const d = d0.data;
       if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;

@@ -11,7 +11,6 @@ export default (
   yScale,
   columns,
   setAccordionExpanded,
-  freezedData,
   hierarchyFullData,
   accordionExpanded
 ) => {
@@ -48,10 +47,10 @@ export default (
       >
         <div
           onClick={() => {
-            setAccordionExpanded(accordionExpanded, d, freezedData, hierarchyFullData);
+            setAccordionExpanded(accordionExpanded, d, hierarchyFullData);
           }}
         >
-          {!accordionExpanded ? (
+          {!accordionExpanded.expanded ? (
             <IconButton size="small">
               <ArrowRightIcon fontSize="inherit" />
             </IconButton>

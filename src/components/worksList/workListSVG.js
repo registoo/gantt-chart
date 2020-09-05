@@ -9,11 +9,7 @@ const F = (props) => {
   const columns0 =
     props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
   const { columns, boxWidth } = arithmeticColumnsSpacing(columns0);
-  const freezedData = {
-    dataRange: props.dataRange,
-    hierarchyDisplayedData: props.hierarchyDisplayedData,
-    hierarchyDisplayedIds: props.hierarchyDisplayedIds,
-  };
+
   const addData = () => {
     const nodes = props.hierarchyDisplayedData;
     return nodes.map((d, i) => {
@@ -23,7 +19,6 @@ const F = (props) => {
         props.yScale,
         columns,
         props.setAccordionExpanded,
-        freezedData,
         props.hierarchyFullData,
         props.accordionExpanded
       );

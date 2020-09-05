@@ -10,10 +10,10 @@ const DrawBrush = (props) => {
 
   const arr = [...props.hierarchyDisplayedData].map(function (d0, index) {
     const d = d0.data;
-    if (props.accordionExpanded && index === 0) return null;
+    if (props.accordionExpanded.expanded && index === 0) return null;
     if (rowHasError(d.data)) return <g key={keyGenerator(d.id)}></g>;
 
-    const brushHeight = props.accordionExpanded
+    const brushHeight = props.accordionExpanded.expanded
       ? { y0: 0, y1: props.yScale.bandwidth() }
       : {
           y0: props.yScale.bandwidth() * (1 - props.brushHeight),
@@ -43,7 +43,7 @@ const DrawBrush = (props) => {
             mainRefData.current &&
             mainRefData.current[0] &&
             props.lvl4scheduleEdit &&
-            props.accordionExpanded
+            props.accordionExpanded.expanded
           )
             switch (e.keyCode) {
               // обработка нажатия Enter
@@ -148,7 +148,7 @@ const DrawBrush = (props) => {
             mainRefData.current &&
             mainRefData.current[0] &&
             props.lvl4scheduleEdit &&
-            props.accordionExpanded
+            props.accordionExpanded.expanded
           ) {
             const currentChildren = mainRefData.current[1];
             mainRefData.current[0].map((brushedEl) => {
@@ -186,7 +186,7 @@ const DrawBrush = (props) => {
                 node,
                 xScale: props.xScale,
                 currentChildren: d,
-                accordionExpanded: props.accordionExpanded ? true : false,
+                accordionExpanded: props.accordionExpanded.expanded ? true : false,
               });
               mainRefData.current = [getBrushed, d0];
               aux.current = [node, d3.event.target];

@@ -18,7 +18,7 @@ export default (hierarchyFullData, hierarchyFullIds) => {
     maxElementsOnPage,
     wheeled: true,
     // зашли в работу?
-    accordionExpanded: false,
+    accordionExpanded: { expanded: false },
     stringHeight,
   };
   const namesOfColumns = columnsData.outer;
