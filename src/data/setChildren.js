@@ -6,9 +6,6 @@ export default (el, value) => {
   const newValue = { ...value };
   const lvl4Dates = [];
   const brushedData = [];
-  delete newValue.start;
-  delete newValue.finish;
-  delete newValue.duration;
   return childrenInit.fill(null).map((e, i) => {
     return {
       id: el + i,

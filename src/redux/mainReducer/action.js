@@ -12,12 +12,11 @@ export const changeXRange = (selection) => {
     finish: selection[1],
   };
 };
-export const setWheeledData = (data) => {
+export const setWheeledData = (start, finish) => {
   return {
     type: "WHEEL_DATA",
-    displayedIds: data.displayedIds,
-    displayedData: data.displayedData,
-    dataRange: data.dataRange,
+    start,
+    finish,
   };
 };
 export const setFilter = (data) => {

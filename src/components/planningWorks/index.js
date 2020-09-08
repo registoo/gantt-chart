@@ -39,9 +39,9 @@ const F = (props) => {
         variant="contained"
         disabled={props.lvl4scheduleEdit && props.accordionExpanded.expanded ? false : true}
         color="primary"
-        onClick={() =>
-          addWork(props.hierarchyDisplayedData, props.addWorkLvl4, props.hierarchyFullData)
-        }
+        onClick={() => {
+          addWork(props.accordionExpanded.element[0], props.addWorkLvl4, props.hierarchyFullData);
+        }}
       >
         Добавить работу
       </Button>
@@ -58,8 +58,7 @@ const getState = (state) => {
     margin: state.mainReducer.sizes.sizesLeftMenu.margin,
     lvl4scheduleEdit: state.mainReducer.dataSpec.lvl4scheduleEdit,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
-    hierarchyDisplayedData: state.mainReducer.slicedData.hierarchyDisplayedData,
-    state: state,
+    state,
     hierarchyFullData: state.fullDataReducer.fullData,
   };
 };

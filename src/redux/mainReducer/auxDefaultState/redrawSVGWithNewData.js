@@ -1,37 +1,30 @@
 import getHerarchyDisplayedIds from "./getHierarchyIds";
+import flatElement from "../../../auxFunctions/hierarchy/flatElement";
 
 const f = (state, action) => {
-  let hierarchySelectedData;
+  let flatData;
+  const accordionExpanded = { ...state.dataSpec.accordionExpanded };
   switch (action.type) {
     case "LVL_4_ADD_WORK":
-      hierarchySelectedData = [state.slicedData.hierarchyDisplayedData[0]];
-      const parent = state.slicedData.hierarchyDisplayedData[0];
-      const nodeDepth = parent.depth;
-      parent.each((d) => {
-        if (d.depth === nodeDepth + 1) {
-          hierarchySelectedData.push(d);
-        }
-      });
-      console.log(parent, hierarchySelectedData);
+      flatData = flatElement(action.parent);
+      accordionExpanded.element = flatData;
       break;
     case "ROLL_UP":
       if (action.accordionExpanded.expanded) {
-        hierarchySelectedData = state.slicedData.hierarchySelectedData;
+        flatData = state.slicedData.hierarchySelectedData;
+        accordionExpanded.expanded = action.accordionExpanded.expanded;
+        accordionExpanded.element = undefined;
       } else {
-        hierarchySelectedData = [action.d];
-        const nodeDepth = action.d.depth;
-        action.d.each((d) => {
-          if (d.depth === nodeDepth + 1) {
-            hierarchySelectedData.push(d);
-          }
-        });
+        flatData = flatElement(action.d);
+        accordionExpanded.expanded = action.accordionExpanded.expanded;
+        accordionExpanded.element = flatData;
       }
       break;
     default:
-      hierarchySelectedData = state.slicedData.hierarchySelectedData;
+      flatData = state.slicedData.hierarchySelectedData;
       break;
   }
-  const hierarchyDisplayedData = hierarchySelectedData.slice(0, state.dataSpec.maxElementsOnPage);
+  const hierarchyDisplayedData = flatData.slice(0, state.dataSpec.maxElementsOnPage);
   const hierarchyDisplayedIds = getHerarchyDisplayedIds(hierarchyDisplayedData);
   const elemnsOnPage =
     hierarchyDisplayedIds.length >= state.dataSpec.maxElementsOnPage
@@ -39,7 +32,9 @@ const f = (state, action) => {
       : hierarchyDisplayedIds.length;
   const heightSVG = elemnsOnPage * state.sizes.sizesSVG.stringHeight;
   const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
-  const wheeled = elemnsOnPage <= state.dataSpec.maxElementsOnPage ? false : true;
+  const wheeled =
+    getHerarchyDisplayedIds(flatData).length <= state.dataSpec.maxElementsOnPage ? false : true;
+
   const newScales = {
     ...state.scales.changeScales.changeScaleY({
       hierarchyDisplayedIds,
@@ -47,26 +42,12 @@ const f = (state, action) => {
     }),
     ...state.scales.changeScales.changeScaleX({
       sizesSVG,
-      hierarchySelectedData,
+      hierarchySelectedData: flatData,
       hierarchyFullData: action.hierarchyFullData,
       hierarchyDisplayedData,
     }),
   };
 
-  //   console.log(
-  //     "elemnsOnPage",
-  //     elemnsOnPage,
-  //     "heightSVG",
-  //     sizesSVG.height,
-  //     "hierarchyDisplayedData",
-  //     hierarchyDisplayedData,
-  //     "maxElementsOnPage",
-  //     state.dataSpec.maxElementsOnPage,
-  //     "hierarchyDisplayedIds",
-  //     hierarchyDisplayedIds,
-  //     "Y",
-  //     newScales.yScale.domain()
-  //   );
   return {
     ...state,
     scales: { ...state.scales, ...newScales },
@@ -79,6 +60,7 @@ const f = (state, action) => {
       ...state.dataSpec,
       dataRange: { start: state.dataSpec.startDataForDataRange, finish: elemnsOnPage },
       wheeled,
+      accordionExpanded,
     },
     ids: { ...state.ids, hierarchyDisplayedIds },
   };
