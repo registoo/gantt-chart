@@ -4,6 +4,7 @@ import rowHasError from "../../auxFunctions/rowHasError";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
 
 export default (
   d,
@@ -30,6 +31,7 @@ export default (
     result.width = el.width;
     result.leftMargin = el.leftMargin;
     result.fontSize = el.fontSize;
+    result.key = key;
     return result;
   });
 
@@ -64,6 +66,25 @@ export default (
     );
   };
 
+  const dataElement = (col) => {
+    const result = accordionExpanded.expanded ? (
+      <div style={{ fontSize: col.fontSize }}>
+        <Input
+          onBlur={(e) => {
+            const data = d.data.data;
+            data[col.key] = e.target.value;
+            console.log(data[col.key]);
+          }}
+          disableUnderline={true}
+          defaultValue={col.d ? col.d : null}
+        ></Input>
+      </div>
+    ) : (
+      <div style={{ fontSize: col.fontSize }}>{col.d}</div>
+    );
+    return result;
+  };
+
   const rowCol = columnsDataAtRow.map((col, i) => {
     return (
       <g key={keyGenerator()}>
@@ -83,7 +104,7 @@ export default (
           height={yScale.bandwidth()}
           width={col.width}
         >
-          <div style={{ fontSize: col.fontSize }}>{col.d}</div>
+          {dataElement(col)}
         </foreignObject>
       </g>
     );

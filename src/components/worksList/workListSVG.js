@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import drawLine from "./drawLine.js";
-import { setAccordionExpanded } from "../../redux/mainReducer/action.js";
 import drawHead from "./drawHead.js";
+import { setAccordionExpanded } from "../../redux/mainReducer/action.js";
 import arithmeticColumnsSpacing from "./arithmeticColumnsSpacing.js";
 
 const F = (props) => {

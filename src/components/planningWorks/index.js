@@ -22,7 +22,7 @@ const F = (props) => {
       }}
     >
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
-        <FormGroup row>
+        <FormGroup>
           <FormControlLabel
             control={
               <Switch
@@ -31,7 +31,7 @@ const F = (props) => {
                 name="checkedEdit"
               />
             }
-            label="Редактирование Г4У"
+            label="Планирование Г4У"
           />
         </FormGroup>
       </div>
