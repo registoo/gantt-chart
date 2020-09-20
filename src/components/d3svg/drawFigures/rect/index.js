@@ -19,7 +19,7 @@ const DrawRect = (props) => {
     arrMain = [...props.hierarchyDisplayedData].map((d0, index) => {
       const d = d0.data;
       if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
-      if (index > 0) {
+      if (d0.depth > 1) {
         // для работ графика 4 уровня
         // если есть браш у работы, то рисуем прямоугольник
         if (d.data.brushedData && d.data.brushedData.length > 0) {

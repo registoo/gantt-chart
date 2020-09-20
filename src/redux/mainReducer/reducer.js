@@ -67,7 +67,7 @@ export default function mainReducer(state = defaultState(), action) {
     }
 
     case "WHEEL_DATA": {
-      let data = state.slicedData.hierarchySelectedData;
+      let data;
       if (state.dataSpec.accordionExpanded.expanded) {
         data = state.dataSpec.accordionExpanded.element;
       } else {
