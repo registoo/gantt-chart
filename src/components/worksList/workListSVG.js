@@ -1,19 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import drawLine from "./drawLine.js";
-import { setRolledUp } from "../../redux/mainReducer/action.js";
 import drawHead from "./drawHead.js";
+import { setAccordionExpanded } from "../../redux/mainReducer/action.js";
 import arithmeticColumnsSpacing from "./arithmeticColumnsSpacing.js";
 
 const F = (props) => {
   const columns0 =
     props.filteredColumns.length === 0 ? props.namesOfColumns : props.filteredColumns;
   const { columns, boxWidth } = arithmeticColumnsSpacing(columns0);
-  const freezedData = {
-    dataRange: props.dataRange,
-    hierarchyDisplayedData: props.hierarchyDisplayedData,
-    hierarchyDisplayedIds: props.hierarchyDisplayedIds,
-  };
+
   const addData = () => {
     const nodes = props.hierarchyDisplayedData;
     return nodes.map((d, i) => {
@@ -22,9 +18,9 @@ const F = (props) => {
         i,
         props.yScale,
         columns,
-        props.setRolledUp,
-        freezedData,
-        props.hierarchyFullData
+        props.setAccordionExpanded,
+        props.hierarchyFullData,
+        props.accordionExpanded
       );
     });
   };
@@ -67,7 +63,8 @@ const getState = (state) => {
     namesOfColumns: state.mainReducer.someData.namesOfColumns,
     dataRange: state.mainReducer.dataSpec.dataRange,
     hierarchyFullData: state.fullDataReducer.fullData,
+    accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
   };
 };
 
-export default connect(getState, { setRolledUp })(F);
+export default connect(getState, { setAccordionExpanded })(F);

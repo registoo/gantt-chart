@@ -14,26 +14,42 @@ const DrawRect = (props) => {
   const id = (d) => `Rabota ${d.id} rect`;
 
   let arrMain = [];
-  let arrLvl4 = [];
   // если раскрыто, рисуем план только для верхней строчки, т.к. он - родитель
-  if (props.accordionExpanded) {
+  if (props.accordionExpanded.expanded) {
     arrMain = [...props.hierarchyDisplayedData].map((d0, index) => {
       const d = d0.data;
       if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
-      if (index > 0) {
+      if (d0.depth > 1) {
         // для работ графика 4 уровня
         // если есть браш у работы, то рисуем прямоугольник
-        if (d.data.start && d.data.finish) {
-          return (
-            <rect
-              key={keyGenerator(d.id)}
-              x={x(d.data)}
-              y={y(d.data, d.id)}
-              height={height(d.data, 1)}
-              width={width(d.data)}
-              id={id(d)}
-            ></rect>
-          );
+        if (d.data.brushedData && d.data.brushedData.length > 0) {
+          return d.data.brushedData.map((e) => {
+            const elemData = e[Object.keys(e)[0]];
+            const start = elemData.startDateInMillisecons;
+            const finish = elemData.finishDateInMillisecons;
+            return (
+              <g key={keyGenerator(d.id)}>
+                <foreignObject
+                  key={keyGenerator(d.id)}
+                  x={props.xScale(start)}
+                  y={y(d.data, d.id)}
+                  height={height(d.data, 1)}
+                  width={props.xScale(finish) - props.xScale(start)}
+                  id={id(d)}
+                >
+                  <div>{elemData.data}</div>
+                </foreignObject>
+                <rect
+                  key={keyGenerator(d.id)}
+                  x={props.xScale(start)}
+                  y={y(d.data, d.id)}
+                  height={height(d.data, 1)}
+                  width={props.xScale(finish) - props.xScale(start)}
+                  id={id(d)}
+                ></rect>
+              </g>
+            );
+          });
         }
         return null;
       }
@@ -47,13 +63,6 @@ const DrawRect = (props) => {
           id={id(d)}
         ></rect>
       );
-    });
-    arrLvl4 = [...props.hierarchyDisplayedData].map((d0, index) => {
-      const d = d0.data;
-      if (rowHasError(d.data)) return <rect y={y(d.data)} key={keyGenerator(d.id)}></rect>;
-      if (index > 0) {
-        console.log(d.data.lvl4Dates);
-      }
     });
   }
   // иначе рисуем базовый план для главной страницы
@@ -77,7 +86,6 @@ const DrawRect = (props) => {
   return (
     <g id="gForRects" transform={`translate(${props.marginSVG.left},${props.marginSVG.top})`}>
       {arrMain}
-      {arrLvl4}
     </g>
   );
 };
@@ -88,10 +96,9 @@ const getState = (state) => {
     yScale: state.mainReducer.scales.yScale,
     hierarchyDisplayedData: state.mainReducer.slicedData.hierarchyDisplayedData,
     marginSVG: state.mainReducer.sizes.sizesSVG.margin,
-    lvl4: state.mainReducer.slicedData.lvl4,
     accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
     lvl4scheduleEdit: state.mainReducer.dataSpec.lvl4scheduleEdit,
-    lvl4ConfirmEnter: state.mainReducer.dataSpec.lvl4ConfirmEnter,
+    counter: state.mainReducer.slicedData.counter,
   };
 };
 

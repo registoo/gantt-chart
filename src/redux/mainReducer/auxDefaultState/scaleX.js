@@ -21,7 +21,6 @@ export default function (state) {
     if (!d.data.start) return;
     return moment.utc(d.data.start.dateInMillisecons);
   });
-
   const projectStartMS0 = d3.min(state.hierarchyFullData.children, (d0) => {
     const d = d0.data;
     if (rowHasError(d.data)) return null;

@@ -3,13 +3,17 @@ import defaultState from "./defaultState.js";
 import setFilters from "./dataFilters";
 import * as d3 from "d3";
 import getHerarchyDisplayedIds from "./auxDefaultState/getHierarchyIds";
+import redrawSVGWithNewData from "./auxDefaultState/redrawSVGWithNewData";
+import flatElement from "../../auxFunctions/hierarchy/flatElement";
+
+const printLog = false;
 
 export default function mainReducer(state = defaultState(), action) {
   let result;
   switch (action.type) {
     case "INITIALIZE_STATE": {
       result = defaultState(action.hierarchyFullData, action.hierarchyFullIds);
-      console.log("INITIALIZE_STATE", result);
+      printLog && console.log("INITIALIZE_STATE", result);
       return result;
     }
     case "SET_SVG_WIDTH": {
@@ -25,7 +29,7 @@ export default function mainReducer(state = defaultState(), action) {
       newState.sizes.sizesSVG.width = action.svgWidth;
       newState.scales = { ...state.scales, ...setXScaleWidth };
 
-      console.log("SET_SVG_WIDTH", newState);
+      printLog && console.log("SET_SVG_WIDTH", newState);
       return newState;
     }
 
@@ -35,83 +39,54 @@ export default function mainReducer(state = defaultState(), action) {
         ...state,
         scales: { ...state.scales, ...setXScaleRange },
       };
-      console.log("CHANGE_SVG_RANGE", result);
+      printLog && console.log("CHANGE_SVG_RANGE", result);
       return result;
     }
 
     case "ROLL_UP": {
-      if (action.rolledUp) {
-        action.d.data.data.rolledUp = action.rolledUp;
-        result = { ...state.someData.previousState };
-        return result;
+      // если раскрыто, то принимаем родительский элемент как селектед для рисования шкал и пр. локального
+      let selectedElement;
+      if (action.accordionExpanded.expanded) {
+        selectedElement = state.slicedData.hierarchySelectedData;
       } else {
-        const nodeDepth = action.d.depth;
-        const hierarchySelectedData = [action.d];
-        action.d.data.data.rolledUp = action.rolledUp;
-        action.d.each((d) => {
-          if (d.depth === nodeDepth + 1) {
-            hierarchySelectedData.push(d);
-          }
-        });
-        const hierarchyDisplayedData = hierarchySelectedData.slice(
-          0,
-          state.dataSpec.maxElementsOnPage
-        );
-        const hierarchyDisplayedIds = getHerarchyDisplayedIds(hierarchyDisplayedData);
-        const elemnsOnPage =
-          hierarchyDisplayedIds.length >= state.dataSpec.maxElementsOnPage
-            ? state.dataSpec.maxElementsOnPage
-            : hierarchyDisplayedIds.length;
-        const heightSVG = elemnsOnPage * state.sizes.sizesSVG.stringHeight;
-        const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
-        const wheeled = elemnsOnPage <= state.dataSpec.maxElementsOnPage ? false : true;
-        const newScales = {
-          ...state.scales.changeScales.changeScaleY({
-            hierarchyDisplayedIds,
-            sizesSVG,
-          }),
-          ...state.scales.changeScales.changeScaleX({
-            sizesSVG,
-            hierarchySelectedData,
-            hierarchyFullData: action.hierarchyFullData,
-            hierarchyDisplayedData,
-          }),
-        };
-        result = {
-          ...state,
-          scales: { ...state.scales, ...newScales },
-          sizes: { ...state.sizes, sizesSVG },
-          slicedData: {
-            ...state.slicedData,
-            hierarchyDisplayedData,
-          },
-          dataSpec: {
-            ...state.dataSpec,
-            dataRange: { start: state.dataSpec.startDataForDataRange, finish: elemnsOnPage },
-            accordionExpanded: !action.rolledUp,
-            wheeled,
-          },
-          ids: { ...state.ids, hierarchyDisplayedIds },
-          someData: { ...state.someData, previousState: state },
-        };
-        console.log("ROLL_UP", result);
-        return result;
+        selectedElement = flatElement(action.d);
       }
+      result = redrawSVGWithNewData(state, action);
+      result.dataSpec.accordionExpanded = {
+        expanded: !action.accordionExpanded.expanded,
+        element: !action.accordionExpanded.expanded ? selectedElement : undefined,
+      };
+      printLog && console.log("ROLL_UP", result);
+      return result;
+    }
+
+    case "LVL_4_ADD_WORK": {
+      result = redrawSVGWithNewData(state, action);
+      printLog && console.log("LVL_4_ADD_WORK", result);
+      return result;
     }
 
     case "WHEEL_DATA": {
-      const newState = { ...state };
+      let data;
+      if (state.dataSpec.accordionExpanded.expanded) {
+        data = state.dataSpec.accordionExpanded.element;
+      } else {
+        data = state.slicedData.hierarchySelectedData;
+      }
+      const hierarchyDisplayedData = data.slice(action.start, action.finish);
+      const hierarchyDisplayedIds = getHerarchyDisplayedIds(hierarchyDisplayedData);
       const newScales = {
-        ...newState.scales.changeScales.changeScaleY({
-          hierarchyDisplayedIds: action.displayedIds,
-          sizesSVG: newState.sizes.sizesSVG,
+        ...state.scales.changeScales.changeScaleY({
+          hierarchyDisplayedIds,
+          sizesSVG: state.sizes.sizesSVG,
         }),
       };
-      newState.slicedData.hierarchyDisplayedData = action.displayedData;
+      const newState = { ...state };
+      newState.slicedData.hierarchyDisplayedData = hierarchyDisplayedData;
+      newState.ids.hierarchyDisplayedIds = hierarchyDisplayedIds;
       newState.scales = { ...newState.scales, ...newScales };
-      newState.ids.hierarchyDisplayedIds = action.displayedIds;
-      newState.dataSpec.dataRange = action.dataRange;
-      console.log("WHEEL_DATA", newState);
+      newState.dataSpec.dataRange = { start: action.start, finish: action.finish };
+      printLog && console.log("WHEEL_DATA", newState);
       return newState;
     }
 
@@ -125,7 +100,7 @@ export default function mainReducer(state = defaultState(), action) {
       result = {
         ...newState,
       };
-      console.log("LVL_4_BRUSH_SELECTED", action);
+      printLog && console.log("LVL_4_BRUSH_SELECTED", action);
       return result;
     }
 
@@ -134,16 +109,19 @@ export default function mainReducer(state = defaultState(), action) {
         ...state,
         dataSpec: { ...state.dataSpec, lvl4scheduleEdit: action.checked },
       };
-      console.log("LVL_4_EDITING", result);
+      printLog && console.log("LVL_4_EDITING", result);
       return result;
     }
 
     case "LVL_4_CONFIRM_ENTER": {
       result = {
         ...state,
-        dataSpec: { ...state.dataSpec, lvl4ConfirmEnter: !state.dataSpec.lvl4ConfirmEnter },
+        slicedData: {
+          ...state.slicedData,
+          counter: state.slicedData.counter ? state.slicedData.counter + 1 : 1,
+        },
       };
-      console.log("LVL_4_CONFIRM_ENTER", result);
+      printLog && console.log("LVL_4_CONFIRM_ENTER", result);
       return result;
     }
 
@@ -189,7 +167,7 @@ export default function mainReducer(state = defaultState(), action) {
         action.hierarchyFullData,
         action.hierarchyFullIds
       );
-      console.log("SERIALIZE_FILTERS", result);
+      printLog && console.log("SERIALIZE_FILTERS", result);
       return result;
     }
 
@@ -198,12 +176,12 @@ export default function mainReducer(state = defaultState(), action) {
         ...state,
         filters: { ...state.filters, filteredColumns: action.columns },
       };
-      console.log("SELECT_COLUMNS", result);
+      printLog && console.log("SELECT_COLUMNS", result);
       return result;
     }
 
     default:
-      // console.log("state", state);
+      printLog && console.log("state", state);
       return state;
   }
 }

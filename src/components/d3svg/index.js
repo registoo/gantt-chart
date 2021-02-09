@@ -3,7 +3,6 @@ import DrawFigures from "./drawFigures";
 import React, { useRef, useEffect, useState, Fragment } from "react";
 import DrawScales from "./scales";
 import { setWheeledData } from "../../redux/mainReducer/action";
-import { rowHasError } from "../../auxFunctions";
 import GanttTopScaleDays from "./scales/ganttTopScaleDays.js";
 import GanttTopScaleMonth from "./scales/ganttTopScaleMonth.js";
 
@@ -16,21 +15,18 @@ function Gantt(props) {
     const wDelta = e.wheelDelta < 0 ? "down" : "up";
     switch (wDelta) {
       case "down": {
-        if (state.finish + 1 > props.hierarchySelectedIds.length) {
+        if (
+          state.finish + 1 >
+          (props.accordionExpanded.expanded
+            ? props.accordionExpanded.element.length
+            : props.hierarchySelectedIds.length)
+        ) {
           return;
         }
         const finish = state.finish + 1;
         const start = finish - props.dataSpec.currentElementsOnPage;
-        const displayedData = props.hierarchySelectedData.slice(start, finish);
-        const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
-        );
         setState({ start: start, finish: finish });
-        props.setWheeledData({
-          displayedIds: displayedIds,
-          displayedData: displayedData,
-          dataRange: { start: start, finish: finish },
-        });
+        props.setWheeledData(start, finish);
         break;
       }
       case "up": {
@@ -39,16 +35,8 @@ function Gantt(props) {
         }
         const start = state.start - 1;
         const finish = start + props.dataSpec.currentElementsOnPage;
-        const displayedData = props.hierarchySelectedData.slice(start, finish);
-        const displayedIds = displayedData.map((d) =>
-          rowHasError(d.data.data) ? d.data.data.isError.formattedText : d.data.id
-        );
         setState({ start: start, finish: finish });
-        props.setWheeledData({
-          displayedIds: displayedIds,
-          displayedData: displayedData,
-          dataRange: { start: start, finish: finish },
-        });
+        props.setWheeledData(start, finish);
         break;
       }
       default:
@@ -103,6 +91,8 @@ const getState = (state) => {
     widthSVG: state.mainReducer.sizes.sizesSVG.width,
     dataSpec: state.mainReducer.dataSpec,
     hierarchySelectedIds: state.mainReducer.ids.hierarchySelectedIds,
+    hierarchyDisplayedIds: state.mainReducer.ids.hierarchyDisplayedIds,
+    accordionExpanded: state.mainReducer.dataSpec.accordionExpanded,
     hierarchySelectedData: state.mainReducer.slicedData.hierarchySelectedData,
     displayedStartMS: state.mainReducer.scales.displayedStartMS,
     displayedFinishMS: state.mainReducer.scales.displayedFinishMS,

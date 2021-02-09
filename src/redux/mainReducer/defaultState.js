@@ -7,8 +7,8 @@ export default (hierarchyFullData, hierarchyFullIds) => {
   const startDataForDataRange = 0;
   const stringHeight = 35;
   const dataSpec = {
+    // переключатель в режим корректировки Г4У
     lvl4scheduleEdit: false,
-    lvl4ConfirmEnter: false,
     dataRange: {
       start: startDataForDataRange,
       finish: startDataForDataRange + maxElementsOnPage,
@@ -17,11 +17,12 @@ export default (hierarchyFullData, hierarchyFullIds) => {
     startDataForDataRange,
     maxElementsOnPage,
     wheeled: true,
-    accordionExpanded: false,
+    // зашли в работу?
+    accordionExpanded: { expanded: false },
     stringHeight,
   };
   const namesOfColumns = columnsData.outer;
-  const someData = { namesOfColumns: namesOfColumns, freezedData: {} };
+  const someData = { namesOfColumns: namesOfColumns };
 
   let result;
 

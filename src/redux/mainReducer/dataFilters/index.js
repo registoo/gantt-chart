@@ -55,37 +55,41 @@ export default function (serializedFilters, state, hierarchyFullData, hierarchyF
       filters,
     };
 
-    // если не открыт Г4У
-    if (!state.dataSpec.accordionExpanded) {
-      const currentElementsOnPage =
-        selectedData.length >= maxElementsOnPage ? maxElementsOnPage : selectedData.length;
-      const dataRange =
-        currentElementsOnPage >= maxElementsOnPage
-          ? { start: 0, finish: maxElementsOnPage }
-          : { start: 0, finish: 0 };
-      const wheeled = selectedIds.length > maxElementsOnPage;
-      const heightSVG = currentElementsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
-      const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
-      const hierarchyDisplayedIds = selectedIds.slice(0, currentElementsOnPage);
-      const hierarchyDisplayedData = selectedData.slice(0, currentElementsOnPage);
-      const newScales = {
-        ...state.scales.changeScales.changeScaleY({
-          hierarchyDisplayedIds,
-          sizesSVG,
-        }),
-        ...state.scales.changeScales.changeScaleX({
-          sizesSVG,
-          hierarchySelectedData: selectedData,
-          hierarchyFullData,
-          hierarchyDisplayedData,
-        }),
-      };
-      result.slicedData = { ...result.slicedData, hierarchyDisplayedData };
-      result.ids = { ...result.ids, hierarchyDisplayedIds };
-      result.scales = { ...result.scales, ...newScales };
-      result.sizes = { ...result.sizes, sizesSVG };
-      result.dataSpec = { ...result.dataSpec, dataRange, currentElementsOnPage, wheeled };
-    }
+    const currentElementsOnPage =
+      selectedData.length >= maxElementsOnPage ? maxElementsOnPage : selectedData.length;
+    const dataRange =
+      currentElementsOnPage >= maxElementsOnPage
+        ? { start: 0, finish: maxElementsOnPage }
+        : { start: 0, finish: 0 };
+    const wheeled = selectedIds.length > maxElementsOnPage;
+    const heightSVG = currentElementsOnPage * (state.sizes.sizesSVG.stringHeight * 1.25);
+    const sizesSVG = { ...state.sizes.sizesSVG, height: heightSVG };
+    const hierarchyDisplayedIds = selectedIds.slice(0, currentElementsOnPage);
+    const hierarchyDisplayedData = selectedData.slice(0, currentElementsOnPage);
+    const accordionExpanded = { expanded: false };
+    const newScales = {
+      ...state.scales.changeScales.changeScaleY({
+        hierarchyDisplayedIds,
+        sizesSVG,
+      }),
+      ...state.scales.changeScales.changeScaleX({
+        sizesSVG,
+        hierarchySelectedData: selectedData,
+        hierarchyFullData,
+        hierarchyDisplayedData,
+      }),
+    };
+    result.slicedData = { ...result.slicedData, hierarchyDisplayedData };
+    result.ids = { ...result.ids, hierarchyDisplayedIds };
+    result.scales = { ...result.scales, ...newScales };
+    result.sizes = { ...result.sizes, sizesSVG };
+    result.dataSpec = {
+      ...result.dataSpec,
+      wheeled,
+      dataRange,
+      accordionExpanded,
+      currentElementsOnPage,
+    };
 
     return result;
   }

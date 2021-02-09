@@ -12,12 +12,11 @@ export const changeXRange = (selection) => {
     finish: selection[1],
   };
 };
-export const setWheeledData = (data) => {
+export const setWheeledData = (start, finish) => {
   return {
     type: "WHEEL_DATA",
-    displayedIds: data.displayedIds,
-    displayedData: data.displayedData,
-    dataRange: data.dataRange,
+    start,
+    finish,
   };
 };
 export const setFilter = (data) => {
@@ -30,22 +29,22 @@ export const setFilter = (data) => {
   };
 };
 
-export const setRolledUp = (rolledUp, d, freezedData, hierarchyFullData) => {
+export const setAccordionExpanded = (accordionExpanded, d, hierarchyFullData) => {
   return {
     type: "ROLL_UP",
-    rolledUp: rolledUp,
+    accordionExpanded: accordionExpanded,
     d,
-    freezedData,
     hierarchyFullData,
   };
 };
-// export const lvl4BrushSelected = (data) => {
-//   return {
-//     type: "LVL_4_BRUSH_SELECTED",
-//     date: data.date,
-//     element: data.currentParentElement,
-//   };
-// };
+
+export const lvl4BrushSelected = (data) => {
+  return {
+    type: "LVL_4_BRUSH_SELECTED",
+    date: data.date,
+    element: data.currentParentElement,
+  };
+};
 
 export const lvl4Editing = (checked) => {
   return {
@@ -53,9 +52,19 @@ export const lvl4Editing = (checked) => {
     checked: checked,
   };
 };
-export const lvl4ConfirmEnter = () => {
+
+export const lvl4ConfirmEnter = (parent) => {
   return {
     type: "LVL_4_CONFIRM_ENTER",
+    parent,
+  };
+};
+
+export const addWorkLvl4 = (parent, hierarchyFullData) => {
+  return {
+    type: "LVL_4_ADD_WORK",
+    parent,
+    hierarchyFullData,
   };
 };
 

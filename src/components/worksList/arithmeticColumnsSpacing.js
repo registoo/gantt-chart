@@ -7,6 +7,8 @@ const testKey = (key) => {
       width = 300;
       fontSize = 10;
       break;
+    default:
+      break;
   }
   return { width, fontSize };
 };

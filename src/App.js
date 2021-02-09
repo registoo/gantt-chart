@@ -9,6 +9,7 @@ import Dashboards from "./components/WorkingPlace/Dashboards";
 import BarChart from "./components/WorkingPlace/BarChart";
 import { Switch, Route, withRouter } from "react-router-dom";
 import WorkListSVG from "./components/worksList/workListSVG.js";
+import Tablet from "./components/Tablet";
 
 function App(props) {
   const { history } = props;
@@ -41,6 +42,9 @@ function App(props) {
             <Route history={history} path="/consolidated/bar-chart">
               <BarChart />
             </Route>
+          </Route>
+          <Route history={history} path="/table">
+            <Tablet />
           </Route>
         </Switch>
       </div>

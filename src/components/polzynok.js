@@ -44,8 +44,11 @@ const Polzynok = (props) => {
 };
 
 const getState = (state) => {
+  const dataLength = state.mainReducer.dataSpec.accordionExpanded.expanded
+    ? state.mainReducer.dataSpec.accordionExpanded.element.length
+    : state.mainReducer.ids.hierarchySelectedIds.length;
   return {
-    dataLength: state.mainReducer.ids.hierarchySelectedIds.length,
+    dataLength,
     start: state.mainReducer.dataSpec.dataRange.start,
     currentElementsOnPage: state.mainReducer.dataSpec.currentElementsOnPage,
     maxElementsOnPage: state.mainReducer.dataSpec.maxElementsOnPage,

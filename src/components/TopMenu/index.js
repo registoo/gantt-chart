@@ -334,13 +334,16 @@ const TopMenu = (props) => {
               <Link to="/gantt">
                 <MenuItem onClick={handleClose2}>
                   <span>Гантт</span>
-                  <span>Ctrl+W</span>
                 </MenuItem>
               </Link>
               <Link to="/consolidated">
                 <MenuItem onClick={handleClose2}>
                   <span>Сводные</span>
-                  <span>Ctrl+E</span>
+                </MenuItem>
+              </Link>
+              <Link to="/table">
+                <MenuItem onClick={handleClose2}>
+                  <span>Material-table</span>
                 </MenuItem>
               </Link>
             </MenuList>
